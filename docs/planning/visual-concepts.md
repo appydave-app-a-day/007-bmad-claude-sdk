@@ -157,48 +157,69 @@ STAGE 2 (Vibe Coding)
 
 ## Epic Structure
 
-### Epic 1: Server Application with Claude SDK Event Loop
+### Epic 1: Monorepo Setup with Basic Server & Client
 
 **Using**: BMAD Method v4 + Claude Code
 
-**Goal**: Create Express server with Claude Agent SDK integration
-- Core Claude SDK event loop
-- Basic server setup and authentication
-- Custom tools framework (read_json, write_json, write_file)
-- Sandboxing and safety constraints
+**Goal**: Full-stack foundation with basic communication
+- NPM workspaces (root, server, client, shared)
+- Express + TypeScript server
+- Basic HTML page with text box (client)
+- Submit form → hits server → returns response
+
+**Success**: Type in text box, see server response (proves communication works)
 
 **BMAD artifacts**: PRD, Architecture, Stories, ACTIVE_STORY
 
 ---
 
-### Epic 2: HTML Frontend with Text Interface
+### Epic 2: Claude Agent SDK Integration
 
 **Using**: BMAD Method v4 + Claude Code
 
-**Goal**: Create simple frontend to communicate with the SDK
-- HTML form with text input
-- Streaming capability (if needed)
-- Communication with `/chat` endpoint
-- Technology options: Vanilla JS, or off-the-shelf solution (TBD)
+**Goal**: Add Claude SDK to server with streaming
+- Claude Agent SDK event loop
+- Custom tools (read_json, write_json, write_file)
+- BMAD quality gate hooks
+- Socket.io for real-time streaming
+- Text box → SDK → response printed on page
+
+**Success**: Type message, Claude SDK responds, see streaming output
 
 **BMAD artifacts**: Stories continue, quality gates maintained
 
 ---
 
-### Epic 3: Conversational Development (The Demo)
+### Epic 3: React Frontend with Chat Interface
 
-**THE PIVOT**: Leave BMAD, leave Claude Code, use the text box
+**Using**: BMAD Method v4 + Claude Code
 
-**Goal**: Demonstrate self-editing application in action
-- Use text box to create data structures (products.json)
-- Use text box to generate UI pages (list views, detail views)
-- Show application modifying itself through conversation
+**Goal**: Replace basic HTML with production-ready chat UI
+- Vite + React + TypeScript
+- shadcn/ui + Vercel AI Elements
+- Socket.io client for streaming
+- Professional chat interface
+
+**Success**: Beautiful chat UI with streaming responses
+
+**BMAD artifacts**: Stories continue, quality gates maintained
+
+---
+
+## After BMAD: The Demonstration (Not an Epic)
+
+**THE PIVOT**: BMAD is done. Now USE the application.
+
+**What happens**: Leave Claude Code, open browser, use the text box
+- Create data structures conversationally (products.json)
+- Generate UI pages (listing, detail, homepage)
+- Application modifies itself through conversation
 - Progressive feature addition
 
-**Not BMAD**: This is pure "Vibe Coding" demonstration
-- No stories, no architecture docs
-- Just conversational requests → code generation
-- Shows the power of Claude SDK in action
+**This is "Vibe Coding"**:
+- No BMAD stories, no quality gates
+- Just conversational requests → self-editing application responds
+- Shows the power of what we built WITH BMAD
 
 **See**: `demo-sequence.md` for detailed step-by-step flow
 

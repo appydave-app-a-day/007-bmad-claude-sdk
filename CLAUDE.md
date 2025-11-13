@@ -33,38 +33,43 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```
 007-bmad-claude-sdk/
-├── CLAUDE.md                    # This file
-├── README.md                    # Public project overview
-├── action-plan.md               # Video recording workflow
+├── CLAUDE.md                          # This file
+├── README.md                          # Public project overview
+├── action-plan.md                     # Video recording workflow
+├── PROBLEM-DEFINITION.md              # Epic 2 story order research
 └── docs/
     └── planning/
-        ├── project-reference.md       # Master specification (with YAML front matter)
+        ├── project-reference.md       # Master specification
         ├── video-strategy.md          # Video narrative with epic structure
-        ├── visual-concepts.md         # Architecture diagrams for BMAD PRD
-        ├── demo-sequence.md           # Epic 3 step-by-step demo flow
+        ├── visual-concepts.md         # Architecture diagrams
+        ├── tech-stack.md              # Technology stack reference
+        ├── demo-sequence.md           # Post-BMAD demonstration flow
         ├── system-prompt.md           # Agent configuration
-        ├── security-note.md           # Brief security disclaimer
-        ├── agent-instructions.md      # Planning doc review agent (meta)
-        ├── agent-event-loop/          # SDK implementation guide (DSL)
+        ├── security.md                # Security considerations
+        ├── agent-instructions.md      # Planning doc review agent
+        ├── agent-event-loop/          # SDK implementation guide
         │   ├── readme.md
-        │   ├── dsl-reference.md
-        │   ├── core-loop.md
         │   ├── overview.md
+        │   ├── core-loop.md
+        │   ├── dsl-reference.md
         │   └── sdk-summary.md
-        ├── future/                    # V2 content (not current planning)
+        ├── backlog/                   # Future content (V2+)
         │   ├── skills-design.md
-        │   ├── security-considerations.md
-        │   └── security-visuals.md
-        └── post-production/
-            └── youtube-title-thumbnail.md
+        │   └── youtube-title-thumbnail.md
+        └── spike/                     # Code spike artifacts
 ```
 
-**Quick Guide to Planning Docs:**
+**Quick Guide to Planning Docs (V1):**
 - **Start here**: `docs/planning/project-reference.md` - Complete specification
 - **Video creation**: `action-plan.md` → `docs/planning/video-strategy.md`
-- **Implementation**: `docs/planning/agent-event-loop/dsl-reference.md` - SDK guide
-- **Demo**: `docs/planning/demo-sequence.md` - Epic 3 flow
-- **Agent config**: `docs/planning/system-prompt.md`
+- **Tech stack**: `docs/planning/tech-stack.md` - Technology decisions for BMAD agents
+- **Implementation**: `docs/planning/agent-event-loop/` - SDK implementation guide
+- **Demo**: `docs/planning/demo-sequence.md` - Post-BMAD demonstration flow
+- **Security**: `docs/planning/security.md` - Brief security overview
+
+**Backlog (V2+):**
+- `docs/planning/backlog/skills-design.md` - Claude SKILLS integration
+- `docs/planning/backlog/youtube-title-thumbnail.md` - Marketing (deferred)
 
 ---
 

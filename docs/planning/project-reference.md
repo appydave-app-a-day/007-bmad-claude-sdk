@@ -38,8 +38,10 @@ Build a self-editing web application that modifies itself through conversational
 3. **Self-editing software** - an application that evolves and adds features to itself via conversation
 
 ### What We're Building (Requirements)
-- **Backend**: Express server with Claude Agent SDK (~100-200 LOC)
-- **Frontend**: Single HTML page with a text box
+- **Monorepo**: NPM workspaces (root, server, client, shared)
+- **Backend**: Express + TypeScript server with Claude Agent SDK
+- **Frontend**: React + Vite + shadcn/ui chat interface
+- **Streaming**: Socket.io for real-time communication
 - **Tools**: 3 custom tools (read_json, write_json, write_file)
 - **Hooks**: BMAD quality gates (active story requirement)
 
@@ -56,18 +58,106 @@ Build a self-editing web application that modifies itself through conversational
 
 ---
 
+## Epic Structure (BMAD Development)
+
+### Epic 1: Monorepo Setup with Basic Server & Client
+
+**Using**: BMAD Method v4 + Claude Code
+
+**Goal**: Full-stack foundation with basic communication
+- NPM workspaces (root, server, client, shared)
+- Express + TypeScript server
+- Basic HTML page with text box (client)
+- Submit form → hits server → returns response
+
+**Success**: Type in text box, see server response (proves communication works)
+
+**BMAD artifacts**: PRD, Architecture, Stories, ACTIVE_STORY
+
+---
+
+### Epic 2: Claude Agent SDK Integration
+
+**Using**: BMAD Method v4 + Claude Code
+
+**Goal**: Add Claude SDK to server with streaming
+- Claude Agent SDK event loop
+- Custom tools (read_json, write_json, write_file)
+- BMAD quality gate hooks
+- Socket.io for real-time streaming
+- Text box → SDK → response printed on page
+
+**Success**: Type message, Claude SDK responds, see streaming output
+
+**BMAD artifacts**: Stories continue, quality gates maintained
+
+---
+
+### Epic 3: React Frontend with Chat Interface
+
+**Using**: BMAD Method v4 + Claude Code
+
+**Goal**: Replace basic HTML with production-ready chat UI
+- Vite + React + TypeScript
+- shadcn/ui + Vercel AI Elements
+- Socket.io client for streaming
+- Professional chat interface
+
+**Success**: Beautiful chat UI with streaming responses
+
+**BMAD artifacts**: Stories continue, quality gates maintained
+
+---
+
+## After BMAD: The Demonstration (Not an Epic)
+
+**THE PIVOT**: BMAD is done. Now USE the application.
+
+**What happens**: Leave Claude Code, open browser, use the text box
+- Create data structures conversationally (products.json)
+- Generate UI pages (listing, detail, homepage)
+- Application modifies itself through conversation
+- Progressive feature addition
+
+**This is "Vibe Coding"**:
+- No BMAD stories, no quality gates
+- Just conversational requests → self-editing application responds
+- Shows the power of what we built WITH BMAD
+
+**See**: `demo-sequence.md` for detailed step-by-step flow
+
+---
+
 ## Technology Stack
 
-### Backend (TypeScript/Node.js)
-- **Express** - Simple HTTP server
-- **Claude Agent SDK (JS)** - Official Anthropic agent framework
-- **Tailwind CSS** (CDN) - Minimal styling
+**See `tech-stack.md` for complete technology reference.**
 
-### Why JavaScript over Python?
-- Existing environment setup
-- Single-language stack (JS frontend + backend)
-- Claude Agent SDK available for both languages
-- Better for web-focused audience
+### Monorepo Structure
+- **NPM Workspaces** - Proven pattern from Storyline App
+- **Structure**: root, server, client, shared workspaces
+- **Benefits**: Shared TypeScript types, single dev command
+
+### Server Stack
+- **Express 5** + TypeScript
+- **Claude Agent SDK** - Event-driven agent loop
+- **Socket.io** - Real-time streaming to client
+- **Custom tools**: read_json, write_json, write_file
+- **BMAD hooks**: Quality gate enforcement
+
+### Client Stack
+- **React 19** + TypeScript
+- **Vite 7** - Build tool and dev server
+- **shadcn/ui** - Base component library
+- **Vercel AI Elements** - Pre-built AI chat components
+- **Socket.io-client** - Streaming connection
+- **TailwindCSS 4** - Styling
+
+### Why This Stack?
+- Proven in Storyline App (NPM workspaces pattern)
+- Type safety across full stack (shared types)
+- Modern tooling (Vite, React 19)
+- Real-time streaming built-in (Socket.io)
+- Production-ready chat UI (Vercel AI Elements)
 
 ---
 
@@ -77,33 +167,34 @@ Build a self-editing web application that modifies itself through conversational
 
 ```
 ┌─────────────────────────────────────────┐
-│  Frontend (Static HTML + Tailwind)     │
-│  - Conversational text box              │
-│  - Product listing page                 │
-│  - Product detail pages                 │
-│  - Landing page                         │
+│  Frontend (React + Vite)                │
+│  - Chat interface (Vercel AI Elements)  │
+│  - Real-time streaming display          │
+│  - Socket.io client connection          │
 └─────────────────────────────────────────┘
-                  ↓ HTTP POST
+                  ↓ Socket.io
 ┌─────────────────────────────────────────┐
 │  Backend (Express + Agent SDK)          │
-│  - POST /chat (final result)            │
-│  - Static file serving                  │
+│  - POST /chat endpoint                  │
+│  - Socket.io server (streaming)         │
 │  - Claude Agent with custom tools       │
+│  - Static client asset serving          │
 └─────────────────────────────────────────┘
                   ↓ File I/O
 ┌─────────────────────────────────────────┐
 │  Data Layer                             │
-│  - /data/products.json                  │
-│  - /public/*.html (generated)           │
+│  - /data/*.json (generated data)        │
+│  - /public/*.html (generated pages)     │
 └─────────────────────────────────────────┘
 ```
 
 ### Technical Decisions
 
-**Response Mode**: Final result (not streaming blocks)
-- User sends request → server waits for complete result → returns JSON
-- Simpler UX, easier to demonstrate
-- Streaming blocks considered but rejected for v1 complexity
+**Streaming**: Real-time via Socket.io
+- Claude SDK streams responses block-by-block
+- Socket.io sends updates to client in real-time
+- Vercel AI Elements handle visual streaming
+- Better UX, shows agent "thinking"
 
 **Custom Tools** (not built-in Claude Code tools):
 - More explicit, domain-specific

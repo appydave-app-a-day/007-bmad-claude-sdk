@@ -1,24 +1,48 @@
 # 007 - BMAD + Claude Agent SDK
 
-**App-a-Day #007**: Self-Editing Application Framework
-
-A demonstration of building self-editing web applications using the Claude Agent SDK integrated with BMAD Method v4 quality gates.
+**App-a-Day #007**: Build Apps by Talking to Them
 
 ---
 
-## 🎯 Project Overview
+## 🎯 What You'll See
 
-This project demonstrates how to build a web application that can modify its own code, data structures, and UI through conversational AI - all while maintaining BMAD quality discipline.
+**Imagine this**: You open a web page with just a text box. You type:
 
-**Key Concept**: ONE application that edits and extends itself through conversation (not a framework that builds separate apps).
+> "Create 3 products for me"
 
-### What This Demonstrates
+The application builds a product catalog. You type:
 
-- **Claude Agent SDK** - Event-driven agent loop with custom tools
-- **BMAD Method v4** - Quality gates and story-driven development
-- **Self-Editing Capability** - Application modifies itself via conversation
-- **Three Epics**: Server setup → Frontend → Demo via conversation
-- **Path Sandboxing** - Security constraints (data/ and public/ only)
+> "Show me a product listing page"
+
+It generates the HTML page. You type:
+
+> "Add a homepage"
+
+It creates one. **All through conversation. No coding.**
+
+---
+
+## 💡 The Magic
+
+This is a **self-editing application** - ONE app that modifies itself based on what you tell it.
+
+**The Human Experience:**
+- Type what you want in plain English
+- Watch the app build features for itself
+- See data structures appear
+- See pages generate in real-time
+- No waiting for developers
+
+**The Technical Reality:**
+- Built with BMAD Method for quality discipline
+- Powered by Claude Agent SDK for conversational AI
+- Uses custom tools (read_json, write_json, write_file)
+- Sandboxed for safety (only touches /data and /public)
+- Streams responses in real-time via Socket.io
+
+**Two paradigms in one project:**
+1. **Context Engineering** (BMAD) - Build the foundation with discipline
+2. **Vibe Coding** (SDK) - Use it conversationally to add features
 
 ---
 
@@ -27,8 +51,9 @@ This project demonstrates how to build a web application that can modify its own
 **Current Phase**: PRE-IMPLEMENTATION (Planning Phase)
 
 This repository contains:
-- ✅ Complete planning documentation (7 documents in `docs/planning/`)
+- ✅ Complete planning documentation in `docs/planning/`
 - ✅ Claude Agent SDK implementation guide (`docs/planning/agent-event-loop/`)
+- ✅ Technology stack reference (`docs/planning/tech-stack.md`)
 - ✅ Video strategy and demo sequence
 - ❌ No application code yet (will be generated using BMAD workflow)
 
@@ -54,7 +79,7 @@ This repository contains:
 | [docs/planning/project-reference.md](docs/planning/project-reference.md) | Master specification |
 | [docs/planning/video-strategy.md](docs/planning/video-strategy.md) | Video narrative with epic structure |
 | [docs/planning/agent-event-loop/](docs/planning/agent-event-loop/) | SDK implementation guide (DSL) |
-| [docs/planning/demo-sequence.md](docs/planning/demo-sequence.md) | Epic 3 demo flow |
+| [docs/planning/demo-sequence.md](docs/planning/demo-sequence.md) | Post-BMAD demonstration flow |
 | [docs/planning/system-prompt.md](docs/planning/system-prompt.md) | Agent configuration |
 
 ---
@@ -62,10 +87,11 @@ This repository contains:
 ## 🎬 Video Demo Plan
 
 **Target**: Educational video demonstrating:
-1. **Epic 1**: Server setup with Claude Agent SDK
-2. **Epic 2**: Frontend with text interface
-3. **Epic 3**: Conversational development (the demo - leave BMAD, use text box)
-4. Two paradigms: Context Engineering (BMAD) vs Vibe Coding (SDK)
+1. **Epic 1**: Monorepo Setup with Basic Server & Client (proves communication)
+2. **Epic 2**: Claude Agent SDK Integration (proves SDK working with streaming)
+3. **Epic 3**: React Frontend with Chat Interface (proves production UI)
+4. **Demonstration**: Post-BMAD usage - conversational development via text box
+5. Two paradigms: Context Engineering (BMAD) vs Vibe Coding (SDK)
 
 ---
 
@@ -95,9 +121,9 @@ Data Layer (/data/*.json, /public/*.html)
 This is an **educational demonstration** of a self-modifying application.
 
 **Safe for**: Local development, learning, internal tools with trusted users
-**Dangerous for**: Production without hardening, public-facing apps, untrusted input
+**Requires hardening for**: Production, public-facing apps, untrusted users
 
-See [docs/planning/security-note.md](docs/planning/security-note.md) for brief overview. Detailed security analysis available in `docs/planning/future/` for future video.
+See [docs/planning/security.md](docs/planning/security.md) for details.
 
 ---
 
