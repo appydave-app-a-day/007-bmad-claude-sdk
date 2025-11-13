@@ -54,6 +54,7 @@ This repository contains:
 - ✅ Complete planning documentation in `docs/planning/`
 - ✅ Claude Agent SDK implementation guide (`docs/planning/agent-event-loop/`)
 - ✅ Technology stack reference (`docs/planning/tech-stack.md`)
+- ✅ BMAD execution guide with pre-answered questions (`docs/planning/bmad-execution-guide.md`)
 - ✅ Video strategy and demo sequence
 - ❌ No application code yet (will be generated using BMAD workflow)
 
@@ -66,8 +67,9 @@ This repository contains:
 **Quick Start**:
 1. Read `docs/planning/project-reference.md` - Complete specification
 2. Review `docs/planning/video-strategy.md` - Epic structure and flow
-3. Check `docs/planning/agent-event-loop/` - SDK implementation guide
-4. Follow `action-plan.md` for BMAD workflow execution (when ready)
+3. Check `docs/planning/tech-stack.md` - Technology decisions
+4. **Execute**: `docs/planning/bmad-execution-guide.md` - Step-by-step BMAD workflow with pre-answered questions
+5. Follow `action-plan.md` for video recording workflow (optional)
 
 ---
 
@@ -78,9 +80,10 @@ This repository contains:
 | [CLAUDE.md](CLAUDE.md) | Complete repository guide for AI assistants |
 | [docs/planning/project-reference.md](docs/planning/project-reference.md) | Master specification |
 | [docs/planning/video-strategy.md](docs/planning/video-strategy.md) | Video narrative with epic structure |
+| [docs/planning/tech-stack.md](docs/planning/tech-stack.md) | Technology stack reference |
+| [docs/planning/bmad-execution-guide.md](docs/planning/bmad-execution-guide.md) | BMAD workflow with pre-answered questions |
 | [docs/planning/agent-event-loop/](docs/planning/agent-event-loop/) | SDK implementation guide (DSL) |
 | [docs/planning/demo-sequence.md](docs/planning/demo-sequence.md) | Post-BMAD demonstration flow |
-| [docs/planning/system-prompt.md](docs/planning/system-prompt.md) | Agent configuration |
 
 ---
 
