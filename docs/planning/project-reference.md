@@ -1,3 +1,12 @@
+---
+title: Project Reference
+purpose: Master specification for BMAD + Claude SDK self-editing application
+audience: BMAD analyst/architect agents, implementation agents
+when_to_read: Starting BMAD workflow, creating PRD/architecture, need complete project vision
+key_sections: [Project Overview, Epic Structure, Architecture, System Prompt, Implementation Code, Success Metrics]
+status: active
+---
+
 # BMAD + Claude Agent SDK: Self-Editing Application Framework
 
 ---
@@ -25,7 +34,7 @@ Self-modifying applications that accept user input are inherently risky. This de
 Build a self-editing web application that modifies itself through conversational AI:
 
 1. **Claude Agent SDK** integration with custom file/data tools
-2. **BMAD Method v6** workflow as quality gates and guardrails
+2. **BMAD Method v4** workflow as quality gates and guardrails
 3. **Self-editing software** - an application that evolves and adds features to itself via conversation
 
 ### What We're Building (Requirements)
@@ -44,138 +53,6 @@ Build a self-editing web application that modifies itself through conversational
 **Key Insight**: We're NOT coding the product catalog or blog features. We're coding the self-editing application that modifies itself to add these features through conversation.
 
 ### Target: 100-200 lines of core framework code
-
----
-
-### Future Vision (Not Implemented Today)
-
-**Self-Healing Applications**: Imagine when an exception occurs in production, the application could:
-- Capture the error context and stack trace
-- Send it to the backend Claude agent
-- Agent analyzes and fixes the bug
-- User can approve the fix or create a bug report
-- Application heals itself automatically
-
-This opens possibilities for applications that debug and improve themselves over time.
-
----
-
-## Future Evolution: Front-End to BMAD Integration
-
-**Concept for Version 2 or Advanced Tutorial:**
-
-Currently, our self-editing application takes a **direct path**:
-```
-User conversation → Claude SDK → Direct code changes
-```
-
-A more sophisticated approach would integrate the front-end with BMAD workflow:
-```
-User conversation → Claude SDK → Creates BMAD story/epic → BMAD agents execute → Code changes
-```
-
-### How This Would Work
-
-**1. User Requests Feature via Text Box:**
-```
-User → "Add a comment system to blog posts"
-```
-
-**2. Agent Parses and Creates BMAD Artifacts:**
-```
-Agent → Analyzes request
-Agent → Writes bmad/bmm/stories/story-006-comment-system.md
-Agent → Updates relevant epic in bmad/bmm/epics/
-Agent → Sets story-006 as ACTIVE_STORY.md
-```
-
-**3. Agent Orchestrates BMAD Development:**
-```
-Agent → Calls BMAD Architect agent for design
-Agent → Calls BMAD Dev agent for implementation
-Agent → Calls BMAD QA agent for validation
-Agent → Returns summary to user in text box
-```
-
-**4. User Sees Progress:**
-The front-end could include a **Kanban board view** showing:
-- Stories in progress
-- Epic status
-- Architecture decisions
-- Test results
-- All derived from BMAD folder structure
-
-### Visual Component Ideas
-
-**Kanban Dashboard** (`/bmad-board` route):
-- **Backlog Column**: Unstarted stories
-- **In Progress**: Current ACTIVE_STORY
-- **Review**: Stories awaiting validation
-- **Done**: Completed stories
-
-**Story Detail View** (`/bmad-story/:id`):
-- Story acceptance criteria
-- Related epic
-- Linked architecture documents
-- Implementation status
-- Test coverage
-
-**PRD Live View** (`/bmad-prd`):
-- Current PRD state
-- Feature list with completion status
-- Auto-updated as features are added
-
-### Technical Requirements for V2
-
-**Additional Tools Needed:**
-```typescript
-// BMAD file operations
-read_story(id)
-write_story(title, description, acceptance_criteria)
-update_epic(epic_id, story_id)
-set_active_story(story_id)
-get_bmad_status() // Returns kanban state
-
-// BMAD agent orchestration
-call_bmad_agent(role, task) // role: analyst|architect|dev|qa
-```
-
-**Additional Routes:**
-```
-GET  /bmad-board          → Kanban view of all stories
-GET  /bmad-story/:id      → Story detail page
-GET  /bmad-prd            → Live PRD view
-GET  /bmad-architecture   → Architecture documentation
-POST /bmad-agent          → Invoke BMAD agent workflows
-```
-
-### Benefits of This Approach
-
-1. **Proper Software Process**: Features go through analysis → planning → implementation
-2. **Traceability**: Every change has a story, epic, and acceptance criteria
-3. **Quality Gates**: BMAD agents validate before merging
-4. **Visual Feedback**: Users see the development process, not just results
-5. **Teaching Tool**: Shows how BMAD orchestrates multi-agent workflows
-
-### Why Not in V1?
-
-This adds significant complexity:
-- BMAD agent orchestration from front-end
-- Kanban UI components
-- Story/epic management APIs
-- Would obscure the core self-editing concept
-
-**V1 Focus**: Show self-editing application with progressive BMAD awareness
-**V2 Focus**: Full BMAD integration with front-end orchestration
-
-### Possible Tutorial Progression
-
-**Tutorial 1** (This Project): Self-editing application with BMAD quality gates
-**Tutorial 2**: Front-end BMAD orchestration with Kanban board
-**Tutorial 3**: Multi-agent workflows from conversational UI
-**Tutorial 4**: Self-healing production applications
-
-Each tutorial builds on the previous foundation.
 
 ---
 
@@ -489,15 +366,7 @@ my-mini-claude-shop/
 
 ---
 
-## BMAD v6 Integration
-
-### What Changed from v4 → v6
-
-1. **Module Structure**: Everything under `bmad/` folder
-2. **Four-Phase Workflow**: Analysis → Planning → Solutioning → Implementation
-3. **JIT Tech Specs**: Create specs just-in-time during implementation
-4. **BMB Module**: Builder/customization layer for agents
-5. **Install**: `npm run install:bmad` or `npx bmad-method install`
+## BMAD v4 Integration
 
 ### Minimal BMAD Setup
 
@@ -836,7 +705,7 @@ tsx watch server.ts
 
 ### Introduction (2 min)
 - What is Claude Agent SDK
-- What is BMAD Method v6
+- What is BMAD Method v4
 - The big idea: Building a framework that builds apps via conversation
 - Demo preview: "Watch me build 200 lines, then watch IT build everything else"
 
@@ -981,9 +850,7 @@ tsx watch server.ts
 
 ### Documentation
 - [Claude Agent SDK Docs](https://docs.anthropic.com/en/docs/agents-sdk)
-- [BMAD Method v6](https://github.com/bmad-code-org/BMAD-METHOD/tree/v6-alpha)
-- [BMM Workflows](https://github.com/bmad-code-org/BMAD-METHOD/blob/v6-alpha/src/modules/bmm/workflows/README.md)
-- [BMB Module](https://github.com/bmad-code-org/BMAD-METHOD/tree/v6-alpha/src/modules/bmb)
+- [BMAD Method v4](https://github.com/bmad-code-org/BMAD-METHOD)
 
 ### Related Projects
 - [Claude Code](https://github.com/anthropics/claude-code)

@@ -1,16 +1,19 @@
-# System Prompt Evolution
+---
+title: System Prompt
+purpose: Agent behavior configuration for Claude SDK in self-editing application
+audience: Epic 1 implementation agents
+when_to_read: Implementing Epic 1 server setup, configuring Claude SDK agent
+key_sections: [The Prompt, Design Principles, Product-Specific Focus]
+status: active
+---
 
-**Purpose**: The system prompt is the highest-leverage customization point for the Claude SDK agent. This file tracks the prompt and its evolution.
+# System Prompt for Self-Editing Application
 
 ---
 
-## Current System Prompt
+## The Prompt
 
-```javascript
-// server.js - Agent configuration
-const agent = new Agent({
-  name: 'MiniClaudeDev',
-  systemPrompt: `
+```
 You are a careful site generator helping build a self-modifying web application.
 
 You can:
@@ -27,133 +30,93 @@ Rules:
 
 You are building ONE evolving application, not separate apps.
 Keep all changes consistent with the existing application structure.
-  `.trim(),
-  tools: [read_json, write_json, write_file],
-  hooks
-});
 ```
 
 ---
 
-## Evolution Log
+## Why This Prompt?
 
-### 2025-10-27 - Initial Prompt
-**Context**: First version for self-modifying product catalog demo.
+**Identity**: "careful site generator"
+- Frames the agent's role clearly
+- Emphasizes caution (not reckless generation)
 
-**Key elements**:
-- Identity: "careful site generator"
-- Capability: Three custom tools (read_json, write_json, write_file)
-- Constraints: Tailwind only, sandbox to /public and /data
-- Output: Friendly summaries
+**Capabilities**: Lists the 3 custom tools
+- Agent knows what it can do
+- Brief (tools are defined separately)
 
-**Decisions**:
-- Emphasized "ONE evolving application" to prevent agent from treating each request as separate project
-- Specific page patterns (listing, detail, landing) to guide consistent structure
-- "Never write outside" for safety
+**Rules**: Specific constraints
+- Tailwind only (consistent styling)
+- Specific page patterns (guides structure)
+- Safety: "Never write outside /public or /data"
+- User experience: "friendly summary"
+
+**Key Framing**: "ONE evolving application"
+- Prevents agent from treating each request as a separate project
+- Encourages consistency across changes
 
 ---
 
-## Guidelines for Prompt Updates
+## Design Principles
 
 ### What Belongs in System Prompt
 
-✅ **Agent identity**: What role is it playing?
-✅ **Available capabilities**: What tools can it use? (brief, tools are defined elsewhere)
-✅ **Domain constraints**: What framework/patterns must it follow? (e.g., Tailwind)
-✅ **Safety rules**: What must it never do?
-✅ **Output format**: What should responses look like?
-✅ **Context**: Any critical framing (e.g., "ONE evolving application")
+✅ Agent identity (what role is it playing?)
+✅ Available capabilities (what tools can it use?)
+✅ Domain constraints (what framework/patterns must it follow?)
+✅ Safety rules (what must it never do?)
+✅ Output format (what should responses look like?)
+✅ Context (critical framing like "ONE evolving application")
 
 ### What Does NOT Belong
 
-❌ **Detailed implementation**: Code samples, complex algorithms
-❌ **Data examples**: Specific product structures (that's in data files)
-❌ **Tool documentation**: Detailed tool schemas (defined in tool objects)
-❌ **Transient state**: Current story, specific file names
-
-### When to Update
-
-**Add to prompt when**:
-- Agent consistently misunderstands core concept
-- New safety constraint discovered
-- New pattern emerges that should be standard
-- Framework/library changes (e.g., switch from Tailwind)
-
-**Don't update for**:
-- One-off corrections
-- Temporary experiments
-- User-specific preferences
+❌ Detailed implementation (code samples, complex algorithms)
+❌ Data examples (specific product structures - that's in data files)
+❌ Tool documentation (detailed tool schemas - defined in tool objects)
+❌ Transient state (current story, specific file names)
 
 ---
 
-## Skills Integration Considerations
+## Product-Specific Focus
 
-### Question: Do skills affect system prompt?
+**Why hardcoded for products?**
+
+This is what we're demonstrating in Epic 3. The prompt guides the agent to:
+- Create product data structures
+- Generate product listing pages
+- Generate product detail pages
+- Build landing pages with featured products
+
+This is a **capability of the self-editing application** - the agent understands the domain it's working in.
+
+---
+
+## Future: Skills Integration (Reach Goal)
+
+If Claude SKILLS are added to the project:
 
 **SKILL 1** (A/B UI Generator):
-- Runs in Stage 2 (vibe coding context)
-- Same agent, same system prompt
+- Runs in the same agent context
 - Might need: "When generating variations, create in /ab-test/ subfolder with documentation"
 
 **SKILL 2** (BMAD Story Generator):
-- Runs in Stage 1 (Claude Code context)
-- Different context entirely
-- Separate system prompt? Or extension of main prompt?
+- Runs in different context (Claude Code)
+- Would need separate or modified prompt
 
-**TODO**: Investigate if skills need:
-1. Separate prompts per skill
-2. Metadata that modifies base prompt
-3. Conditional prompt sections
+**Status**: Not implemented in v1, documented for future exploration
+
+**See**: `future/skills-design.md` for complete SKILLS specification
 
 ---
 
-## Future Considerations
+## Usage in Code
 
-### Potential Additions
-
-**Date context**:
-```
-Current date: {YYYY-MM-DD}
-```
-Prevents "cutoff/date hallucinations" when discussing recent events.
-
-**Enhanced data handling**:
-```
-When enhancing data structures:
-- Preserve existing fields
-- Add new fields with sensible defaults
-- Update all affected pages to reflect new structure
-```
-
-**Error handling**:
-```
-If an operation fails:
-- Explain what went wrong
-- Suggest what the user should check
-- Don't retry automatically
-```
-
-### Overwrite vs Append Strategy
-
-**Current**: Full custom prompt (overwrite Claude Code's default)
-
-**Alternative**: Append to Claude Code's base prompt
-```javascript
-systemPrompt: CLAUDE_CODE_BASE_PROMPT + `
-Additionally, for this domain:
-...custom rules...
-`
-```
-
-**Decision for v1**: Stick with full custom (simpler, more explicit).
-
-**Reconsider if**: We want general Claude Code capabilities (git, complex refactoring) alongside domain-specific rules.
+See `agent-event-loop/dsl-reference.md` for implementation examples showing how this prompt is configured in the agent initialization.
 
 ---
 
 ## Notes
 
-- Keep prompt concise - every token multiplies across every turn
+- Keep prompt concise (every token multiplies across every turn)
 - Test prompt changes with representative user requests
-- Document why each major change was made
 - Prefer specific constraints over vague guidance
+- This prompt is part of Epic 1 implementation

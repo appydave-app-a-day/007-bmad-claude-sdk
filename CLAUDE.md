@@ -9,9 +9,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **IMPORTANT: No application code exists yet. This is a planning repository for a video tutorial.**
 
 ### What Currently Exists
-- ✅ **Video planning documents** in `docs/planning/`
-- ✅ **Strategy documents** for creating educational content
-- ✅ **Design concepts** for Skills and SDK integration patterns
+- ✅ **7 planning documents** in `docs/planning/` (with YAML front matter)
+- ✅ **Claude Agent SDK implementation guide** in `docs/planning/agent-event-loop/`
+- ✅ **Video strategy** and **demo sequence** documentation
+- ✅ **Future goals** in `docs/planning/future/` (SKILLS, security deep-dive)
 
 ### What Does NOT Exist Yet
 - ❌ No `server.ts`, `package.json`, or application code
@@ -33,27 +34,37 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```
 007-bmad-claude-sdk/
 ├── CLAUDE.md                    # This file
-├── action-plan.md               # Video recording script and workflow
-├── PROBLEM-DEFINITION.md        # Epic 2 story order research (auth flow)
+├── README.md                    # Public project overview
+├── action-plan.md               # Video recording workflow
 └── docs/
-    └── planning/                # Video planning documents
-        ├── project-reference.md       # Complete project specification
-        ├── agent-sdk-capabilities.md  # Complete SDK event loop capabilities
-        ├── video-strategy.md          # Video narrative structure
-        ├── visual-concepts.md         # Visual design concepts
-        ├── skills-design.md           # Claude Skills design
-        ├── system-prompt.md           # System prompt evolution
-        ├── security-considerations.md # Security warnings
-        ├── agent-instructions.md      # Content processing rules
-        └── youtube-title-thumbnail.md # Marketing strategy
+    └── planning/
+        ├── project-reference.md       # Master specification (with YAML front matter)
+        ├── video-strategy.md          # Video narrative with epic structure
+        ├── visual-concepts.md         # Architecture diagrams for BMAD PRD
+        ├── demo-sequence.md           # Epic 3 step-by-step demo flow
+        ├── system-prompt.md           # Agent configuration
+        ├── security-note.md           # Brief security disclaimer
+        ├── agent-instructions.md      # Planning doc review agent (meta)
+        ├── agent-event-loop/          # SDK implementation guide (DSL)
+        │   ├── readme.md
+        │   ├── dsl-reference.md
+        │   ├── core-loop.md
+        │   ├── overview.md
+        │   └── sdk-summary.md
+        ├── future/                    # V2 content (not current planning)
+        │   ├── skills-design.md
+        │   ├── security-considerations.md
+        │   └── security-visuals.md
+        └── post-production/
+            └── youtube-title-thumbnail.md
 ```
 
 **Quick Guide to Planning Docs:**
-- **Start here**: `docs/planning/project-reference.md` - Complete vision and specification
-- **Video creation**: `action-plan.md` - Step-by-step recording script → `docs/planning/video-strategy.md`
-- **Technical design**: `docs/planning/agent-sdk-capabilities.md` (SDK internals) + `skills-design.md` + `system-prompt.md`
-- **Security**: `docs/planning/security-considerations.md`
-- **Research artifacts**: `PROBLEM-DEFINITION.md` - Authentication flow investigation
+- **Start here**: `docs/planning/project-reference.md` - Complete specification
+- **Video creation**: `action-plan.md` → `docs/planning/video-strategy.md`
+- **Implementation**: `docs/planning/agent-event-loop/dsl-reference.md` - SDK guide
+- **Demo**: `docs/planning/demo-sequence.md` - Epic 3 flow
+- **Agent config**: `docs/planning/system-prompt.md`
 
 ---
 
@@ -85,7 +96,7 @@ A self-editing web application that modifies itself through conversational AI:
 - **Backend**: TypeScript, Express, Claude Agent SDK
 - **Frontend**: Static HTML, Tailwind CSS, Vanilla JavaScript
 - **Auth**: Claude CLI OAuth (no API key needed)
-- **Development**: BMAD Method v6 for planning and quality gates
+- **Development**: BMAD Method v4 for planning and quality gates
 
 ---
 

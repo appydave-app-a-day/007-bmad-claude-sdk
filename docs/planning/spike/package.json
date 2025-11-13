@@ -1,0 +1,9 @@
+{
+  "name": "claude-sdk-auth-spike",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Spike tests verifying authentication requirement for Claude Agent SDK",
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "latest"
+  }
+}

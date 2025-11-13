@@ -2,7 +2,7 @@
 
 **App-a-Day #007**: Self-Editing Application Framework
 
-A demonstration of building self-editing web applications using the Claude Agent SDK integrated with BMAD Method (v6-alpha) quality gates.
+A demonstration of building self-editing web applications using the Claude Agent SDK integrated with BMAD Method v4 quality gates.
 
 ---
 
@@ -15,10 +15,10 @@ This project demonstrates how to build a web application that can modify its own
 ### What This Demonstrates
 
 - **Claude Agent SDK** - Event-driven agent loop with custom tools
-- **BMAD Method v6** - Quality gates and story-driven development
+- **BMAD Method v4** - Quality gates and story-driven development
 - **Self-Editing Capability** - Application modifies itself via conversation
+- **Three Epics**: Server setup → Frontend → Demo via conversation
 - **Path Sandboxing** - Security constraints (data/ and public/ only)
-- **OAuth Authentication** - Claude CLI authentication (no API key needed)
 
 ---
 
@@ -27,10 +27,9 @@ This project demonstrates how to build a web application that can modify its own
 **Current Phase**: PRE-IMPLEMENTATION (Planning Phase)
 
 This repository contains:
-- ✅ Complete planning documentation (8 documents in `docs/planning/`)
-- ✅ Video recording action plan
-- ✅ Authentication flow research
-- ✅ Claude Agent SDK capability analysis
+- ✅ Complete planning documentation (7 documents in `docs/planning/`)
+- ✅ Claude Agent SDK implementation guide (`docs/planning/agent-event-loop/`)
+- ✅ Video strategy and demo sequence
 - ❌ No application code yet (will be generated using BMAD workflow)
 
 ---
@@ -40,9 +39,10 @@ This repository contains:
 **For detailed guidance**, see [CLAUDE.md](CLAUDE.md) - complete documentation for working with this codebase.
 
 **Quick Start**:
-1. Review planning documents in `docs/planning/`
-2. Follow `action-plan.md` for BMAD workflow walkthrough
-3. Use BMAD Method to generate implementation artifacts
+1. Read `docs/planning/project-reference.md` - Complete specification
+2. Review `docs/planning/video-strategy.md` - Epic structure and flow
+3. Check `docs/planning/agent-event-loop/` - SDK implementation guide
+4. Follow `action-plan.md` for BMAD workflow execution (when ready)
 
 ---
 
@@ -51,20 +51,21 @@ This repository contains:
 | File | Purpose |
 |------|---------|
 | [CLAUDE.md](CLAUDE.md) | Complete repository guide for AI assistants |
-| [action-plan.md](action-plan.md) | Step-by-step video recording script |
-| [PROBLEM-DEFINITION.md](PROBLEM-DEFINITION.md) | Authentication flow research |
-| [docs/planning/project-reference.md](docs/planning/project-reference.md) | Complete project specification |
-| [docs/planning/agent-sdk-capabilities.md](docs/planning/agent-sdk-capabilities.md) | SDK capability matrix |
+| [docs/planning/project-reference.md](docs/planning/project-reference.md) | Master specification |
+| [docs/planning/video-strategy.md](docs/planning/video-strategy.md) | Video narrative with epic structure |
+| [docs/planning/agent-event-loop/](docs/planning/agent-event-loop/) | SDK implementation guide (DSL) |
+| [docs/planning/demo-sequence.md](docs/planning/demo-sequence.md) | Epic 3 demo flow |
+| [docs/planning/system-prompt.md](docs/planning/system-prompt.md) | Agent configuration |
 
 ---
 
 ## 🎬 Video Demo Plan
 
-**Target**: ~36-minute educational video demonstrating:
-1. BMAD v6-alpha workflow (Quick Flow track)
-2. Building a self-editing application with Claude Agent SDK
-3. Progressive feature addition through conversation
-4. Quality gates enforcing BMAD discipline
+**Target**: Educational video demonstrating:
+1. **Epic 1**: Server setup with Claude Agent SDK
+2. **Epic 2**: Frontend with text interface
+3. **Epic 3**: Conversational development (the demo - leave BMAD, use text box)
+4. Two paradigms: Context Engineering (BMAD) vs Vibe Coding (SDK)
 
 ---
 
@@ -93,10 +94,10 @@ Data Layer (/data/*.json, /public/*.html)
 
 This is an **educational demonstration** of a self-modifying application.
 
-**Safe for**: Local development, learning, internal tools with trusted users  
+**Safe for**: Local development, learning, internal tools with trusted users
 **Dangerous for**: Production without hardening, public-facing apps, untrusted input
 
-See [docs/planning/security-considerations.md](docs/planning/security-considerations.md) for full details.
+See [docs/planning/security-note.md](docs/planning/security-note.md) for brief overview. Detailed security analysis available in `docs/planning/future/` for future video.
 
 ---
 

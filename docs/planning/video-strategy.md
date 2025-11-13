@@ -1,3 +1,12 @@
+---
+title: Video Strategy
+purpose: Video narrative structure with epic breakdown and comparison paradigm
+audience: Video planning, understanding project flow and demonstration strategy
+when_to_read: Planning video recording, understanding demo flow
+key_sections: [Core Concept, Epic Structure, Growth Vectors, Open Questions]
+status: active
+---
+
 # Video Strategy: Context Engineering vs Vibe Coding
 
 ## Core Concept
@@ -86,10 +95,10 @@ Throughout video: strengths, weaknesses, when to use each approach.
 - Data-driven UI regeneration
 - This demonstrates capabilities people haven't seen
 
-### 3. Claude Code + Claude SKILLS (Trending)
+### 3. Claude Code + Claude SDK (Trending)
 - Claude Code: Hot topic
 - Claude SDK: Same foundations, less known
-- Claude SKILLS: Potential fourth element (trifecta → quad?)
+- Demonstrates transition from structured to conversational development
 
 ### 4. Comparison Narrative
 - "Context Engineering vs Vibe Coding" is **novel framing**
@@ -100,31 +109,47 @@ Throughout video: strengths, weaknesses, when to use each approach.
 
 ---
 
-## The Quad (Confirmed)
+## Epic Structure
 
-**Four trending topics working together:**
-1. **BMAD-METHOD** - Context Engineering methodology
-2. **Claude Code** - Structured development environment
-3. **Claude SDK** - Vibe coding runtime
-4. **Claude SKILLS** - Bidirectional workflow bridge
+### Epic 1: Server Application with Claude SDK Event Loop
+**Using**: BMAD Method v4 + Claude Code
 
-### How SKILLS Complete the Picture
+**Goal**: Create Express server with Claude Agent SDK integration
+- Core Claude SDK event loop
+- Basic server setup and authentication
+- Custom tools framework (read_json, write_json, write_file)
+- Sandboxing and safety constraints
 
-**SKILL 1: A/B UI Generator** (Stage 2 - Vibe Coding)
-- User: "Generate 3 layout variations"
-- Creates `/ab-test/` with variations + documentation
-- User browses, picks favorite
-- **Demonstrates**: Vibe coding's exploratory power
+**BMAD artifacts**: PRD, Architecture, Stories, ACTIVE_STORY
 
-**SKILL 2: BMAD Story Generator** (Stage 1 - Context Engineering)
-- User switches to Claude Code
-- Reads SKILL 1's mocks and docs
-- Generates proper BMAD story with acceptance criteria
-- **Demonstrates**: Context engineering's structured rigor
+---
 
-**The Bridge**: Skills connect both paradigms
-- Explore with vibe coding → Implement with context engineering
-- Two contexts, working together, same workflow
+### Epic 2: HTML Frontend with Text Interface
+**Using**: BMAD Method v4 + Claude Code
+
+**Goal**: Create simple frontend to communicate with the SDK
+- HTML form with text input
+- Streaming capability (if needed)
+- Communication with `/chat` endpoint
+- Technology options: Vanilla JS, Vercel templates, or off-the-shelf solution (TBD)
+
+**BMAD artifacts**: Stories continue, quality gates maintained
+
+---
+
+### Epic 3: Conversational Development (The Demo)
+**THE PIVOT**: Leave BMAD, leave Claude Code, use the text box
+
+**Goal**: Demonstrate self-editing application in action
+- Use text box to create data structures (products.json, blog.json)
+- Use text box to generate UI pages (list views, detail views)
+- Show application modifying itself through conversation
+- Progressive feature addition
+
+**Not BMAD**: This is pure "Vibe Coding" demonstration
+- No stories, no architecture docs
+- Just conversational requests → code generation
+- Shows the power of Claude SDK in action
 
 ---
 
@@ -164,15 +189,13 @@ Not another "tool tutorial" - this is:
 
 ## Open Questions
 
-1. ~~**Claude SKILLS integration**: How to include naturally?~~ ✅ **SOLVED**
-   - Two skills: A/B UI Generator (vibe) + BMAD Story Generator (structured)
-   - See `skills-design.md` for complete specification
+1. **Frontend technology choice**: Vanilla JS, Vercel template, or other off-the-shelf solution?
 2. **Demo complexity**: Balance showing power vs keeping it accessible
 3. **Story arc**: Which paradigm do we demonstrate first?
    - Option A: Vibe coding first (fast wins) → then show structure
    - Option B: Context engineering first (foundation) → then show speed
-4. **Call to action**: BMAD community? GitHub repo? Collaboration with Brian?
-5. **SKILLS technical depth**: How much of skill implementation to show in video?
+4. **Call to action**: BMAD community? GitHub repo?
+5. **Demo application domain**: What will we build in Epic 3? (products? blog? other?)
 
 ---
 
