@@ -1,2 +1,40 @@
-spike1
-spike2
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+build/
+*.log
+
+# BMAD artifacts (will be generated during workflow)
+bmad/
+
+# Session data
+*_sessions/
+telegram_sessions/
+api_sessions/
+
+# Temporary files
+*.tmp
+.claude-temp-hidden/
+
+# Spike/test artifacts
+spike-*/node_modules/
+spike-*/package-lock.json
