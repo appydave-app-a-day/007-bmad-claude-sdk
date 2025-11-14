@@ -4,11 +4,13 @@
  * Features:
  * - Express 5 HTTP server
  * - Health check endpoint
+ * - Static file serving for test client
  * - CORS for Vite dev server (localhost:5173)
  * - Error handling middleware
  * - Structured logging
  */
 import express, { Request, Response, NextFunction } from 'express';
+import path from 'path';
 import { healthRouter } from './routes/health';
 import { ToolError } from './utils/errors';
 import { logger } from './utils/logger';
@@ -25,6 +27,12 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Credentials', 'true');
   next();
 });
+
+// Static file serving for /chat route (Story 1.3)
+// Serves index.html from packages/client directory
+const clientPath = path.join(__dirname, '../../client');
+app.use('/chat', express.static(clientPath));
+logger.info('Static files served from packages/client for /chat route');
 
 // Routes
 app.use('/api/health', healthRouter);
@@ -57,4 +65,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 app.listen(PORT, () => {
   logger.info(`Server started on port ${PORT}`);
   logger.info(`Health check: http://localhost:${PORT}/api/health`);
+  logger.info(`Test client: http://localhost:${PORT}/chat`);
 });

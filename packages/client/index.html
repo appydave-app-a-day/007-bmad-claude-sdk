@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMAD + Claude SDK - Test Client</title>
+  <style>
+    /* Minimal CSS for readability */
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #ffffff;
+      color: #333333;
+    }
+    h1 {
+      color: #2563eb;
+      margin-bottom: 30px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    #response-output {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 4px;
+      min-height: 50px;
+      white-space: pre-wrap;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      border: 1px solid #e5e7eb;
+    }
+    .empty {
+      color: #9ca3af;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <h1>Client-Server Communication Test</h1>
+  <p>This page tests basic HTTP communication with the Express server.</p>
+
+  <form id="test-form">
+    <input
+      type="text"
+      id="message-input"
+      placeholder="Enter a message (optional)"
+      autocomplete="off"
+    />
+    <button type="submit" id="send-button">Test Health Endpoint</button>
+  </form>
+
+  <div id="response-output" class="empty">Response will appear here...</div>
+
+  <script>
+    // Client-side JavaScript for API communication
+    const form = document.getElementById('test-form');
+    const input = document.getElementById('message-input');
+    const button = document.getElementById('send-button');
+    const output = document.getElementById('response-output');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault(); // Prevent page reload (AC 9)
+
+      try {
+        // Disable button during request
+        button.disabled = true;
+        output.classList.remove('empty');
+        output.textContent = 'Requesting...';
+
+        // Fetch request to health endpoint (AC 3)
+        const response = await fetch('/api/health');
+
+        // Parse JSON response (AC 4)
+        const data = await response.json();
+
+        // Display response on page (AC 4)
+        output.textContent = `Server response:\n${JSON.stringify(data, null, 2)}`;
+
+      } catch (error) {
+        // Handle fetch errors (AC 3)
+        output.textContent = `Error: ${error.message}\n\nMake sure the server is running on port 3000.`;
+      } finally {
+        // Re-enable button
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
