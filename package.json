@@ -1,0 +1,31 @@
+{
+  "name": "bmad-claude-sdk-app",
+  "version": "1.0.0",
+  "description": "Self-editing web application powered by Claude Agent SDK and BMAD Method",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=@bmad-app/server\" \"npm run dev --workspace=@bmad-app/client\"",
+    "build": "npm run build --workspaces",
+    "clean": "npm run clean --workspaces && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "keywords": [
+    "claude",
+    "agent-sdk",
+    "bmad",
+    "monorepo",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT"
+}

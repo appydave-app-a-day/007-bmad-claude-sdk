@@ -1,0 +1,19 @@
+{
+  "name": "@bmad-app/server",
+  "version": "1.0.0",
+  "description": "Backend Express server with Claude Agent SDK",
+  "main": "dist/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "clean": "rm -rf dist node_modules"
+  },
+  "dependencies": {
+    "@bmad-app/shared": "1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "tsx": "^4.19.2"
+  }
+}

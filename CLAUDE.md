@@ -4,27 +4,34 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
-## 🚧 PROJECT STATE: PRE-IMPLEMENTATION
+## 📖 Quick Reference: Document Hierarchy
 
-**IMPORTANT: No application code exists yet. This repository is ready for BMAD Method execution.**
+**PRIMARY SOURCES** (start here for all implementation):
+1. `docs/brief.md` - Complete project specification (564 lines)
+2. `docs/prd.md` - 14 stories across 3 epics with acceptance criteria (646 lines)
+
+**SUPPLEMENTARY** (for specific details):
+3. `docs/planning/` - Detailed specifications, tech rationale, demo sequences
+
+**Read this file** for: Project state, epic overview, requirements summary, external resources
+
+---
+
+## 🚧 PROJECT STATE: BMAD ARTIFACTS COMPLETE, READY FOR IMPLEMENTATION
+
+**IMPORTANT: BMAD-generated brief and PRD are complete. No application code exists yet.**
 
 ### What Currently Exists
-- ✅ Planning documents in `docs/planning/` (high-level reference only)
-- ✅ Execution guide with pre-answered questions (`docs/planning/bmad-execution-guide.md`)
+- ✅ **Project Brief** (`docs/brief.md`) - Complete project specification by Mary (Business Analyst) ⭐ PRIMARY
+- ✅ **PRD** (`docs/prd.md`) - Full requirements with 3 epics, 14 stories by John (PM) ⭐ PRIMARY
+- ✅ Planning documents in `docs/planning/` (supplementary reference for specific details)
 
 ### What Does NOT Exist Yet
-- ❌ No `bmad/` folder (BMAD not installed)
-- ❌ No application code (`server.ts`, `package.json`, etc.)
-- ❌ No BMAD artifacts (PRD, tech-spec, stories)
+- ❌ No application code (`packages/`, `server.ts`, `package.json`, etc.)
+- ❌ No architecture document yet (next step: Architect agent)
 
 ### Your Next Step
-**Install BMAD Method v4 and execute the workflow** to generate all project artifacts.
-
-```bash
-npx bmad-method install
-```
-
-**Then follow the workflow in `action-plan.md`**
+**Run Architect agent to create `docs/architecture.md`** or begin implementation of Epic 1 stories.
 
 ---
 
@@ -37,99 +44,90 @@ Build a **self-editing web application** powered by Claude Agent SDK and discipl
 - BMAD quality gates enforce story-driven development
 - Educational demo of Claude Agent SDK + BMAD integration
 
-**High-level reference**: See `docs/planning/project-reference.md` for complete vision
+**Primary reference**: See `docs/brief.md` and `docs/prd.md` for complete specifications ⭐
+
+**Supplementary details**: `docs/planning/` folder contains supporting documentation
 
 ---
 
-## 🔄 BMAD Method Workflow (PRIMARY PATH)
+## 📋 Project Documentation Hierarchy
 
-This is a **BMAD Method v4 project**. All development happens through the BMAD workflow.
+### Primary Sources (START HERE)
 
-### Step 1: Install BMAD Method
+1. **`docs/brief.md`** ⭐ - Project Brief by Mary (Business Analyst)
+   - Executive summary, problem statement, proposed solution
+   - Target users, goals, success metrics
+   - MVP scope, post-MVP vision
+   - Technical considerations, constraints, risks
+   - Complete project context in one place
 
-```bash
-npx bmad-method install
-```
+2. **`docs/prd.md`** ⭐ - Product Requirements Document by John (PM)
+   - 14 stories across 3 epics with acceptance criteria
+   - Functional requirements (FR1-FR10)
+   - Non-functional requirements (NFR1-NFR7)
+   - UI design goals, technical assumptions
+   - Complete implementation roadmap
 
-This creates the `bmad/bmm/` structure with agents, workflows, and output folders.
+### Supplementary References
 
-### Step 2: Initialize Project (`*workflow-init`)
+3. **`docs/planning/`** - Detailed planning documents
+   - `project-reference.md` - Original detailed specification
+   - `tech-stack.md` - Technology decisions with rationale
+   - `video-strategy.md` - Epic structure and narrative
+   - `demo-sequence.md` - Step-by-step demonstration flow
+   - `bmad-execution-guide.md` - BMAD workflow walkthrough
 
-Run the workflow initialization to set up project context:
-
-```bash
-*workflow-init
-```
-
-**Pre-answered questions** (from `docs/planning/bmad-execution-guide.md`):
-- **Project name**: "BMAD + Claude SDK Self-Editing App"
-- **What are you building**: Self-editing web app with Express + React + Claude SDK
-- **Track selection**: Quick Flow (implementation-focused, not strategic planning)
-
-**Output**: `bmad/bmm/output/bmm-workflow-status.yaml`
-
-### Step 3: Create Tech-Spec (`*tech-spec`)
-
-Generate technical specification with PM agent (John):
-
-```bash
-*tech-spec
-```
-
-**Reference materials** to provide:
-- `docs/planning/project-reference.md` - Complete specification
-- `docs/planning/tech-stack.md` - Technology decisions
-- `docs/planning/video-strategy.md` - Epic structure (3 epics)
-
-**Optional: YOLO Mode** for fast execution:
-```bash
-*yolo
-*tech-spec
-```
-
-**Output**: `bmad/bmm/output/tech-spec.md` with ~10-13 stories across 3 epics
-
-### Step 4: Check Workflow Status
-
-```bash
-*workflow-status
-```
-
-Shows current phase, completed artifacts, and next steps.
-
-### Step 5: Implementation
-
-Once tech-spec is complete:
-1. Set `bmad/bmm/stories/ACTIVE_STORY.md`
-2. Implement stories using Claude Code
-3. BMAD hooks enforce quality gates (active story requirement)
-
-**Detailed walkthrough**: See `action-plan.md` for complete video demonstration script
+   **Use when**: You need specific implementation details, technology rationale, or demo sequences that aren't in the brief/PRD
 
 ---
 
-## 🏗️ What We're Building
+## 🔄 Current Development Phase
 
-### Three Epics (Generated via BMAD tech-spec)
+### Completed BMAD Artifacts
+- ✅ Project Brief (`docs/brief.md`) - 564 lines
+- ✅ PRD (`docs/prd.md`) - 14 stories across 3 epics
 
-**Epic 1: Monorepo Setup with Basic Server & Client**
-- NPM workspaces (root, server, client, shared)
-- Express + TypeScript server
-- Basic HTML page with text box
-- Success: Form submission → server response
+### Next Steps
+1. **Architecture Document**: Run Architect agent to create `docs/architecture.md`
+2. **Implementation**: Begin Epic 1 Story 1.1 (Initialize NPM Workspaces Monorepo)
 
-**Epic 2: Claude Agent SDK Integration**
-- Claude SDK event loop integration
-- 3 custom tools: `read_json`, `write_json`, `write_file`
-- BMAD quality gate hooks
-- Socket.io streaming
-- Success: Claude SDK responds with real-time streaming
+### Implementation Workflow
+Once architecture is complete:
+1. Read story acceptance criteria from `docs/prd.md`
+2. Implement story code
+3. Verify all acceptance criteria met
+4. Move to next story
 
-**Epic 3: React Frontend with Chat Interface**
-- React + Vite + TypeScript
-- shadcn/ui + Vercel AI Elements
-- Socket.io client
-- Success: Production-ready chat UI with streaming
+---
+
+## 🏗️ What We're Building (From PRD)
+
+### Three Epics - 14 Stories Total
+
+**Epic 1: Monorepo Setup with Basic Server & Client** (4 stories)
+- Story 1.1: Initialize NPM Workspaces Monorepo
+- Story 1.2: Create Express TypeScript Server
+- Story 1.3: Create Basic HTML Client
+- Story 1.4: Implement Socket.io for Real-Time Communication
+- **Goal**: Prove bidirectional communication works before Agent SDK complexity
+
+**Epic 2: Claude Agent SDK Integration** (6 stories)
+- Story 2.1: Install and Configure Claude Agent SDK
+- Story 2.2: Create Basic Agent Event Loop (no streaming, no tools)
+- Story 2.3: Add Response Streaming to Event Loop
+- Story 2.4: Implement Custom Tool: `read_json`
+- Story 2.5: Implement Custom Tool: `write_json`
+- Story 2.6: Implement Custom Tool: `write_file`
+- **Goal**: Incremental Agent SDK integration with three domain-agnostic tools
+
+**Epic 3: React Frontend with Chat Interface** (4 stories)
+- Story 3.1: Initialize React + Vite Application
+- Story 3.2: Install shadcn/ui and Configure TailwindCSS
+- Story 3.3: Build Chat Interface with Vercel AI Elements
+- Story 3.4: Implement Light/Dark Mode Toggle
+- **Goal**: Production-quality chat UI with streaming support
+
+**See `docs/prd.md` for complete acceptance criteria for each story**
 
 ### Technology Stack
 
@@ -151,11 +149,13 @@ Once tech-spec is complete:
 
 **Authentication**: Claude CLI OAuth (`claude auth login` - no API key needed)
 
-**See**: `docs/planning/tech-stack.md` for complete technology reference
+**See `docs/prd.md` (Technical Assumptions section) for complete stack details**
+
+**See `docs/planning/tech-stack.md` for technology rationale and decision context**
 
 ---
 
-## 🔑 Key Implementation Concepts
+## 🔑 Key Implementation Concepts (From Brief & PRD)
 
 ### Three Custom Tools (Domain-Agnostic)
 
@@ -201,46 +201,52 @@ const safe = (p) => {
 };
 ```
 
-**See**: `docs/planning/project-reference.md` (lines 243-268) for complete implementation examples
+**See `docs/planning/project-reference.md` (lines 243-268) for detailed implementation examples**
 
 ---
 
-## 📚 Planning Documentation (Reference Only)
+## 📚 Requirements & Functional Specifications (From PRD)
 
-The `docs/planning/` folder contains supporting documentation created during planning phase. These are **reference materials** for BMAD agents when they ask questions.
+### Functional Requirements (10 total)
+- **FR1**: Chat interface for natural language instructions
+- **FR2**: Three domain-agnostic tools (read_json, write_json, write_file)
+- **FR3**: Path sandboxing (only /data and /public writable)
+- **FR4**: Socket.io streaming for real-time responses
+- **FR5**: NPM workspaces monorepo structure
+- **FR6**: Streaming responses with markdown/code block formatting
+- **FR7**: Minimal Agent SDK event loop (educational simplicity)
+- **FR8**: Express serves generated HTML from /public
+- **FR9**: Chat interface at /chat route
+- **FR10**: Light/dark mode toggle
 
-**Key files**:
-- `project-reference.md` - Complete specification and architecture
-- `tech-stack.md` - Technology decisions with rationale
-- `video-strategy.md` - Epic structure (3 epics)
-- `bmad-execution-guide.md` - Pre-answered questions for workflow
-- `action-plan.md` - Complete video demonstration script
+### Non-Functional Requirements (7 total)
+- **NFR1**: Minimal Agent SDK implementation for educational clarity
+- **NFR2**: Claude OAuth authentication (no API key management)
+- **NFR3**: Clear console logging for educational transparency
+- **NFR4**: Comprehensive inline comments for learning
+- **NFR5**: Works on Node.js 18+ without cloud deployment
+- **NFR6**: Desktop browser responsive (mobile not required)
+- **NFR7**: Stable releases only (no experimental packages)
 
-**When to use**: Provide these files to BMAD agents (Mary, John) when they ask for project context during workflow execution.
-
-**Don't start here**: These are inputs to BMAD, not the workflow itself. Start with `npx bmad-method install` instead.
+**See `docs/prd.md` lines 27-65 for complete FR/NFR details**
 
 ---
 
-## 📖 External References
+## 📖 External References & Resources
 
-### BMAD Method v4
+### BMAD-Generated Artifacts (Already Complete)
 
-**Installation**:
-```bash
-npx bmad-method install
-```
+- ✅ **Project Brief**: `docs/brief.md` (generated by Mary - Business Analyst)
+- ✅ **PRD**: `docs/prd.md` (generated by John - PM)
+- ⏳ **Architecture**: `docs/architecture.md` (next: run Architect agent)
+
+### BMAD Method v4 (Used to Generate Artifacts)
 
 **Repository**: https://github.com/bmad-code-org/BMAD-METHOD/
 
-**What it provides**:
-- Workflow initialization (`*workflow-init`)
-- Tech-spec generation (`*tech-spec`)
-- Story-driven development structure
-- Quality gates and hooks
-- Workflow status tracking (`*workflow-status`)
-
 **Curated documentation**: `/Users/davidcruwys/dev/ad/brains/bmad-method/`
+
+**Note**: BMAD workflow already executed to produce brief and PRD. Implementation now follows story-by-story approach from PRD.
 
 ### Claude Agent SDK
 
@@ -269,21 +275,28 @@ No API key needed - uses Claude Pro/Team subscription via OAuth.
 
 ---
 
-## ✅ Success Criteria
+## ✅ Success Criteria (From Brief)
 
-**After BMAD workflow execution**:
-- ✅ `bmad/bmm/` folder structure exists
-- ✅ `bmad/bmm/output/tech-spec.md` with ~10-13 stories
-- ✅ Stories organized across 3 epics
-- ✅ Ready for implementation with `ACTIVE_STORY.md`
+**BMAD Artifacts** (COMPLETE ✅):
+- ✅ Project Brief complete (`docs/brief.md`)
+- ✅ PRD with 14 stories across 3 epics (`docs/prd.md`)
+- ⏳ Architecture document pending
 
-**After implementation**:
-- ✅ ~200 lines of framework code (server + custom tools)
-- ✅ BMAD quality gates enforced (active story requirement)
-- ✅ React chat interface with streaming responses
-- ✅ Application can self-edit through conversation
+**Implementation Goals** (From Brief - lines 225-237):
+1. **Builds successfully**: `npm install && npm run dev` works in < 5 minutes
+2. **Framework completeness**: ≤ 250 lines of core framework code
+3. **Conversation works**: User types "create 3 products" → agent creates JSON → streams response
+4. **Demo sequence completes**: Product catalog → landing page → blog → composite page
+5. **Video-ready**: Complete demo fits 40-minute video format
+6. **Documentation clarity**: External developer can complete walkthrough without assistance
+
+**Key Metrics** (From Brief - lines 170-187):
+- **Educational reach**: 1,000+ repository clones within 3 months
+- **Time to "aha moment"**: < 60 minutes from video start to working framework
+- **Video performance**: 5,000+ views, 50%+ average view duration
+- **Repository engagement**: 50+ stars, 200+ unique visitors/week
 
 ---
 
 **Last Updated**: 2025-11-14
-**Status**: PRE-IMPLEMENTATION - Ready for BMAD workflow execution
+**Status**: BMAD ARTIFACTS COMPLETE - Ready for Architecture & Implementation

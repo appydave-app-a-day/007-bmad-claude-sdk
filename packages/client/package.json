@@ -1,0 +1,15 @@
+{
+  "name": "@bmad-app/client",
+  "version": "1.0.0",
+  "description": "Frontend React application with Vite",
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'Client dev script will be configured in Story 3.1'",
+    "build": "tsc",
+    "clean": "rm -rf dist node_modules"
+  },
+  "dependencies": {
+    "@bmad-app/shared": "1.0.0"
+  },
+  "devDependencies": {}
+}

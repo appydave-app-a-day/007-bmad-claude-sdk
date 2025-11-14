@@ -1,0 +1,13 @@
+{
+  "name": "@bmad-app/shared",
+  "version": "1.0.0",
+  "description": "Shared TypeScript types for client and server",
+  "main": "dist/types.js",
+  "types": "dist/types.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist node_modules"
+  },
+  "devDependencies": {}
+}
