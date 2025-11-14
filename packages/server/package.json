@@ -7,12 +7,15 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
+    "start": "node dist/server.js",
     "clean": "rm -rf dist node_modules"
   },
   "dependencies": {
-    "@bmad-app/shared": "1.0.0"
+    "@bmad-app/shared": "1.0.0",
+    "express": "^5.0.1"
   },
   "devDependencies": {
+    "@types/express": "^5.0.0",
     "@types/node": "^22.10.1",
     "tsx": "^4.19.2"
   }
