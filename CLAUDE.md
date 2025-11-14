@@ -4,243 +4,193 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
-## 🚧 PROJECT STATE: PRE-IMPLEMENTATION (Video Planning Phase)
+## 🚧 PROJECT STATE: PRE-IMPLEMENTATION
 
-**IMPORTANT: No application code exists yet. This is a planning repository for a video tutorial.**
+**IMPORTANT: No application code exists yet. This repository is ready for BMAD Method execution.**
 
 ### What Currently Exists
-- ✅ **7 planning documents** in `docs/planning/` (with YAML front matter)
-- ✅ **Claude Agent SDK implementation guide** in `docs/planning/agent-event-loop/`
-- ✅ **Video strategy** and **demo sequence** documentation
-- ✅ **Future goals** in `docs/planning/future/` (SKILLS, security deep-dive)
+- ✅ Planning documents in `docs/planning/` (high-level reference only)
+- ✅ Execution guide with pre-answered questions (`docs/planning/bmad-execution-guide.md`)
 
 ### What Does NOT Exist Yet
-- ❌ No `server.ts`, `package.json`, or application code
-- ❌ No `bmad/` folder structure (BMAD hasn't run yet)
-- ❌ No implemented features or working application
+- ❌ No `bmad/` folder (BMAD not installed)
+- ❌ No application code (`server.ts`, `package.json`, etc.)
+- ❌ No BMAD artifacts (PRD, tech-spec, stories)
 
-### Current Phase
-**Creating planning documents** that will be used to:
-1. **Script a video tutorial** about building self-editing applications
-2. **Generate BMAD artifacts** (PRD, architecture, stories)
-3. **Then build the actual application** using BMAD Method + Claude Agent SDK
+### Your Next Step
+**Install BMAD Method v4 and execute the workflow** to generate all project artifacts.
 
-**→ If you're trying to work with application code, it doesn't exist yet. Start with BMAD installation first.**
-
----
-
-## 📁 Current File Structure
-
-```
-007-bmad-claude-sdk/
-├── CLAUDE.md                          # This file
-├── README.md                          # Public project overview
-├── action-plan.md                     # Video recording workflow
-├── PROBLEM-DEFINITION.md              # Epic 2 story order research
-└── docs/
-    └── planning/
-        ├── project-reference.md       # Master specification
-        ├── video-strategy.md          # Video narrative with epic structure
-        ├── visual-concepts.md         # Architecture diagrams
-        ├── tech-stack.md              # Technology stack reference
-        ├── demo-sequence.md           # Post-BMAD demonstration flow
-        ├── system-prompt.md           # Agent configuration
-        ├── security.md                # Security considerations
-        ├── agent-instructions.md      # Planning doc review agent
-        ├── agent-event-loop/          # SDK implementation guide
-        │   ├── readme.md
-        │   ├── overview.md
-        │   ├── core-loop.md
-        │   ├── dsl-reference.md
-        │   └── sdk-summary.md
-        ├── backlog/                   # Future content (V2+)
-        │   ├── skills-design.md
-        │   └── youtube-title-thumbnail.md
-        └── spike/                     # Code spike artifacts
-```
-
-**Quick Guide to Planning Docs (V1):**
-- **Start here**: `docs/planning/project-reference.md` - Complete specification
-- **Video creation**: `action-plan.md` → `docs/planning/video-strategy.md`
-- **Tech stack**: `docs/planning/tech-stack.md` - Technology decisions for BMAD agents
-- **Implementation**: `docs/planning/agent-event-loop/` - SDK implementation guide
-- **Demo**: `docs/planning/demo-sequence.md` - Post-BMAD demonstration flow
-- **Security**: `docs/planning/security.md` - Brief security overview
-
-**Backlog (V2+):**
-- `docs/planning/backlog/skills-design.md` - Claude SKILLS integration
-- `docs/planning/backlog/youtube-title-thumbnail.md` - Marketing (deferred)
-
----
-
-## 🎯 Project Vision (What We WILL Build)
-
-**Project**: BMAD + Claude Agent SDK - Self-Editing Application Framework
-**App-a-Day**: #007
-**Educational Goal**: Demonstrate how to integrate Claude Agent SDK with BMAD Method
-
-### The Concept
-A self-editing web application that modifies itself through conversational AI:
-- Starts with just a text box
-- User types conversational requests
-- Application creates its own data structures (products.json, blog.json)
-- Application generates its own pages (list views, detail views)
-- Application validates its own code quality
-- Application documents its own evolution
-
-**Key Insight**: ONE application that edits and extends itself through conversation (not a framework that builds separate apps).
-
-### Core Implementation Target
-- ~200 lines of code (backend framework)
-- 3 custom tools: `read_json`, `write_json`, `write_file`
-- Express server with `/chat` endpoint
-- BMAD quality gate hooks
-- Sandboxed file operations
-
-### Technology Stack (Future)
-- **Backend**: TypeScript, Express, Claude Agent SDK
-- **Frontend**: Static HTML, Tailwind CSS, Vanilla JavaScript
-- **Auth**: Claude CLI OAuth (no API key needed)
-- **Development**: BMAD Method v4 for planning and quality gates
-
----
-
-## 🔄 Next Steps: BMAD Method Workflow
-
-### When You're Ready to Build
-
-**Follow the action-plan.md for the complete video workflow:**
-
-**1. Initialize BMAD Project**
 ```bash
-# Load workflow-init command
+npx bmad-method install
+```
+
+**Then follow the workflow in `action-plan.md`**
+
+---
+
+## 🎯 Project Goal
+
+Build a **self-editing web application** powered by Claude Agent SDK and disciplined by BMAD Method:
+
+- User types in text box → app generates data/UI for itself
+- ~200 lines of framework code (custom tools + Express + React)
+- BMAD quality gates enforce story-driven development
+- Educational demo of Claude Agent SDK + BMAD integration
+
+**High-level reference**: See `docs/planning/project-reference.md` for complete vision
+
+---
+
+## 🔄 BMAD Method Workflow (PRIMARY PATH)
+
+This is a **BMAD Method v4 project**. All development happens through the BMAD workflow.
+
+### Step 1: Install BMAD Method
+
+```bash
+npx bmad-method install
+```
+
+This creates the `bmad/bmm/` structure with agents, workflows, and output folders.
+
+### Step 2: Initialize Project (`*workflow-init`)
+
+Run the workflow initialization to set up project context:
+
+```bash
 *workflow-init
 ```
-- Answer questions about project type
-- Select "Quick Flow" track (tech-spec without full PRD)
-- Reference existing planning docs in `docs/planning/`
 
-**2. Check Workflow Status**
+**Pre-answered questions** (from `docs/planning/bmad-execution-guide.md`):
+- **Project name**: "BMAD + Claude SDK Self-Editing App"
+- **What are you building**: Self-editing web app with Express + React + Claude SDK
+- **Track selection**: Quick Flow (implementation-focused, not strategic planning)
+
+**Output**: `bmad/bmm/output/bmm-workflow-status.yaml`
+
+### Step 3: Create Tech-Spec (`*tech-spec`)
+
+Generate technical specification with PM agent (John):
+
+```bash
+*tech-spec
+```
+
+**Reference materials** to provide:
+- `docs/planning/project-reference.md` - Complete specification
+- `docs/planning/tech-stack.md` - Technology decisions
+- `docs/planning/video-strategy.md` - Epic structure (3 epics)
+
+**Optional: YOLO Mode** for fast execution:
+```bash
+*yolo
+*tech-spec
+```
+
+**Output**: `bmad/bmm/output/tech-spec.md` with ~10-13 stories across 3 epics
+
+### Step 4: Check Workflow Status
+
 ```bash
 *workflow-status
 ```
-- Shows current phase and recommended next steps
-- Acts as your compass through BMAD workflow
 
-**3. BMAD Analysis Phase**
-```bash
-# Load analyst agent
-Load bmad/bmm/agents/analyst.md
+Shows current phase, completed artifacts, and next steps.
 
-# Create product brief from planning docs
-```
-- Synthesize `docs/planning/*.md` into BMAD product brief
-- Focus on self-editing capability, security constraints, BMAD integration
+### Step 5: Implementation
 
-**4. BMAD Planning Phase** (Quick Flow Track)
-```bash
-# Load architect agent
-Load bmad/bmm/agents/architect.md
+Once tech-spec is complete:
+1. Set `bmad/bmm/stories/ACTIVE_STORY.md`
+2. Implement stories using Claude Code
+3. BMAD hooks enforce quality gates (active story requirement)
 
-# Generate tech-spec
-```
-- Create technical specification for the application
-- Define Express server architecture
-- Specify 3 custom tools (read_json, write_json, write_file)
-- Document sandboxing approach
-
-**5. Implementation Phase**
-Once BMAD artifacts exist:
-- Set `ACTIVE_STORY.md`
-- Create `server.ts` with Express + Claude Agent SDK
-- Create `public/index.html` with conversational interface
-- Implement 3 custom tools
-- Add BMAD quality gate hooks
-
-**6. Demo Phase (The Magic)**
-- Leave VSCode
-- Open browser to `http://localhost:3000`
-- Through conversation, application builds itself:
-  - "Create 3 products" → generates data/products.json
-  - "Make a product listing page" → generates public/products.html
-  - "Add a blog" → generates blog system
-  - Progressive feature addition through conversation
+**Detailed walkthrough**: See `action-plan.md` for complete video demonstration script
 
 ---
 
-## 📚 Planning Documentation Reference
+## 🏗️ What We're Building
 
-### For Video Creation
-Read in this order:
-1. `docs/planning/video-strategy.md` - Narrative structure and flow
-2. `docs/planning/visual-concepts.md` - Visual design and B-roll concepts
-3. `docs/planning/youtube-title-thumbnail.md` - Marketing and presentation
+### Three Epics (Generated via BMAD tech-spec)
 
-### For Technical Understanding
-Read in this order:
-1. `docs/planning/project-reference.md` - Complete specification
-2. `docs/planning/skills-design.md` - Custom Skills design (A/B UI Generator, BMAD Story Generator)
-3. `docs/planning/system-prompt.md` - Agent prompt evolution and design decisions
-4. `docs/planning/security-considerations.md` - Attack vectors and mitigations
+**Epic 1: Monorepo Setup with Basic Server & Client**
+- NPM workspaces (root, server, client, shared)
+- Express + TypeScript server
+- Basic HTML page with text box
+- Success: Form submission → server response
 
-### For Content Processing
-- `docs/planning/agent-instructions.md` - How to process research and create documentation
+**Epic 2: Claude Agent SDK Integration**
+- Claude SDK event loop integration
+- 3 custom tools: `read_json`, `write_json`, `write_file`
+- BMAD quality gate hooks
+- Socket.io streaming
+- Success: Claude SDK responds with real-time streaming
 
----
+**Epic 3: React Frontend with Chat Interface**
+- React + Vite + TypeScript
+- shadcn/ui + Vercel AI Elements
+- Socket.io client
+- Success: Production-ready chat UI with streaming
 
-## ⚠️ Security Considerations (Future Implementation)
+### Technology Stack
 
-**This will be an educational demo of a self-modifying application.**
+**Monorepo**: NPM Workspaces (proven pattern from Storyline App)
 
-**Safe for:**
-- ✅ Local development and learning
-- ✅ Internal tools with trusted users
-- ✅ Rapid prototyping and MVPs
+**Server**:
+- Express 5 + TypeScript
+- Claude Agent SDK (event loop)
+- Socket.io server (streaming)
+- Custom tools (domain-agnostic file operations)
 
-**Dangerous for:**
-- ❌ Production without significant hardening
-- ❌ Public-facing applications
-- ❌ Systems with untrusted user input
-- ❌ Applications handling sensitive data
+**Client**:
+- React 19 + TypeScript
+- Vite 7 (build tool)
+- shadcn/ui (base components)
+- Vercel AI Elements (chat UI)
+- Socket.io-client (streaming)
+- TailwindCSS 4
 
-**Risks**: Prompt injection, code injection, path traversal, resource exhaustion
+**Authentication**: Claude CLI OAuth (`claude auth login` - no API key needed)
 
-**See**: `docs/planning/security-considerations.md` for full details
-
----
-
-## 🎬 Video Narrative (The Plan)
-
-1. **Introduction**: BMAD + Claude SDK = self-editing applications
-2. **Phase 1 (Planning)**: Use BMAD to plan the framework
-3. **Phase 2 (Building)**: Code the 200-line core with BMAD discipline
-4. **Phase 3 (The Pivot)**: Leave VSCode, open browser, use text box
-5. **Demo**: Application adds features to itself through conversation
-6. **Progressive BMAD**: Manual → automatic → self-validating evolution
-7. **Conclusion**: Recursive BMAD demonstration
-
-**Target**: ~36-minute video
-**Paradigm**: Context Engineering (BMAD) + Vibe Coding (SDK runtime)
+**See**: `docs/planning/tech-stack.md` for complete technology reference
 
 ---
 
-## 🔑 Key Concepts (For Future Implementation)
+## 🔑 Key Implementation Concepts
 
-### Three-Layer Architecture
-```
-Frontend (Static HTML + JavaScript)
-  ↓ HTTP POST /chat
-Backend (Express + Claude Agent SDK)
-  ↓ File I/O via custom tools
-Data Layer (/data/*.json, /public/*.html)
+### Three Custom Tools (Domain-Agnostic)
+
+```typescript
+// Tool 1: Read JSON from /data directory
+read_json(filepath)
+
+// Tool 2: Write/update JSON in /data directory
+write_json(filepath, content)
+
+// Tool 3: Create/update HTML/CSS/JS in /public directory
+write_file(filepath, content)
 ```
 
-### Three Custom Tools
-1. `read_json(filepath)` - Read any JSON from `/data`
-2. `write_json(filepath, content)` - Create or update JSON in `/data`
-3. `write_file(filepath, content)` - Create or update HTML/CSS/JS in `/public`
+These tools are **generic** - they don't know about "products" or "blogs". The application evolves based on user conversation.
 
-### Tool Safety (Sandboxing)
+### BMAD Quality Gate Hook
+
+Before allowing file writes, verify active story exists:
+
+```typescript
+const hooks = {
+  async beforeToolCall(ctx) {
+    if (ctx.toolName === 'write_file') {
+      const active = 'bmad/bmm/stories/ACTIVE_STORY.md';
+      await fs.access(active); // Throws if missing
+    }
+  }
+};
+```
+
+### Path Sandboxing
+
+Only allow writes to safe directories:
+
 ```typescript
 const safe = (p) => {
   const full = path.resolve(p);
@@ -251,150 +201,89 @@ const safe = (p) => {
 };
 ```
 
-### BMAD Quality Gate Hook
-```typescript
-const hooks = {
-  async beforeToolCall(ctx) {
-    if (ctx.toolName === 'write_file') {
-      const active = 'bmad/bmm/stories/ACTIVE_STORY.md';
-      try {
-        await fs.access(active);
-      } catch {
-        throw new Error('No ACTIVE_STORY - set story first');
-      }
-    }
-  }
-};
-```
-
-### Authentication
-```bash
-claude auth login  # One-time OAuth setup (no API key needed)
-```
+**See**: `docs/planning/project-reference.md` (lines 243-268) for complete implementation examples
 
 ---
 
-## 📖 Reference Documentation
+## 📚 Planning Documentation (Reference Only)
 
-### Claude Technologies
+The `docs/planning/` folder contains supporting documentation created during planning phase. These are **reference materials** for BMAD agents when they ask questions.
 
-**Second Brain (Curated Docs)**: `/Users/davidcruwys/dev/ad/brains/anthropic-claude/`
+**Key files**:
+- `project-reference.md` - Complete specification and architecture
+- `tech-stack.md` - Technology decisions with rationale
+- `video-strategy.md` - Epic structure (3 epics)
+- `bmad-execution-guide.md` - Pre-answered questions for workflow
+- `action-plan.md` - Complete video demonstration script
 
-This project uses three Claude technologies with curated documentation:
+**When to use**: Provide these files to BMAD agents (Mary, John) when they ask for project context during workflow execution.
 
-1. **Claude Agent SDK** → [Agent SDK Index](../../brains/anthropic-claude/agent-sdk/INDEX.md)
-   - **Purpose**: Building the self-editing application runtime
-   - **Key docs**:
-     - [Agent Fundamentals](../../brains/anthropic-claude/agent-sdk/agent-fundamentals.md) - Core concepts, agent loop, ACI design
-     - [SDK Technical Patterns](../../brains/anthropic-claude/agent-sdk/sdk-technical-patterns.md) - System prompts, streaming, auth, MCP
-     - [SDK Practical Examples](../../brains/anthropic-claude/agent-sdk/sdk-practical-examples.md) - Code examples, Mini Shop Demo
-   - **Source code**: `/Users/davidcruwys/dev/js_3rd/claude-agent-sdk-typescript/`
-
-2. **Claude Code CLI** → [Claude Code Docs](../../brains/anthropic-claude/claude-code/)
-   - **Purpose**: Used during BMAD Analysis/Planning phases
-   - **Source code**: `/Users/davidcruwys/dev/js_3rd/claude-code/`
-
-3. **Claude Skills** → [Skills Overview](../../brains/anthropic-claude/skills/overview.md)
-   - **Purpose**: A/B UI Generator and BMAD Story Generator (video demonstration)
-   - **Source code**: `/Users/davidcruwys/dev/js_3rd/anthropic-skills/`
-
-**When implementing**: Start with SDK Practical Examples → reference Technical Patterns as needed
+**Don't start here**: These are inputs to BMAD, not the workflow itself. Start with `npx bmad-method install` instead.
 
 ---
 
-### BMAD Method v8 Alpha
+## 📖 External References
 
-**Source Code**: `/Users/davidcruwys/dev/js_3rd/BMAD-METHOD` (v8 alpha - latest)
-
-**Documentation**: `/Users/davidcruwys/dev/ad/brains/bmad-method/` (curated guidance)
-
-**What it provides**:
-- Analysis → Planning → Solutioning → Implementation workflow
-- PRD and architecture generation
-- Story-driven development structure
-- Quality gates and hooks
+### BMAD Method v4
 
 **Installation**:
 ```bash
 npx bmad-method install
 ```
 
-**Reference when**:
-- Generating BMAD artifacts tomorrow
-- Understanding BMAD v8 workflow changes
-- Troubleshooting BMAD CLI issues
+**Repository**: https://github.com/bmad-code-org/BMAD-METHOD/
+
+**What it provides**:
+- Workflow initialization (`*workflow-init`)
+- Tech-spec generation (`*tech-spec`)
+- Story-driven development structure
+- Quality gates and hooks
+- Workflow status tracking (`*workflow-status`)
+
+**Curated documentation**: `/Users/davidcruwys/dev/ad/brains/bmad-method/`
+
+### Claude Agent SDK
+
+**Purpose**: Powers the self-editing application runtime
+
+**npm**: `@anthropic-ai/claude-agent-sdk`
+
+**Key features**:
+- Event-driven agent loop
+- Custom tool integration
+- System prompt configuration
+- Streaming responses
+- Quality gate hooks
+
+**Curated documentation**: `/Users/davidcruwys/dev/ad/brains/anthropic-claude/agent-sdk/`
+
+**Source code**: `/Users/davidcruwys/dev/js_3rd/claude-agent-sdk-typescript/`
+
+### Authentication
+
+```bash
+claude auth login  # One-time OAuth setup
+```
+
+No API key needed - uses Claude Pro/Team subscription via OAuth.
 
 ---
 
-## ✅ Success Criteria (Future Implementation)
+## ✅ Success Criteria
 
-### Code Quality
-- Backend under 200 lines
-- Generic tools (no domain knowledge)
-- Type-safe TypeScript
-- Clean separation of concerns
+**After BMAD workflow execution**:
+- ✅ `bmad/bmm/` folder structure exists
+- ✅ `bmad/bmm/output/tech-spec.md` with ~10-13 stories
+- ✅ Stories organized across 3 epics
+- ✅ Ready for implementation with `ACTIVE_STORY.md`
 
-### BMAD Alignment
-- PRD defines self-editing application (not specific features)
-- Stories guide framework development
-- Active story enforced by hooks
-- Application can update its own PRD
-- Code quality validation using Claude Code agent
-
-### Demo Value
-- Shows self-editing application in action
-- Demonstrates progressive BMAD enhancement
-- Application validates and documents itself
-- Works for any domain (products, blog, etc.)
-- BMAD discipline maintained recursively
+**After implementation**:
+- ✅ ~200 lines of framework code (server + custom tools)
+- ✅ BMAD quality gates enforced (active story requirement)
+- ✅ React chat interface with streaming responses
+- ✅ Application can self-edit through conversation
 
 ---
 
-## 🚀 When You're Ready to Start
-
-**Current Phase**: Planning and video strategy complete
-**Next Action**: Install BMAD Method and begin Analysis phase
-**Command**: `npx bmad-method install`
-**Input**: Use `docs/planning/project-reference.md` as specification
-**Output**: BMAD artifacts in `bmad/bmm/` structure
-**Then**: Implement the application using BMAD stories
-
----
-
----
-
-## 📝 Key Documentation Files
-
-### action-plan.md
-Complete step-by-step video recording script for demonstrating BMAD v6-alpha workflow. Includes:
-- Pre-recording checklist
-- Phase-by-phase walkthrough (Init → Analysis → Planning → Implementation → Demo)
-- Exact commands and prompts to use
-- What to say during video recording
-- Expected outputs at each step
-
-**Use this when**: Recording the tutorial video or following BMAD workflow for the first time
-
-### PROBLEM-DEFINITION.md
-Research artifact investigating authentication flow for Claude Agent SDK. Captures:
-- Story order question: Does auth (Story 2.4) come before or after SDK integration (Story 2.5)?
-- User experience options: Prerequisites-first vs Discovery flow
-- SDK capabilities vs Claude Code capabilities
-- Testing challenges (environment contamination)
-
-**Use this when**: Understanding authentication setup requirements or Epic 2 planning decisions
-
-### docs/planning/agent-sdk-capabilities.md
-Complete capability matrix of Claude Agent SDK event loop (independent of transport layer). Documents:
-- Configuration capabilities (cwd, system prompt, tools, MCP servers)
-- Execution capabilities (streaming, tool execution, multi-turn reasoning)
-- Session management (persistence, context retention)
-- Metadata tracking (tokens, cost, duration)
-- What SDK provides vs what you must implement
-
-**Use this when**: Understanding SDK internals, designing custom tools, or comparing transport layers
-
----
-
-**Last Updated**: 2025-11-13
-**Status**: PRE-IMPLEMENTATION - Planning documents complete, action plan ready, awaiting BMAD workflow execution
+**Last Updated**: 2025-11-14
+**Status**: PRE-IMPLEMENTATION - Ready for BMAD workflow execution
