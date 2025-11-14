@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BMAD + Claude SDK - Test Client</title>
+  <title>BMAD + Claude SDK - Socket.io Test</title>
   <style>
     /* Minimal CSS for readability */
     body {
@@ -63,11 +63,18 @@
       color: #9ca3af;
       font-style: italic;
     }
+    #connection-status {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      font-weight: 500;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <h1>Client-Server Communication Test</h1>
-  <p>This page tests basic HTTP communication with the Express server.</p>
+  <h1>Socket.io Communication Test</h1>
+  <p>This page tests real-time bidirectional communication using Socket.io.</p>
 
   <form id="test-form">
     <input
@@ -76,43 +83,72 @@
       placeholder="Enter a message (optional)"
       autocomplete="off"
     />
-    <button type="submit" id="send-button">Test Health Endpoint</button>
+    <button type="submit" id="send-button">Send via Socket.io</button>
   </form>
 
   <div id="response-output" class="empty">Response will appear here...</div>
+  <div id="connection-status"></div>
+
+  <!-- Socket.io Client CDN (AC 3) -->
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
 
   <script>
-    // Client-side JavaScript for API communication
+    // Socket.io client initialization (AC 3)
+    const socket = io('http://localhost:3000');
     const form = document.getElementById('test-form');
     const input = document.getElementById('message-input');
     const button = document.getElementById('send-button');
     const output = document.getElementById('response-output');
+    const status = document.getElementById('connection-status');
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Prevent page reload (AC 9)
+    // Connection established (AC 7)
+    socket.on('connect', () => {
+      console.log('Connected to server with ID:', socket.id);
+      status.textContent = '✅ Connected';
+      status.style.color = 'green';
+      status.style.backgroundColor = '#d1fae5';
+      status.style.border = '1px solid #10b981';
+    });
 
-      try {
-        // Disable button during request
-        button.disabled = true;
-        output.classList.remove('empty');
-        output.textContent = 'Requesting...';
+    // Disconnection handling (AC 9)
+    socket.on('disconnect', () => {
+      console.log('Disconnected from server at', new Date().toISOString());
+      status.textContent = '❌ Disconnected - Waiting for server...';
+      status.style.color = '#dc2626';
+      status.style.backgroundColor = '#fee2e2';
+      status.style.border = '1px solid #dc2626';
+      output.textContent = 'Connection lost. Please check if server is running.';
+      output.style.backgroundColor = '#ffe6e6';
+      output.style.border = '1px solid red';
+    });
 
-        // Fetch request to health endpoint (AC 3)
-        const response = await fetch('/api/health');
+    // Reconnection (automatic - AC 9)
+    socket.on('connect', () => {
+      output.style.backgroundColor = '#f5f5f5';
+      output.style.border = '1px solid #e5e7eb';
+    });
 
-        // Parse JSON response (AC 4)
-        const data = await response.json();
+    // Form submission (AC 4, 8)
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const message = input.value;
 
-        // Display response on page (AC 4)
-        output.textContent = `Server response:\n${JSON.stringify(data, null, 2)}`;
-
-      } catch (error) {
-        // Handle fetch errors (AC 3)
-        output.textContent = `Error: ${error.message}\n\nMake sure the server is running on port 3000.`;
-      } finally {
-        // Re-enable button
-        button.disabled = false;
+      if (!message.trim()) {
+        output.textContent = 'Please enter a message';
+        return;
       }
+
+      console.log('Emitting test_message:', message);
+      socket.emit('test_message', { message });
+
+      output.classList.remove('empty');
+      output.textContent = 'Sending...';
+    });
+
+    // Receive test_response (AC 6, 8)
+    socket.on('test_response', (data) => {
+      console.log('Received test_response:', data);
+      output.textContent = `${data.message}\nTimestamp: ${new Date(data.timestamp).toLocaleTimeString()}`;
     });
   </script>
 </body>

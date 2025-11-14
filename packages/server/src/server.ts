@@ -3,6 +3,7 @@
  *
  * Features:
  * - Express 5 HTTP server
+ * - Socket.io for real-time bidirectional communication
  * - Health check endpoint
  * - Static file serving for test client
  * - CORS for Vite dev server (localhost:5173)
@@ -10,6 +11,8 @@
  * - Structured logging
  */
 import express, { Request, Response, NextFunction } from 'express';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 import path from 'path';
 import { healthRouter } from './routes/health';
 import { ToolError } from './utils/errors';
@@ -17,6 +20,7 @@ import { logger } from './utils/logger';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const httpServer = createServer(app); // Wrap Express app with HTTP server for Socket.io
 
 // Middleware: Parse JSON request bodies
 app.use(express.json());
@@ -61,8 +65,37 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
+// Initialize Socket.io server with CORS (AC 2)
+const io = new Server(httpServer, {
+  cors: {
+    origin: 'http://localhost:5173', // Allow Vite dev server (Epic 3)
+    methods: ['GET', 'POST'],
+  },
+});
+
+// Socket.io connection handler (AC 7)
+io.on('connection', (socket) => {
+  logger.info('Socket connected', { id: socket.id });
+
+  // Listen for test_message event (AC 4, 5)
+  socket.on('test_message', (data) => {
+    logger.info('Received test_message', { data });
+
+    // Echo back to client with timestamp
+    socket.emit('test_response', {
+      message: `Server received: "${data.message}"`,
+      timestamp: Date.now(),
+    });
+  });
+
+  // Handle disconnection (AC 7)
+  socket.on('disconnect', () => {
+    logger.info('Socket disconnected', { id: socket.id });
+  });
+});
+
+// Start server (using httpServer instead of app for Socket.io)
+httpServer.listen(PORT, () => {
   logger.info(`Server started on port ${PORT}`);
   logger.info(`Health check: http://localhost:${PORT}/api/health`);
   logger.info(`Test client: http://localhost:${PORT}/chat`);

@@ -145,5 +145,115 @@ MIT License - See LICENSE file for details
 
 ---
 
-**Status**: Planning Phase Complete | Implementation Pending BMAD Workflow Execution  
-**Last Updated**: 2025-11-13
+## 🔌 Socket.io Real-Time Communication
+
+### Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Start both server and client concurrently
+npm run dev
+
+# Open browser to test client
+# http://localhost:3000/chat
+```
+
+### Test Procedure
+
+1. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+
+2. **Open the test client**:
+   - Navigate to `http://localhost:3000/chat` in your browser
+
+3. **Verify connection**:
+   - Check for green "✅ Connected" status indicator
+   - Open browser console (F12) - should see: `Connected to server with ID: [socket-id]`
+
+4. **Test message echo**:
+   - Type a message in the input field (e.g., "Hello Socket.io")
+   - Click "Send via Socket.io" button
+   - Verify response appears: `Server received: "Hello Socket.io"`
+   - Check console for sent/received event logs
+
+5. **Test disconnection handling**:
+   - Stop server (Ctrl+C in terminal)
+   - Verify red "❌ Disconnected" status appears
+   - Verify error message: "Connection lost. Please check if server is running."
+   - Restart server: `npm run dev`
+   - Verify auto-reconnection (green "✅ Connected" status returns)
+
+### Socket Events
+
+**Test Events (Story 1.4)**:
+
+**Client → Server**:
+```javascript
+socket.emit('test_message', {
+  message: string  // User input from form
+});
+```
+
+**Server → Client**:
+```javascript
+socket.emit('test_response', {
+  message: string,   // Echoed message from server
+  timestamp: number  // Server timestamp (milliseconds)
+});
+```
+
+**Connection Events**:
+- `connect` - Socket.io connection established
+- `disconnect` - Socket.io connection lost (automatic reconnection)
+
+### Connection/Disconnection Behavior
+
+**Connection**:
+- Socket.io automatically establishes WebSocket connection on page load
+- Green status indicator: "✅ Connected"
+- Console log: `Connected to server with ID: [unique-socket-id]`
+
+**Disconnection**:
+- Triggered by server shutdown or network interruption
+- Red status indicator: "❌ Disconnected - Waiting for server..."
+- Response area shows error message with red background
+- Console log: `Disconnected from server at [ISO timestamp]`
+
+**Reconnection** (Automatic):
+- Socket.io automatically attempts reconnection
+- Connection restored when server becomes available
+- Status indicator returns to green
+- Response area styling resets to normal
+
+### Troubleshooting
+
+**Port 3000 Already in Use**:
+```bash
+# Find process using port 3000
+lsof -i :3000
+
+# Kill the process
+kill -9 [PID]
+```
+
+**Socket.io Client Not Connecting**:
+1. Verify server is running: Check terminal for `Server started on port 3000`
+2. Verify correct URL: Client should use `http://localhost:3000` (not https)
+3. Check browser network tab (F12 → Network) for WebSocket upgrade request
+
+**Disconnection Message Doesn't Appear**:
+1. Check browser console for `disconnect` event firing
+2. Hard refresh browser (Cmd+Shift+R / Ctrl+Shift+F5)
+
+**Hot Reload Not Working**:
+- **Server**: Verify `tsx --watch` is running (automatic with `npm run dev:server`)
+- **Client**: Manual browser refresh required (F5 or Cmd+R) - Vite HMR in Epic 3
+
+---
+
+**Status**: Epic 1 Complete (Socket.io Real-Time Communication) | Epic 2 Next (Claude Agent SDK Integration)
+**Last Updated**: 2025-11-14
