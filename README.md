@@ -132,7 +132,8 @@ See [docs/planning/security.md](docs/planning/security.md) for details.
 
 ## 🔗 Related Projects
 
-- **BMAD Method**: [GitHub](https://github.com/appydave/BMAD-METHOD)
+- **BMAD Method v4 (stable)**: [GitHub](https://github.com/bmad-code-org/BMAD-METHOD)
+- **BMAD Method v6 (alpha)**: [GitHub v6 tag](https://github.com/bmad-code-org/BMAD-METHOD/tree/v6.0.0-alpha.9)
 - **Claude Agent SDK**: [npm](https://www.npmjs.com/package/@anthropic-ai/claude-agent-sdk)
 - **AppyDave App-a-Day**: [Portfolio](https://github.com/appydave-app-a-day)
 
