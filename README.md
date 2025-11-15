@@ -145,6 +145,51 @@ MIT License - See LICENSE file for details
 
 ---
 
+## 🔐 Authentication Setup
+
+This application uses Claude Agent SDK, which requires authentication via Claude CLI OAuth.
+
+### One-Time Setup
+
+1. **Install Claude CLI** (if not already installed):
+   ```bash
+   npm install -g @anthropic-ai/claude-cli
+   ```
+
+2. **Authenticate with Claude**:
+   ```bash
+   claude auth login
+   ```
+   This will open a browser window for OAuth authentication. Sign in with your Claude account (requires Claude Pro or Team subscription).
+
+3. **Verify authentication**:
+   ```bash
+   claude auth status
+   ```
+
+### Starting the Server
+
+After authentication, start the development server:
+
+```bash
+npm run dev
+```
+
+The server will initialize the Agent SDK and log "Agent SDK initialized successfully" to the console.
+
+### Troubleshooting
+
+**Error: "Claude authentication required"**
+- Run `claude auth login` and follow the OAuth flow
+- Restart the server after successful authentication
+
+**Error: "Agent SDK initialization failed"**
+- Check that you have an active Claude Pro or Team subscription
+- Verify credentials with `claude auth status`
+- Re-authenticate with `claude auth login`
+
+---
+
 ## 🔌 Socket.io Real-Time Communication
 
 ### Quick Start
@@ -152,6 +197,9 @@ MIT License - See LICENSE file for details
 ```bash
 # Install dependencies
 npm install
+
+# Authenticate (see Authentication Setup above)
+claude auth login
 
 # Start both server and client concurrently
 npm run dev

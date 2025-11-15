@@ -17,6 +17,7 @@ import path from 'path';
 import { healthRouter } from './routes/health';
 import { ToolError } from './utils/errors';
 import { logger } from './utils/logger';
+import { initializeAgent } from './agent/agent-config.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -94,9 +95,25 @@ io.on('connection', (socket) => {
   });
 });
 
-// Start server (using httpServer instead of app for Socket.io)
-httpServer.listen(PORT, () => {
-  logger.info(`Server started on port ${PORT}`);
-  logger.info(`Health check: http://localhost:${PORT}/api/health`);
-  logger.info(`Test client: http://localhost:${PORT}/chat`);
-});
+// Initialize Agent SDK and start server (Story 2.1)
+const startServer = async () => {
+  try {
+    // Initialize Agent SDK (Story 2.1)
+    await initializeAgent();
+
+    // Start HTTP server
+    httpServer.listen(PORT, () => {
+      logger.info(`Server started on port ${PORT}`);
+      logger.info(`Health check: http://localhost:${PORT}/api/health`);
+      logger.info(`Test client: http://localhost:${PORT}/chat`);
+    });
+  } catch (error) {
+    logger.error('Failed to start server', {
+      component: 'Express',
+      error: (error as Error).message,
+    });
+    process.exit(1);
+  }
+};
+
+startServer();
