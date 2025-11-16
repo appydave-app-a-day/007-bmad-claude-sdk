@@ -19,6 +19,7 @@ import { ToolError } from './utils/errors';
 import { logger } from './utils/logger';
 import { initializeAgent } from './agent/agent-config.js';
 import { handleUserMessage } from './agent/event-loop.js';
+import { ConversationHistory, ConversationMessage } from '@bmad-app/shared';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -103,20 +104,57 @@ const io = new Server(httpServer, {
   },
 });
 
+// Story 2.7: Store conversation history per socket connection (session-based memory)
+// Map structure: socket.id → array of conversation messages
+const conversationHistories = new Map<string, ConversationHistory>();
+
 // Socket.io connection handler
 io.on('connection', (socket) => {
-  logger.info('Client connected', { component: 'SocketServer', socketId: socket.id });
+  // Story 2.7: Initialize empty conversation history for new connection
+  conversationHistories.set(socket.id, []);
+  logger.info('Socket connected, initialized conversation history', {
+    component: 'SocketServer',
+    socketId: socket.id,
+  });
 
-  // Listen for user_message event (Story 2.3 - Streaming Integration)
+  // Listen for user_message event (Story 2.7 - With Conversation Memory)
   socket.on('user_message', async (payload: { content: string; messageId: string }) => {
     try {
       const { content, messageId } = payload;
 
-      // Process message through event loop with streaming (Story 2.3)
-      // Event loop will emit agent_response_chunk and agent_response_complete events
-      await handleUserMessage(content, messageId, socket);
+      // Story 2.7: Get conversation history for this socket
+      const history = conversationHistories.get(socket.id) || [];
 
-      // No agent_response event needed - chunks + complete emitted by event loop
+      // Story 2.7: Append user message to history
+      const userMessage: ConversationMessage = {
+        role: 'user',
+        content,
+        timestamp: Date.now(),
+      };
+      history.push(userMessage);
+      conversationHistories.set(socket.id, history);
+
+      logger.debug('User message added to history', {
+        component: 'SocketServer',
+        socketId: socket.id,
+        messageCount: history.length,
+      });
+
+      // Story 2.7: Call event loop with conversation history
+      // Event loop returns assistant message for history append
+      const assistantMessage = await handleUserMessage(content, messageId, socket, history);
+
+      // Story 2.7: Append agent response to history
+      if (assistantMessage) {
+        history.push(assistantMessage);
+        conversationHistories.set(socket.id, history);
+
+        logger.debug('Agent response added to history', {
+          component: 'SocketServer',
+          socketId: socket.id,
+          messageCount: history.length,
+        });
+      }
     } catch (error) {
       // Error already handled by event loop, logged here for server tracking
       logger.error('Failed to process user message', {
@@ -128,7 +166,17 @@ io.on('connection', (socket) => {
 
   // Handle disconnection
   socket.on('disconnect', () => {
-    logger.info('Client disconnected', { component: 'SocketServer', socketId: socket.id });
+    // Story 2.7: Clear conversation history to prevent memory leaks
+    const history = conversationHistories.get(socket.id);
+    const messageCount = history?.length || 0;
+
+    conversationHistories.delete(socket.id);
+
+    logger.info('Socket disconnected, cleared conversation history', {
+      component: 'SocketServer',
+      socketId: socket.id,
+      messageCount,
+    });
   });
 });
 

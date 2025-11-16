@@ -1,5 +1,5 @@
 ---
-description: Story 2.7 - Add Conversation Memory to Event Loop
+description: Story 2.7 - Conversation Memory - Agent remembers previous messages for multi-turn dialogues
 ---
 
 # AppyDave Workflow Command

@@ -5,34 +5,42 @@
  *
  * Story 2.2: Basic synchronous event loop (no streaming)
  * Story 2.3: Added streaming support with Socket.io
- * Stories 2.4-2.6: Will register tools
+ * Stories 2.4-2.6: Custom tools integration
+ * Story 2.7: Conversation memory with async generator pattern
  */
 
-import { createQuery, getAgentOptions } from './agent-config.js';
+import { getAgentOptions } from './agent-config.js';
+import { query } from '@anthropic-ai/claude-agent-sdk';
 import { logger } from '../utils/logger.js';
 import { Socket } from 'socket.io';
+import { ConversationHistory, ConversationMessage } from '@bmad-app/shared';
+import type { SDKUserMessage } from '@anthropic-ai/claude-agent-sdk';
 
 /**
- * Handle user message with streaming response
+ * Handle user message with streaming response and conversation history
  *
  * Story 2.3: Modified to emit chunks in real-time via Socket.io
+ * Story 2.7: Added conversation history support with async generator pattern
  *
- * Changes from Story 2.2:
- * - Accept socket parameter for chunk emission
- * - Iterate async generator instead of collecting all chunks
- * - Emit agent_response_chunk for each chunk
- * - Emit agent_response_complete when done
+ * Changes from Story 2.3:
+ * - Accept history parameter with previous conversation
+ * - Log conversation history size before agent call
+ * - Pass history to Agent SDK via async iterable
+ * - Accumulate complete response during streaming
+ * - Return assistant message for caller to append to history
  *
  * @param message - The user's message content
  * @param messageId - Unique identifier for tracking this message
  * @param socket - Socket.io socket instance for emitting chunks
- * @returns Promise<void> - No return value; responses emitted via socket
+ * @param history - Conversation history (array of previous messages)
+ * @returns Promise<ConversationMessage | null> - Assistant message or null on error
  */
 export const handleUserMessage = async (
   message: string,
   messageId: string,
-  socket: Socket
-): Promise<void> => {
+  socket: Socket,
+  history: ConversationHistory
+): Promise<ConversationMessage | null> => {
   try {
     // Log receipt of user message
     logger.info('Received user message', {
@@ -41,13 +49,54 @@ export const handleUserMessage = async (
       messagePreview: message.substring(0, 100),
     });
 
-    // Create streaming query (Story 2.3: streaming enabled by default)
-    logger.info('Calling Agent SDK', { component: 'AgentEventLoop', messageId });
-    const queryIterator = createQuery(message);
+    // Story 2.7: Log conversation history size (AC 6)
+    logger.info(`Conversation history: ${history.length} messages`, {
+      component: 'AgentEventLoop',
+      messageId,
+      messageCount: history.length,
+    });
+
+    // Story 2.7: Create async generator that yields conversation history + new message
+    // SDK receives conversation as async iterable - maintains full multi-turn context
+    async function* createConversationIterable(): AsyncGenerator<SDKUserMessage> {
+      // Yield each previous user message from history
+      for (const msg of history) {
+        if (msg.role === 'user') {
+          yield {
+            type: 'user' as const,
+            message: { role: 'user' as const, content: msg.content },
+            parent_tool_use_id: null,
+            session_id: socket.id,
+          };
+        }
+        // Note: Assistant messages are implicitly maintained by SDK
+        // when we yield user messages - SDK maintains full conversation context
+      }
+
+      // Yield the new user message
+      yield {
+        type: 'user' as const,
+        message: { role: 'user' as const, content: message },
+        parent_tool_use_id: null,
+        session_id: socket.id,
+      };
+    }
+
+    // Call Agent SDK with conversation iterable (not simple string)
+    logger.info('Calling Agent SDK with conversation history', {
+      component: 'AgentEventLoop',
+      messageId,
+    });
+    const conversationIterable = createConversationIterable();
+    const queryIterator = query({
+      prompt: conversationIterable,
+      options: getAgentOptions(),
+    });
 
     logger.info('Streaming started', { component: 'AgentEventLoop', messageId });
 
     let chunkIndex = 0;
+    let completeResponse = ''; // Story 2.7: Accumulate complete response for history
 
     // Iterate over streaming chunks (async generator)
     // Story 2.3: Emit each chunk immediately instead of collecting
@@ -82,6 +131,9 @@ export const handleUserMessage = async (
 
       // Emit chunk to client via Socket.io (Story 2.3)
       if (textContent) {
+        // Story 2.7: Accumulate for conversation history
+        completeResponse += textContent;
+
         socket.emit('agent_response_chunk', {
           content: textContent,
           messageId,
@@ -106,6 +158,13 @@ export const handleUserMessage = async (
       messageId,
       totalChunks: chunkIndex,
     });
+
+    // Story 2.7: Return assistant message for caller to append to history
+    return {
+      role: 'assistant',
+      content: completeResponse,
+      timestamp: Date.now(),
+    };
   } catch (error) {
     // Log streaming error with stack trace for debugging
     logger.error('Streaming failed', {
@@ -120,5 +179,8 @@ export const handleUserMessage = async (
       message: 'Streaming failed. Please try again.',
       code: 'STREAMING_ERROR',
     });
+
+    // Story 2.7: Return null on error (no message to append to history)
+    return null;
   }
 };
