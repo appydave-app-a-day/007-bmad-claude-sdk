@@ -79,36 +79,21 @@ const io = new Server(httpServer, {
 io.on('connection', (socket) => {
   logger.info('Client connected', { component: 'SocketServer', socketId: socket.id });
 
-  // Listen for user_message event (Story 2.2 - Agent Event Loop Integration)
+  // Listen for user_message event (Story 2.3 - Streaming Integration)
   socket.on('user_message', async (payload: { content: string; messageId: string }) => {
     try {
       const { content, messageId } = payload;
 
-      // Process message through event loop
-      const response = await handleUserMessage(content, messageId);
+      // Process message through event loop with streaming (Story 2.3)
+      // Event loop will emit agent_response_chunk and agent_response_complete events
+      await handleUserMessage(content, messageId, socket);
 
-      // Emit complete response (no streaming yet - Story 2.3 will add streaming)
-      socket.emit('agent_response', {
-        content: response,
-        messageId,
-      });
-
-      logger.info('Sent response to client', {
-        component: 'SocketServer',
-        messageId,
-        responseLength: response.length,
-      });
+      // No agent_response event needed - chunks + complete emitted by event loop
     } catch (error) {
-      // Emit error event to client
-      const errorMessage = (error as Error).message || 'Agent processing failed';
-      socket.emit('error', {
-        message: errorMessage,
-        code: 'AGENT_ERROR',
-      });
-
+      // Error already handled by event loop, logged here for server tracking
       logger.error('Failed to process user message', {
         component: 'SocketServer',
-        error: errorMessage,
+        error: (error as Error).message,
       });
     }
   });

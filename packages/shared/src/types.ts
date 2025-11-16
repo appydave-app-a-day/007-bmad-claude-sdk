@@ -21,6 +21,24 @@ export interface AgentResponseEvent {
   };
 }
 
+// Server → Client: Agent response chunk (Story 2.3 - streaming)
+export interface AgentResponseChunkEvent {
+  event: 'agent_response_chunk';
+  payload: {
+    content: string;
+    messageId: string;
+    chunkIndex?: number;
+  };
+}
+
+// Server → Client: Agent response complete (Story 2.3 - streaming)
+export interface AgentResponseCompleteEvent {
+  event: 'agent_response_complete';
+  payload: {
+    messageId: string;
+  };
+}
+
 // Server → Client: Error occurred
 export interface ErrorEvent {
   event: 'error';
@@ -31,7 +49,12 @@ export interface ErrorEvent {
 }
 
 // Union type for all Socket events
-export type SocketEvent = UserMessageEvent | AgentResponseEvent | ErrorEvent;
+export type SocketEvent =
+  | UserMessageEvent
+  | AgentResponseEvent
+  | AgentResponseChunkEvent
+  | AgentResponseCompleteEvent
+  | ErrorEvent;
 
 /**
  * Chat Message Model

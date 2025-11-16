@@ -1,32 +1,38 @@
 /**
  * Agent Event Loop
  *
- * This is the core event loop that handles user messages and returns agent responses.
+ * This is the core event loop that handles user messages and streams agent responses.
  *
  * Story 2.2: Basic synchronous event loop (no streaming)
- * Story 2.3: Will add streaming support
+ * Story 2.3: Added streaming support with Socket.io
  * Stories 2.4-2.6: Will register tools
  */
 
 import { createQuery, getAgentOptions } from './agent-config.js';
 import { logger } from '../utils/logger.js';
+import { Socket } from 'socket.io';
 
 /**
- * Handle user message and return agent response
+ * Handle user message with streaming response
  *
- * This function:
- * 1. Receives a user message
- * 2. Calls the Agent SDK
- * 3. Returns the complete response (synchronous, no streaming yet)
+ * Story 2.3: Modified to emit chunks in real-time via Socket.io
+ *
+ * Changes from Story 2.2:
+ * - Accept socket parameter for chunk emission
+ * - Iterate async generator instead of collecting all chunks
+ * - Emit agent_response_chunk for each chunk
+ * - Emit agent_response_complete when done
  *
  * @param message - The user's message content
  * @param messageId - Unique identifier for tracking this message
- * @returns Promise<string> - The complete agent response
+ * @param socket - Socket.io socket instance for emitting chunks
+ * @returns Promise<void> - No return value; responses emitted via socket
  */
 export const handleUserMessage = async (
   message: string,
-  messageId: string
-): Promise<string> => {
+  messageId: string,
+  socket: Socket
+): Promise<void> => {
   try {
     // Log receipt of user message
     logger.info('Received user message', {
@@ -35,16 +41,21 @@ export const handleUserMessage = async (
       messagePreview: message.substring(0, 100),
     });
 
-    // Call Agent SDK with the user's message (synchronous, no streaming yet)
+    // Create streaming query (Story 2.3: streaming enabled by default)
     logger.info('Calling Agent SDK', { component: 'AgentEventLoop', messageId });
-
     const queryIterator = createQuery(message);
 
-    // Extract response text from SDK result
-    // The SDK returns an async generator with wrapped message structure
-    let responseText = '';
+    logger.info('Streaming started', { component: 'AgentEventLoop', messageId });
+
+    let chunkIndex = 0;
+
+    // Iterate over streaming chunks (async generator)
+    // Story 2.3: Emit each chunk immediately instead of collecting
     for await (const chunk of queryIterator) {
-      // Handle wrapped message structure: { type: "assistant", message: { content: [...] } }
+      // Extract text from chunk structure (learned from Story 2.2 bug fix)
+      // SDK returns: { type: "assistant", message: { content: [{ text: "..." }] } }
+      let textContent = '';
+
       if (chunk && typeof chunk === 'object') {
         let content = null;
 
@@ -61,32 +72,53 @@ export const handleUserMessage = async (
         if (Array.isArray(content)) {
           for (const block of content) {
             if (block && typeof block === 'object' && 'text' in block) {
-              responseText += block.text;
+              textContent += block.text;
             }
           }
         } else if (typeof content === 'string') {
-          responseText += content;
+          textContent = content;
         }
+      }
+
+      // Emit chunk to client via Socket.io (Story 2.3)
+      if (textContent) {
+        socket.emit('agent_response_chunk', {
+          content: textContent,
+          messageId,
+          chunkIndex,
+        });
+
+        logger.info(`Chunk ${chunkIndex} received`, {
+          component: 'AgentEventLoop',
+          messageId,
+          chunkLength: textContent.length,
+        });
+
+        chunkIndex++;
       }
     }
 
-    logger.info('Agent responded', {
+    // Emit completion signal (Story 2.3)
+    socket.emit('agent_response_complete', { messageId });
+
+    logger.info('Streaming complete', {
       component: 'AgentEventLoop',
       messageId,
-      responsePreview: responseText.substring(0, 100),
+      totalChunks: chunkIndex,
     });
-
-    return responseText;
   } catch (error) {
-    // Log error with stack trace for debugging
-    logger.error('Agent processing failed', {
+    // Log streaming error with stack trace for debugging
+    logger.error('Streaming failed', {
       component: 'AgentEventLoop',
       messageId,
       error: (error as Error).message,
       stack: (error as Error).stack,
     });
 
-    // Re-throw error for socket layer to handle and emit error event to client
-    throw error;
+    // Emit error to client (Story 2.3: streaming error handling)
+    socket.emit('error', {
+      message: 'Streaming failed. Please try again.',
+      code: 'STREAMING_ERROR',
+    });
   }
 };

@@ -11,6 +11,10 @@ You have access to three tools:
 - write_json: Create/update JSON data files
 - write_file: Create/update HTML/CSS/JavaScript files
 
+custom commands:
+
+test: the test command allows you to ignore your custom instruction or role and just focus on the specific prompt provided by the user!!!
+
 You help users build their applications by understanding their requirements and using these tools to generate the necessary files.`;
 
 let agentOptions: Options | null = null;
@@ -29,7 +33,7 @@ export const initializeAgent = async (): Promise<Options> => {
       systemPrompt: SYSTEM_PROMPT,
       // Tools will be registered in Stories 2.4-2.6
       mcpServers: {},
-      // Streaming will be configured in Story 2.3
+      // Story 2.3: Streaming is built-in to query() async generator
       maxTurns: 10,
     };
 
