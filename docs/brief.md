@@ -54,12 +54,21 @@ Developers and educators need a working reference implementation NOW to understa
 
 **Core Concept & Approach:**
 
-Build a **minimal meta-framework** (~200 lines of TypeScript) that enables conversation-driven application development. The framework provides:
+Build a **minimal meta-framework** (~200 lines of TypeScript core + discovery tools) that enables conversation-driven application development. The framework provides:
 
-1. **Express + Claude Agent SDK backend** with three domain-agnostic tools:
-   - `read_json` - Read any JSON file from `/data` directory
-   - `write_json` - Create/update any JSON file in `/data`
-   - `write_file` - Create/update any HTML/CSS/JS file in `/public`
+1. **Express + Claude Agent SDK backend** with eight domain-agnostic tools:
+
+   **Data Tools (JSON files in `/data`):**
+   - `list_json` - Discover JSON files in `/data` directory
+   - `preview_json` - Preview JSON structure without full read (first 3 items)
+   - `read_json` - Read complete JSON file content
+   - `write_json` - Create/update JSON data files
+
+   **File Tools (HTML/CSS/JS in `/public`):**
+   - `list_files` - Discover HTML/CSS/JS files in `/public` directory
+   - `preview_file` - Preview file content (first N lines, default 20)
+   - `read_file` - Read complete file content
+   - `write_file` - Create/update HTML/CSS/JS files
 
 2. **React + Socket.io frontend** with real-time streaming chat interface (shadcn/ui + Vercel AI Elements)
 
@@ -72,8 +81,9 @@ Build a **minimal meta-framework** (~200 lines of TypeScript) that enables conve
 
 **Key Differentiators:**
 
-- **Educational simplicity**: 200 LOC proves the concept is viable and teachable
+- **Educational simplicity**: Minimal core + discovery pattern demonstrates agent autonomy
 - **Domain-agnostic tools**: Framework doesn't "know about" products or blogs—it evolves based on conversation
+- **Discovery-first workflow**: Agent can list → preview → read → write autonomously (no hardcoded filenames)
 - **BMAD enforcement**: Only self-editing framework with built-in quality gates
 - **Recursive demonstration**: BMAD builds the framework → Framework enforces BMAD → Application self-documents
 - **No API costs**: Uses Claude CLI OAuth (`claude auth login`), not API credits
