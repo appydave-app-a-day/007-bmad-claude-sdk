@@ -18,6 +18,7 @@ import { healthRouter } from './routes/health';
 import { ToolError } from './utils/errors';
 import { logger } from './utils/logger';
 import { initializeAgent } from './agent/agent-config.js';
+import { handleUserMessage } from './agent/event-loop.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -74,24 +75,47 @@ const io = new Server(httpServer, {
   },
 });
 
-// Socket.io connection handler (AC 7)
+// Socket.io connection handler
 io.on('connection', (socket) => {
-  logger.info('Socket connected', { id: socket.id });
+  logger.info('Client connected', { component: 'SocketServer', socketId: socket.id });
 
-  // Listen for test_message event (AC 4, 5)
-  socket.on('test_message', (data) => {
-    logger.info('Received test_message', { data });
+  // Listen for user_message event (Story 2.2 - Agent Event Loop Integration)
+  socket.on('user_message', async (payload: { content: string; messageId: string }) => {
+    try {
+      const { content, messageId } = payload;
 
-    // Echo back to client with timestamp
-    socket.emit('test_response', {
-      message: `Server received: "${data.message}"`,
-      timestamp: Date.now(),
-    });
+      // Process message through event loop
+      const response = await handleUserMessage(content, messageId);
+
+      // Emit complete response (no streaming yet - Story 2.3 will add streaming)
+      socket.emit('agent_response', {
+        content: response,
+        messageId,
+      });
+
+      logger.info('Sent response to client', {
+        component: 'SocketServer',
+        messageId,
+        responseLength: response.length,
+      });
+    } catch (error) {
+      // Emit error event to client
+      const errorMessage = (error as Error).message || 'Agent processing failed';
+      socket.emit('error', {
+        message: errorMessage,
+        code: 'AGENT_ERROR',
+      });
+
+      logger.error('Failed to process user message', {
+        component: 'SocketServer',
+        error: errorMessage,
+      });
+    }
   });
 
-  // Handle disconnection (AC 7)
+  // Handle disconnection
   socket.on('disconnect', () => {
-    logger.info('Socket disconnected', { id: socket.id });
+    logger.info('Client disconnected', { component: 'SocketServer', socketId: socket.id });
   });
 });
 

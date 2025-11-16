@@ -73,20 +73,20 @@
   </style>
 </head>
 <body>
-  <h1>Socket.io Communication Test</h1>
-  <p>This page tests real-time bidirectional communication using Socket.io.</p>
+  <h1>Agent Event Loop Test</h1>
+  <p>This page tests the basic agent event loop (Story 2.2).</p>
 
   <form id="test-form">
     <input
       type="text"
       id="message-input"
-      placeholder="Enter a message (optional)"
+      placeholder="Ask the agent a question..."
       autocomplete="off"
     />
-    <button type="submit" id="send-button">Send via Socket.io</button>
+    <button type="submit" id="send-button">Send to Agent</button>
   </form>
 
-  <div id="response-output" class="empty">Response will appear here...</div>
+  <div id="response-output" class="empty">Agent response will appear here...</div>
   <div id="connection-status"></div>
 
   <!-- Socket.io Client CDN (AC 3) -->
@@ -128,7 +128,7 @@
       output.style.border = '1px solid #e5e7eb';
     });
 
-    // Form submission (AC 4, 8)
+    // Form submission - Send user_message to agent (Story 2.2)
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const message = input.value;
@@ -138,17 +138,37 @@
         return;
       }
 
-      console.log('Emitting test_message:', message);
-      socket.emit('test_message', { message });
+      const messageId = `msg-${Date.now()}`;
+      console.log('Sending user_message:', { content: message, messageId });
+
+      // Emit user_message event to server
+      socket.emit('user_message', {
+        content: message,
+        messageId
+      });
 
       output.classList.remove('empty');
-      output.textContent = 'Sending...';
+      output.textContent = 'Processing...';
+      button.disabled = true;
     });
 
-    // Receive test_response (AC 6, 8)
-    socket.on('test_response', (data) => {
-      console.log('Received test_response:', data);
-      output.textContent = `${data.message}\nTimestamp: ${new Date(data.timestamp).toLocaleTimeString()}`;
+    // Receive agent_response (Story 2.2 - AC 8)
+    socket.on('agent_response', (payload) => {
+      console.log('Received agent response:', payload);
+
+      output.textContent = payload.content;
+      button.disabled = false;
+      input.value = '';
+    });
+
+    // Receive error event
+    socket.on('error', (payload) => {
+      console.error('Socket.io error:', payload);
+
+      output.textContent = `Error: ${payload.message}`;
+      output.style.backgroundColor = '#fee2e2';
+      output.style.border = '1px solid #dc2626';
+      button.disabled = false;
     });
   </script>
 </body>
