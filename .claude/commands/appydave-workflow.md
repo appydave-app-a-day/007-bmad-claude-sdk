@@ -232,6 +232,13 @@ When all tests are executed and results documented, type 'continue' for QA revie
 - Read the story file QA Results section for summary
 - Display decision to user
 
+**If PASS - Automatically close the story**:
+1. Update story file (`docs/stories/{number}.story.md`):
+   - Change Status from "Review" to "Done"
+   - Mark any incomplete tasks as completed (change `[ ]` to `[x]`)
+   - Add completion timestamp to QA Results section
+2. Display completion summary
+
 **STOP and display (if PASS)**:
 ```
 ✅ QA Review PASSED for Story {number}!
@@ -242,7 +249,12 @@ When all tests are executed and results documented, type 'continue' for QA revie
 - SAT Results: ✅
 - Overall Score: {score}/100
 
-🎉 Story {number} is complete and ready to be marked Done!
+🎉 Story {number} is now complete!
+
+📝 Automated Story Closure:
+- Status updated: Review → Done ✅
+- All tasks marked complete ✅
+- Completion timestamp added ✅
 
 Options:
 - Type 'next' to start workflow for next story

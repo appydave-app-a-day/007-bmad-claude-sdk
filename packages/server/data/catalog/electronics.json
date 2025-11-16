@@ -1,0 +1,39 @@
+[
+  {
+    "id": "ELEC001",
+    "name": "Professional Laptop",
+    "category": "electronics",
+    "type": "laptop",
+    "brand": "TechPro",
+    "price": 1299.99,
+    "currency": "USD",
+    "inStock": true,
+    "specs": {
+      "processor": "Intel Core i7-12700H",
+      "ram": "16GB DDR4",
+      "storage": "512GB SSD",
+      "display": "15.6 inch Full HD",
+      "graphics": "NVIDIA GeForce RTX 3050"
+    },
+    "description": "High-performance laptop perfect for professionals and content creators"
+  },
+  {
+    "id": "ELEC002",
+    "name": "Smartphone Pro",
+    "category": "electronics",
+    "type": "phone",
+    "brand": "MobileTech",
+    "price": 899.99,
+    "currency": "USD",
+    "inStock": true,
+    "specs": {
+      "display": "6.7 inch AMOLED",
+      "processor": "Snapdragon 8 Gen 2",
+      "ram": "12GB",
+      "storage": "256GB",
+      "camera": "50MP Triple Camera",
+      "battery": "5000mAh"
+    },
+    "description": "Premium smartphone with cutting-edge features and exceptional camera quality"
+  }
+]

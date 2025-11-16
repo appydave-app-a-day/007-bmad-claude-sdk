@@ -28,7 +28,49 @@ interface ChatMessage {
 **Relationships:**
 - Part of `ChatHistory` array in client state
 - Emitted via Socket.io events between client and server
-- No persistence (MVP) - conversation history lost on page refresh
+- Part of server-side conversation memory (Story 2.7) - session-scoped history
+- No persistence (MVP) - conversation history lost on page refresh or socket disconnect
+
+## Conversation History Model
+
+**Purpose:** Represents the server-side conversation memory maintained per Socket.io connection (Story 2.7).
+
+**Key Attributes:**
+- `socketId`: string - Socket.io connection ID (used as session key)
+- `messages`: array - Ordered list of conversation messages
+- `createdAt`: number - When conversation started
+- `lastActivityAt`: number - Last message timestamp
+
+**TypeScript Interface:**
+
+```typescript
+interface ConversationMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+interface ConversationHistory {
+  socketId: string;
+  messages: ConversationMessage[];
+  createdAt: number;
+  lastActivityAt: number;
+}
+```
+
+**Storage:**
+- In-memory Map: `Map<socketId, ConversationHistory>`
+- Cleared on socket disconnect to prevent memory leaks
+- No persistence (MVP) - lost on server restart
+
+**Usage:**
+- Maintained by Agent Event Loop
+- Passed to Agent SDK `query()` options for multi-turn conversations
+- Enables context retention: "Add a product" → "Sugar for 50 cents" (agent remembers first message)
+
+**Relationships:**
+- Tied to Socket.io connection lifecycle
+- Used by `handleUserMessage()` in event-loop.ts
+- Synced with client-side ChatHistory (client maintains UI state, server maintains agent context)
 
 ## Agent Tool Call Model
 

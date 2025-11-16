@@ -1,0 +1,27 @@
+[
+  {
+    "name": "GitHub",
+    "url": "https://github.com",
+    "description": "A platform for version control and collaboration, allowing developers to host and review code, manage projects, and build software together."
+  },
+  {
+    "name": "Stack Overflow",
+    "url": "https://stackoverflow.com",
+    "description": "A question and answer site for programmers, offering solutions to coding problems and a community-driven knowledge base."
+  },
+  {
+    "name": "MDN Web Docs",
+    "url": "https://developer.mozilla.org",
+    "description": "Comprehensive documentation for web technologies including HTML, CSS, and JavaScript, maintained by Mozilla and the web community."
+  },
+  {
+    "name": "CodePen",
+    "url": "https://codepen.io",
+    "description": "An online code editor and social development environment for front-end designers and developers to showcase and test HTML, CSS, and JavaScript code."
+  },
+  {
+    "name": "npm",
+    "url": "https://npmjs.com",
+    "description": "The world's largest software registry for JavaScript packages, used by developers to share and borrow code for Node.js applications."
+  }
+]

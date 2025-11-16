@@ -11,6 +11,16 @@
 
 ## Recent Changes
 
+### 2025-11-16 - Version 1.2
+
+**Automated Story Closure** (Step 6) - NEW! 🎉:
+- When QA review passes, workflow now **automatically closes the story**
+- Updates Status from "Review" to "Done"
+- Marks all incomplete tasks as completed (`[ ]` → `[x]`)
+- Adds completion timestamp to QA Results section
+- Saves updated story file
+- **No manual intervention required!**
+
 ### 2025-11-16 - Version 1.1
 
 **Smart Story Discovery** (Step 0):
@@ -457,6 +467,15 @@ When all tests are executed and results documented, type 'continue' for QA revie
 - **ONLY** update the "QA Results" section of the story file
 - Gate file is the YAML report, story file gets the summary
 
+#### Automated Story Closure (If PASS)
+When QA review passes, the workflow **automatically**:
+1. Updates story Status from "Review" to "Done"
+2. Marks all incomplete tasks as completed (`[ ]` → `[x]`)
+3. Adds completion timestamp to QA Results section
+4. Saves the updated story file
+
+**No manual intervention required** - the story is fully closed!
+
 #### HALT Point (If PASS)
 ```
 ✅ QA Review PASSED for Story 2.4!
@@ -468,7 +487,13 @@ When all tests are executed and results documented, type 'continue' for QA revie
 - Acceptance Criteria: ✅ (10/10 met)
 - Overall Score: 95/100
 
-🎉 Story 2.4 is complete and ready to be marked Done!
+🎉 Story 2.4 is now complete!
+
+📝 Automated Story Closure:
+- Status updated: Review → Done ✅
+- All tasks marked complete ✅
+- Completion timestamp added ✅
+- Story file saved ✅
 
 Options:
 - Type 'next' to start workflow for next story (2.5)

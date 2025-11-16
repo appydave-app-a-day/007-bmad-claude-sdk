@@ -115,4 +115,59 @@
 9. TypeScript types ensure type safety for parameters
 10. Tool parameters and return types use TypeScript interfaces from `packages/shared` for type safety across agent and client communication
 
+## Story 2.7: Add Conversation Memory to Event Loop
+
+**As a** user,
+**I want** the agent to remember previous messages in our conversation,
+**so that** I can have multi-turn dialogues without repeating context.
+
+### Acceptance Criteria
+
+1. Conversation history array maintained per Socket.io connection (session-based memory)
+2. History structure: array of `{ role: 'user' | 'assistant', content: string }` messages
+3. Each user message appended to conversation history before calling agent
+4. Each complete agent response appended to conversation history after streaming finishes
+5. Agent SDK `query()` call receives conversation history via options parameter
+6. Console logging shows: "Conversation history: N messages" before each agent call
+7. Manual test: Multi-turn conversation works (Message 1: "Add a product", Message 2: "Sugar for 50 cents" → agent understands "Sugar" is the product from Message 1)
+8. Session isolation: Each Socket.io connection has independent conversation history
+9. Memory cleared on socket disconnect to prevent memory leaks
+10. TypeScript interface for conversation message structure in `packages/shared/src/types.ts`
+
+### Reproduction Test Case
+
+**Bug Scenario** (without conversation memory):
+```
+User Message 1: "Add a new product to the system"
+Agent Response: "What product do you want to add?"
+
+User Message 2: "Sugar for 50 cents"
+Agent Response: "I need more context..." ❌ (forgets Message 1)
+```
+
+**Expected Behavior** (with conversation memory):
+```
+User Message 1: "Add a new product to the system"
+Agent Response: "What product do you want to add?"
+
+User Message 2: "Sugar for 50 cents"
+Agent Response: "Adding Sugar at $0.50..." ✅ (remembers Message 1)
+```
+
+**Test Steps**:
+1. Start server: `npm run dev:server`
+2. Connect client to Socket.io
+3. Send first message: "Add a new product to the system"
+4. Wait for agent response (should ask for details)
+5. Send second message: "Sugar for 50 cents"
+6. Verify agent response uses context from first message
+7. Check console logs show "Conversation history: 2 messages" (or similar)
+8. Verify `data/test-products.json` (or similar file) contains new Sugar product
+
+**Additional Test Cases**:
+- **Multiple users**: Connect two clients, verify conversations are independent
+- **Session reset**: Disconnect and reconnect, verify history is cleared
+- **Long conversation**: Send 5+ messages, verify all context maintained
+- **Error recovery**: If agent errors mid-conversation, verify history still accurate
+
 ---

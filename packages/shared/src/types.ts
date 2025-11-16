@@ -85,3 +85,12 @@ export interface ToolResult<T = any> {
 export interface ReadJsonParams {
   filepath: string;
 }
+
+/**
+ * Write JSON Tool Parameters
+ * Parameters for write_json tool
+ */
+export interface WriteJsonParams {
+  filepath: string;
+  content: any;
+}

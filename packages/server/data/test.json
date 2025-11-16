@@ -1,0 +1,18 @@
+{
+  "node1": {
+    "id": 1,
+    "name": "First Node",
+    "next": "node2"
+  },
+  "node2": {
+    "id": 2,
+    "name": "Second Node",
+    "next": "node3"
+  },
+  "node3": {
+    "id": 3,
+    "name": "Third Node",
+    "next": "node1"
+  },
+  "description": "This creates a circular reference pattern where node1 -> node2 -> node3 -> node1"
+}
