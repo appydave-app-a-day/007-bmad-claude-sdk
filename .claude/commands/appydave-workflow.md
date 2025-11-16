@@ -192,14 +192,26 @@ When all tests are executed and results documented, type 'continue' for QA revie
 
 ### Step 6: QA Review (Final Gate)
 
-**Agent**: Load QA agent
+**Agent**: Load QA agent (Quinn from `.bmad-core/agents/qa.md`)
 
-**Action**: Run `*review-story {story-number}` command
+**Action**: Run `*review {story-number}` command
+
+**CRITICAL - What the QA agent does**:
+1. Reads and follows `.bmad-core/tasks/review-story.md` task
+2. Reviews the story file (`docs/stories/{story-number}.story.md`)
+3. Updates ONLY the "QA Results" section in the story file
+4. Creates a gate file at `docs/qa/gates/{epic}.{story}-{slug}.yml`
+5. Gate file contains PASS/CONCERNS/FAIL/WAIVED decision with score
+
+**DO NOT**:
+- Create a separate QA markdown document
+- Simulate the QA agent with general-purpose agent
+- Modify any other sections of the story file
 
 **After QA review completes**:
-- Display QA summary
-- Show PASS or FAIL decision
-- If FAIL: List issues that need fixing
+- Read the gate file to get the decision and score
+- Read the story file QA Results section for summary
+- Display decision to user
 
 **STOP and display (if PASS)**:
 ```
