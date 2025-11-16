@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BMAD + Claude SDK - Socket.io Test</title>
+  <title>BMAD + Claude SDK - Streaming Chat</title>
   <style>
     /* Minimal CSS for readability */
     body {
@@ -16,7 +16,30 @@
     }
     h1 {
       color: #2563eb;
-      margin-bottom: 30px;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      font-size: 14px;
+      margin-bottom: 20px;
+      padding: 0;
+      background: transparent;
+      border-left: 3px solid #2563eb;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+    }
+    .subtitle .story-number {
+      background: #dbeafe;
+      color: #1e40af;
+      padding: 8px 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .subtitle .description {
+      background: #f3f4f6;
+      color: #6b7280;
+      padding: 8px 12px;
+      flex: 1;
     }
     form {
       display: flex;
@@ -73,8 +96,11 @@
   </style>
 </head>
 <body>
-  <h1>Agent Event Loop Test</h1>
-  <p>This page tests the basic agent event loop (Story 2.2).</p>
+  <h1>Streaming Agent Chat</h1>
+  <p class="subtitle">
+    <span class="story-number">Story 2.3</span>
+    <span class="description">Real-time streaming responses via Claude Agent SDK + Socket.io</span>
+  </p>
 
   <form id="test-form">
     <input
