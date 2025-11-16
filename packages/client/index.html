@@ -98,8 +98,8 @@
 <body>
   <h1>Streaming Agent Chat</h1>
   <p class="subtitle">
-    <span class="story-number">Story 2.5</span>
-    <span class="description">Custom write_json tool - Agent creates/updates JSON files via conversation</span>
+    <span class="story-number">Story 2.6</span>
+    <span class="description">Custom file tools - Agent discovers, reads, and writes HTML/CSS/JS files via conversation</span>
   </p>
 
   <form id="test-form">
@@ -114,6 +114,15 @@
 
   <div id="response-output" class="empty">Agent response will appear here...</div>
   <div id="connection-status"></div>
+
+  <!-- Generated Pages Menu -->
+  <div id="pages-menu" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <h3 style="margin: 0; font-size: 14px; font-weight: 500; color: #6b7280;">Generated Pages</h3>
+      <button id="refresh-pages" style="padding: 4px 8px; font-size: 12px; background: transparent; border: 1px solid #d1d5db; border-radius: 3px; cursor: pointer; color: #6b7280;">↻ Refresh</button>
+    </div>
+    <div id="pages-list" style="font-size: 13px; color: #374151; line-height: 1.8;">Loading...</div>
+  </div>
 
   <!-- Socket.io Client CDN (AC 3) -->
   <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
@@ -243,6 +252,44 @@
       if (currentStreamingMessageId) {
         currentStreamingMessageId = null;
       }
+    });
+
+    // Load and display list of generated pages
+    async function loadPagesList() {
+      const pagesList = document.getElementById('pages-list');
+      try {
+        const response = await fetch('http://localhost:3000/api/pages');
+        const data = await response.json();
+
+        if (data.files.length === 0) {
+          pagesList.innerHTML = '<em>No pages generated yet</em>';
+          return;
+        }
+
+        // Build clickable list
+        const list = data.files.map(file => {
+          const url = '/' + file.replace('.html', '');
+          const name = file.replace('.html', '').replace(/-/g, ' ').replace(/\//g, ' / ');
+          return `<div style="margin: 4px 0;"><a href="${url}" target="_blank" style="color: #4b5563; text-decoration: none; font-size: 13px;">→ ${name}</a></div>`;
+        }).join('');
+
+        pagesList.innerHTML = list;
+      } catch (err) {
+        console.error('Failed to load pages list:', err);
+        pagesList.innerHTML = '<em>Error loading pages</em>';
+      }
+    }
+
+    // Load pages on startup
+    loadPagesList();
+
+    // Refresh button
+    document.getElementById('refresh-pages').addEventListener('click', loadPagesList);
+
+    // Auto-refresh when agent responds
+    socket.on('agent_response_complete', () => {
+      // Delay to allow file writes to complete
+      setTimeout(loadPagesList, 500);
     });
   </script>
 </body>

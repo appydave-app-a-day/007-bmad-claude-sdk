@@ -1,24 +1,6 @@
 {
   "products": [
     {
-      "id": 1,
-      "name": "Widget A",
-      "price": 19.99,
-      "category": "groceries"
-    },
-    {
-      "id": 2,
-      "name": "Widget B",
-      "price": 29.99,
-      "category": "groceries"
-    },
-    {
-      "id": 3,
-      "name": "Widget C",
-      "price": 39.99,
-      "category": "groceries"
-    },
-    {
       "id": 4,
       "name": "AppyDave on Skool",
       "price": 9.99,
@@ -29,6 +11,33 @@
       "name": "sugar",
       "price": 0.5,
       "category": "groceries"
+    },
+    {
+      "id": 6,
+      "name": "Ruby Red Nail Polish",
+      "price": 8.99,
+      "category": "beauty",
+      "brand": "Glamour Nails",
+      "color": "Ruby Red",
+      "finish": "glossy"
+    },
+    {
+      "id": 7,
+      "name": "Midnight Blue Nail Polish",
+      "price": 7.49,
+      "category": "beauty",
+      "brand": "Salon Pro",
+      "color": "Midnight Blue",
+      "finish": "shimmer"
+    },
+    {
+      "id": 8,
+      "name": "Soft Pink Nail Polish",
+      "price": 6.99,
+      "category": "beauty",
+      "brand": "Natural Beauty",
+      "color": "Soft Pink",
+      "finish": "matte"
     }
   ],
   "total": 5

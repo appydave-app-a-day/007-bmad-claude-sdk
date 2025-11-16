@@ -1,5 +1,5 @@
 ---
-description: Execute AppyDave's full BMAD v4 story workflow with human-in-loop gates
+description: Story 2.7 - Add Conversation Memory to Event Loop
 ---
 
 # AppyDave Workflow Command
@@ -28,14 +28,32 @@ You are orchestrating AppyDave's complete BMAD v4 story lifecycle workflow. This
 ### Step 0: Initialize
 
 **Discover next story**:
-1. Load `.bmad-core/core-config.yaml` and extract `devStoryLocation`
-2. List all files in `{devStoryLocation}` matching pattern `{epic}.{story}.story.md`
-3. Find the highest story file (e.g., `2.3.story.md`)
-4. Read that file and check its Status field
-5. Determine suggestion:
-   - If Status = "Done": Suggest next story (e.g., if 2.3 is Done, suggest 2.4)
-   - If Status ≠ "Done": Warn about incomplete story, suggest completing it first
-   - If no story files exist: Suggest 1.1 (first story)
+1. Load `.bmad-core/core-config.yaml` and extract:
+   - `devStoryLocation` (where story files are stored)
+   - `prdShardedLocation` (where epic PRD files are stored)
+   - `epicFilePattern` (pattern for epic files, e.g., "epic-{n}*.md")
+
+2. List all story files in `{devStoryLocation}` matching pattern `{epic}.{story}.story.md`
+
+3. Find the highest story file (e.g., `2.6.story.md`):
+   - Parse epic number from filename (e.g., 2.6 → Epic 2)
+   - Read that file and check its Status field
+
+4. **Read the Epic PRD file** to find all defined stories:
+   - Build epic filename using pattern: `{prdShardedLocation}/epic-{epic-number}*.md`
+   - Read the epic file
+   - Extract all story headings matching pattern: `## Story {epic}.{story}:`
+   - Find highest story number defined in epic (e.g., Epic 2 has stories 2.1 through 2.7)
+
+5. **Compare filesystem to PRD** and determine suggestion:
+   - If highest file Status = "Done" AND epic has more stories defined:
+     - Suggest next story in same epic (e.g., if 2.6 Done and epic has 2.7, suggest 2.7)
+   - If highest file Status = "Done" AND epic has NO more stories:
+     - Suggest first story of next epic (e.g., if Epic 2 complete, suggest 3.1)
+   - If highest file Status ≠ "Done":
+     - Warn about incomplete story, suggest completing it first
+   - If no story files exist:
+     - Suggest 1.1 (first story)
 
 **Ask user**: "Which story number do you want to work on? [Suggested: {nextStory}]"
 
@@ -46,6 +64,15 @@ Would you like to:
 1. Continue with {current} (complete it)
 2. Override and start {next} anyway
 3. Specify a different story number
+```
+
+**If suggesting story from epic PRD that has no file yet**:
+```
+📋 Story {nextStory} found in Epic {epic} PRD but not yet created.
+Epic {epic} Progress: {completedCount}/{totalCount} stories completed
+Next story: {nextStory} - {storyTitle}
+
+Suggested: {nextStory}
 ```
 
 Store the story number for use throughout the workflow.

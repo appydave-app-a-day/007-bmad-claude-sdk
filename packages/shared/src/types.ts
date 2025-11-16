@@ -94,3 +94,37 @@ export interface WriteJsonParams {
   filepath: string;
   content: any;
 }
+
+/**
+ * List Files Tool Parameters
+ * Parameters for list_files tool
+ */
+export interface ListFilesParams {
+  pattern?: string;
+}
+
+/**
+ * Preview File Tool Parameters
+ * Parameters for preview_file tool
+ */
+export interface PreviewFileParams {
+  filepath: string;
+  maxLines?: number;
+}
+
+/**
+ * Read File Tool Parameters
+ * Parameters for read_file tool
+ */
+export interface ReadFileParams {
+  filepath: string;
+}
+
+/**
+ * Write File Tool Parameters
+ * Parameters for write_file tool
+ */
+export interface WriteFileParams {
+  filepath: string;
+  content: string;
+}

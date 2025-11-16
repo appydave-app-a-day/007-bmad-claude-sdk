@@ -1,6 +1,6 @@
 # Epic 2: Claude Agent SDK Integration
 
-**Epic Goal**: Integrate Claude Agent SDK with incrementally-built event loop, implement three custom domain-agnostic tools (`read_json`, `write_json`, `write_file`), enforce path sandboxing for security, and enable streaming for real-time agent responses. This epic delivers the core conversational development capability by building the event loop step-by-step, allowing proper testing of each capability as it's added while maintaining minimal Agent SDK implementation.
+**Epic Goal**: Integrate Claude Agent SDK with incrementally-built event loop, implement eight custom domain-agnostic tools (discovery, read, and write tools for both `/data` and `/public` directories), add conversation memory for multi-turn dialogues, enforce path sandboxing for security, and enable streaming for real-time agent responses. This epic delivers the core conversational development capability by building the event loop step-by-step, allowing proper testing of each capability as it's added while maintaining minimal Agent SDK implementation.
 
 ## Story 2.1: Install and Configure Claude Agent SDK
 
@@ -133,41 +133,3 @@
 8. Session isolation: Each Socket.io connection has independent conversation history
 9. Memory cleared on socket disconnect to prevent memory leaks
 10. TypeScript interface for conversation message structure in `packages/shared/src/types.ts`
-
-### Reproduction Test Case
-
-**Bug Scenario** (without conversation memory):
-```
-User Message 1: "Add a new product to the system"
-Agent Response: "What product do you want to add?"
-
-User Message 2: "Sugar for 50 cents"
-Agent Response: "I need more context..." ❌ (forgets Message 1)
-```
-
-**Expected Behavior** (with conversation memory):
-```
-User Message 1: "Add a new product to the system"
-Agent Response: "What product do you want to add?"
-
-User Message 2: "Sugar for 50 cents"
-Agent Response: "Adding Sugar at $0.50..." ✅ (remembers Message 1)
-```
-
-**Test Steps**:
-1. Start server: `npm run dev:server`
-2. Connect client to Socket.io
-3. Send first message: "Add a new product to the system"
-4. Wait for agent response (should ask for details)
-5. Send second message: "Sugar for 50 cents"
-6. Verify agent response uses context from first message
-7. Check console logs show "Conversation history: 2 messages" (or similar)
-8. Verify `data/test-products.json` (or similar file) contains new Sugar product
-
-**Additional Test Cases**:
-- **Multiple users**: Connect two clients, verify conversations are independent
-- **Session reset**: Disconnect and reconnect, verify history is cleared
-- **Long conversation**: Send 5+ messages, verify all context maintained
-- **Error recovery**: If agent errors mid-conversation, verify history still accurate
-
----

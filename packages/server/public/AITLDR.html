@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AITLDR - Product Catalog</title>
+    <link rel="stylesheet" href="AITLDR.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AITLDR Product Catalog</h1>
+            <p>Browse our amazing collection of products</p>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="/chat">Chat Interface</a></li>
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/cat-dog.html">Cat & Dog</a></li>
+                <li><a href="/AITLDR.html">Products</a></li>
+            </ul>
+        </nav>
+
+        <div class="stats">
+            <h2>Total Products</h2>
+            <div class="total-count" id="productCount">Loading...</div>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to fetch products from API
+        async function fetchProducts() {
+            try {
+                const response = await fetch('http://localhost:3000/data/test-products.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const productsData = await response.json();
+                renderProducts(productsData);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                document.getElementById('productCount').textContent = 'Error loading products';
+                document.getElementById('productsGrid').innerHTML = 
+                    '<p style="color: red; text-align: center;">Failed to load products. Please try again later.</p>';
+            }
+        }
+
+        // Function to render products
+        function renderProducts(productsData) {
+            const grid = document.getElementById('productsGrid');
+            const countElement = document.getElementById('productCount');
+            
+            // Update total count
+            countElement.textContent = productsData.total;
+            
+            // Clear existing content
+            grid.innerHTML = '';
+            
+            // Create product cards
+            productsData.products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                
+                card.innerHTML = `
+                    <div class="product-id">ID: ${product.id}</div>
+                    <h2 class="product-name">${product.name}</h2>
+                    <span class="product-category">${product.category}</span>
+                    <div class="product-price">$${product.price.toFixed(2)}</div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Load products when page loads
+        document.addEventListener('DOMContentLoaded', fetchProducts);
+    </script>
+</body>
+</html>

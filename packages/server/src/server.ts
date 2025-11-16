@@ -35,13 +35,41 @@ app.use((req, res, next) => {
 });
 
 // Static file serving for /chat route (Story 1.3)
-// Serves index.html from packages/client directory
+// Priority 1: /chat always serves from packages/client
 const clientPath = path.join(__dirname, '../../client');
 app.use('/chat', express.static(clientPath));
 logger.info('Static files served from packages/client for /chat route');
 
+// Static file serving for /public directory (Story 2.6)
+// Priority 2: Root URL serves generated HTML/CSS/JS files
+// WARNING: DO NOT create public/chat/ directory - it will conflict with /chat route above
+const publicPath = path.join(process.cwd(), 'public');
+app.use(express.static(publicPath, {
+  index: ['index.html'], // Directory index: /pages/ automatically serves /pages/index.html
+  extensions: ['html', 'htm'], // Extensionless URLs: /products serves products.html
+}));
+logger.info('Static files served from /public directory at root URL');
+
+// Static file serving for /data directory (Story 2.4/2.5)
+// Priority 3: /data URL serves JSON files for client-side fetch (optional pattern)
+const dataPath = path.join(process.cwd(), 'data');
+app.use('/data', express.static(dataPath));
+logger.info('Static files served from /data directory at /data URL');
+
 // Routes
 app.use('/api/health', healthRouter);
+
+// API: List generated HTML pages (for chat interface menu)
+app.get('/api/pages', async (req, res) => {
+  try {
+    const publicPath = path.join(process.cwd(), 'public');
+    const files = await import('fs/promises').then(fs => fs.readdir(publicPath, { recursive: true }));
+    const htmlFiles = files.filter(f => typeof f === 'string' && f.endsWith('.html'));
+    res.json({ files: htmlFiles });
+  } catch (err) {
+    res.json({ files: [] });
+  }
+});
 
 // 404 handler
 app.use((req, res) => {

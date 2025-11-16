@@ -6,29 +6,66 @@ import { listJsonTool } from '../tools/list-json.js';
 import { previewJsonTool } from '../tools/preview-json.js';
 import { readJsonTool } from '../tools/read-json.js';
 import { writeJsonTool } from '../tools/write-json.js';
+import { listFilesTool } from '../tools/list-files.js';
+import { previewFileTool } from '../tools/preview-file.js';
+import { readFileTool } from '../tools/read-file.js';
+import { writeFileTool } from '../tools/write-file.js';
 
 // Minimal system prompt for MVP (can be enhanced in later stories)
 const SYSTEM_PROMPT = `You are a helpful AI assistant that can create and modify web applications through conversation.
 
 You have access to data discovery and manipulation tools. Always follow this workflow:
 
-**Data Discovery Workflow:**
+**Data Discovery Workflow (for /data directory):**
 1. When unsure what files exist: Use list_json() to discover available JSON files
 2. To understand data structure: Use preview_json(filename) to see keys and sample data
 3. To read full content: Use read_json(filename) once you know the exact filename
 
+**File Discovery Workflow (for /public directory):**
+1. When unsure what files exist: Use list_files() to discover available HTML/CSS/JS files
+2. To understand file structure: Use preview_file(filename) to see first 20 lines
+3. To read full content: Use read_file(filename) once you know the exact filename
+
 **Available Tools:**
+
+*Data Tools (JSON files in /data):*
 - list_json: Discover what JSON files exist in /data directory (supports pattern filtering)
 - preview_json: Peek at file structure and sample data (first 3 items) without loading full file
 - read_json: Read complete JSON file content
 - write_json: Create/update JSON data files (overwrites entire file - read → modify → write for updates)
-- write_file: Create/update HTML/CSS/JavaScript files (coming in Story 2.6)
+
+*File Tools (HTML/CSS/JS in /public):*
+- list_files: Discover what HTML/CSS/JS files exist in /public directory (supports pattern filtering, text files only - no images)
+- preview_file: Preview first N lines of a file (default 20) to understand structure
+- read_file: Read complete file content
+- write_file: Create/update HTML/CSS/JS files (creates directories if needed)
 
 **Best Practices:**
-- Use list_json() when user asks about data without specifying exact filename
-- Use preview_json() before read_json() for large files to understand structure
+- Use list_json() or list_files() when user asks about files without specifying exact filename
+- Use preview tools before read tools for large files to understand structure
 - Filter data intelligently based on preview insights (e.g., if you see a "category" field, you can filter by it)
-- To update existing JSON: Use read_json() → modify in memory → write_json() (write_json overwrites, doesn't merge)
+- To update existing files: Use read → modify in memory → write (write tools overwrite, don't merge)
+- Typical pattern for data-driven pages: read_json() → process data → write_file() to create HTML from JSON
+- Generated files are immediately accessible via Express static serving at http://localhost:3000/{filepath}
+
+**File Organization Rules:**
+- NEVER create files in public/chat/ directory (conflicts with /chat route reserved for chat interface)
+- Use public/pages/, public/views/, or public/content/ for organizing HTML pages
+- Directory index: /pages/ automatically serves /pages/index.html (trailing slash required)
+- When generating HTML from JSON: EMBED data directly in HTML (create variables, templates), do NOT use fetch() for local data
+- Example: Read products.json → embed as JavaScript array in products.html → render on page load
+
+**Navigation Menu:**
+- When creating HTML pages, use list_files() first to discover existing pages
+- Include a simple navigation menu in a <nav> section with links to all pages
+- Add a link back to /chat interface
+- Keep menu simple: unordered list with links to other pages
+
+**URL Structure:**
+- Chat interface: http://localhost:3000/chat (reserved - do not conflict)
+- Generated pages: http://localhost:3000/{filename} or http://localhost:3000/pages/{filename}
+- JSON data: http://localhost:3000/data/{filename} (if client-side fetch needed)
+- Directory indexes: http://localhost:3000/ serves public/index.html automatically
 
 custom commands:
 
@@ -47,12 +84,21 @@ export const initializeAgent = async (): Promise<Options> => {
   try {
     logger.info('Initializing Claude Agent SDK...', { component: 'AgentSDK' });
 
-    // Story 2.4-2.5: Create MCP server with custom tools
+    // Story 2.4-2.6: Create MCP server with custom tools
     // Using "agent-tools" for clear ownership (Agent SDK's tools)
     const customToolsServer = createSdkMcpServer({
       name: 'agent-tools',
       version: '1.0.0',
-      tools: [listJsonTool, previewJsonTool, readJsonTool, writeJsonTool],
+      tools: [
+        listJsonTool,
+        previewJsonTool,
+        readJsonTool,
+        writeJsonTool,
+        listFilesTool,
+        previewFileTool,
+        readFileTool,
+        writeFileTool,
+      ],
     });
 
     // Initialize Agent SDK options (authentication via ~/.claude/)
@@ -62,14 +108,17 @@ export const initializeAgent = async (): Promise<Options> => {
       mcpServers: {
         'agent-tools': customToolsServer,
       },
-      // Story 2.4-2.5: Auto-accept tool execution (no permission prompts)
+      // Story 2.4-2.6: Auto-accept tool execution (no permission prompts)
       // Tool names follow pattern: mcp__<server-name>__<tool-name>
       allowedTools: [
-        'mcp__agent-tools__list_json',     // Discover available files
-        'mcp__agent-tools__preview_json',  // Peek at file structure
-        'mcp__agent-tools__read_json',     // Read full file
-        'mcp__agent-tools__write_json',    // Story 2.5: Create/update JSON files
-        // 'mcp__agent-tools__write_file', // Story 2.6
+        'mcp__agent-tools__list_json',     // Discover available JSON files
+        'mcp__agent-tools__preview_json',  // Peek at JSON file structure
+        'mcp__agent-tools__read_json',     // Read full JSON file
+        'mcp__agent-tools__write_json',    // Create/update JSON files
+        'mcp__agent-tools__list_files',    // Discover available HTML/CSS/JS files
+        'mcp__agent-tools__preview_file',  // Peek at file content (first N lines)
+        'mcp__agent-tools__read_file',     // Read full file content
+        'mcp__agent-tools__write_file',    // Create/update HTML/CSS/JS files
       ],
       permissionMode: 'acceptEdits',
       // Story 2.3: Streaming is built-in to query() async generator

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat & Dog Pet Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4e4c1;
+            color: #3d2817;
+        }
+
+        header {
+            background: linear-gradient(135deg, #8b6914 0%, #6b4423 100%);
+            color: #f4e4c1;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #ffd700;
+        }
+
+        nav {
+            background-color: #6b4423;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #f4e4c1;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #4a7c59;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #4a7c59 0%, #6b9d6e 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .product-card {
+            background-color: white;
+            border: 3px solid #8b6914;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card h3 {
+            color: #6b4423;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-card p {
+            color: #3d2817;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            color: #4a7c59;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .btn {
+            background-color: #8b6914;
+            color: #f4e4c1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #4a7c59;
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .feature {
+            background-color: #6b9d6e;
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .feature h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        footer {
+            background-color: #3d2817;
+            color: #f4e4c1;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🐱 Cat & Dog Pet Store 🐶</h1>
+        <p>Everything Your Furry Friends Need!</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="/chat">Chat Interface</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h2>Welcome to Cat & Dog Paradise!</h2>
+            <p>Premium quality products for your beloved cats and dogs</p>
+        </div>
+
+        <section id="products">
+            <h2 style="text-align: center; color: #6b4423; font-size: 2rem; margin-bottom: 2rem;">Featured Products</h2>
+            
+            <div class="products">
+                <div class="product-card">
+                    <div class="category-icon">🐱</div>
+                    <h3>Premium Cat Food</h3>
+                    <p>Nutritious and delicious food specially formulated for cats. High in protein and essential vitamins.</p>
+                    <div class="price">$24.99</div>
+                    <button class="btn">Add to Cart</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="category-icon">🐶</div>
+                    <h3>Premium Dog Food</h3>
+                    <p>Wholesome dog food made with real meat and vegetables. Perfect for all breeds and sizes.</p>
+                    <div class="price">$29.99</div>
+                    <button class="btn">Add to Cart</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="category-icon">🎾</div>
+                    <h3>Interactive Dog Toys</h3>
+                    <p>Durable toys to keep your dog entertained and active. Includes balls, ropes, and chew toys.</p>
+                    <div class="price">$15.99</div>
+                    <button class="btn">Add to Cart</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="category-icon">🧶</div>
+                    <h3>Cat Scratching Post</h3>
+                    <p>Save your furniture! Multi-level scratching post with hanging toys and cozy perches.</p>
+                    <div class="price">$49.99</div>
+                    <button class="btn">Add to Cart</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="category-icon">🛏️</div>
+                    <h3>Pet Beds & Blankets</h3>
+                    <p>Comfortable and washable beds for both cats and dogs. Available in multiple sizes.</p>
+                    <div class="price">$34.99</div>
+                    <button class="btn">Add to Cart</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="category-icon">🦴</div>
+                    <h3>Healthy Pet Treats</h3>
+                    <p>Delicious treats for training and rewarding. Made with natural ingredients, no artificial flavors.</p>
+                    <div class="price">$12.99</div>
+                    <button class="btn">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <h3>🚚 Free Shipping</h3>
+                <p>On orders over $50</p>
+            </div>
+            <div class="feature">
+                <h3>💚 Quality Guaranteed</h3>
+                <p>100% satisfaction or money back</p>
+            </div>
+            <div class="feature">
+                <h3>🏆 Expert Advice</h3>
+                <p>Professional pet care guidance</p>
+            </div>
+            <div class="feature">
+                <h3>⭐ Best Brands</h3>
+                <p>Top quality pet products</p>
+            </div>
+        </section>
+
+        <section id="about" style="background-color: white; padding: 2rem; border-radius: 10px; margin: 2rem 0; border: 3px solid #8b6914;">
+            <h2 style="color: #6b4423; margin-bottom: 1rem;">About Us</h2>
+            <p style="line-height: 1.8; color: #3d2817;">
+                At Cat & Dog Pet Store, we're passionate about providing the best products for your furry companions. 
+                With over 10 years of experience, we carefully select each product to ensure it meets our high standards 
+                for quality, safety, and value. Whether you have a playful puppy, a dignified senior dog, a curious kitten, 
+                or a relaxed adult cat, we have everything you need to keep them happy and healthy!
+            </p>
+        </section>
+
+        <section id="contact" style="background-color: #4a7c59; color: white; padding: 2rem; border-radius: 10px; text-align: center;">
+            <h2 style="margin-bottom: 1rem;">Contact Us</h2>
+            <p>📧 Email: info@catdogstore.com</p>
+            <p>📞 Phone: (555) 123-4567</p>
+            <p>📍 Address: 123 Pet Lane, Animal City, PC 12345</p>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Cat & Dog Pet Store. All rights reserved.</p>
+        <p>Made with ❤️ for pets and their humans</p>
+    </footer>
+</body>
+</html>
