@@ -67,3 +67,21 @@ export interface ChatMessage {
   timestamp: number;
   status: 'sending' | 'complete' | 'error';
 }
+
+/**
+ * Tool Result Interface
+ * Standard return type for all custom tools
+ */
+export interface ToolResult<T = any> {
+  success: boolean;
+  data?: T;
+  error?: string;
+}
+
+/**
+ * Read JSON Tool Parameters
+ * Parameters for read_json tool
+ */
+export interface ReadJsonParams {
+  filepath: string;
+}

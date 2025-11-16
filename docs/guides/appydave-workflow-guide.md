@@ -3,8 +3,30 @@
 **Purpose**: Semi-automated BMAD v4 story lifecycle workflow with human-in-loop gates
 
 **Created**: 2025-11-16
+**Last Updated**: 2025-11-16
 **BMAD Version**: v4 Stable
 **Workflow Type**: Sequential execution with human approval gates
+
+---
+
+## Recent Changes
+
+### 2025-11-16 - Version 1.1
+
+**Smart Story Discovery** (Step 0):
+- Workflow now automatically discovers the next story number
+- Finds highest existing story file, checks its status
+- Suggests next story if current is Done
+- Warns if current story is incomplete
+- Falls back to 1.1 if no stories exist
+
+**QA Process Clarification** (Step 6):
+- QA agent now updates story file's "QA Results" section (not separate doc)
+- Creates gate file at `docs/qa/gates/{epic}.{story}-{slug}.yml`
+- Gate file contains PASS/CONCERNS/FAIL/WAIVED decision
+- Added guardrails against creating separate QA markdown files
+
+**Reference**: See commit d4b0a84 for QA fix details
 
 ---
 
@@ -17,20 +39,25 @@
 cd /path/to/007-bmad-claude-sdk
 claude
 > /appydave-workflow
-Which story number? 2.4
+Which story number do you want to work on? [Suggested: 2.4]
+> 2.4  # Or press Enter to accept suggestion
 ```
 
 **Option 2: Via BMAD Master Agent**
 ```
 BMad Master: *execute-task execute-appydave-workflow
-Which story number? 2.4
+Which story number do you want to work on? [Suggested: 2.4]
+> 2.4  # Or press Enter to accept suggestion
 ```
 
 **Option 3: Via BMAD Orchestrator**
 ```
 BMad Orchestrator: *execute-task execute-appydave-workflow
-Which story number? 2.4
+Which story number do you want to work on? [Suggested: 2.4]
+> 2.4  # Or press Enter to accept suggestion
 ```
+
+**Smart Story Discovery**: The workflow automatically finds your highest story file, checks its status, and suggests the next logical story number. If the current story isn't Done, it warns you first.
 
 ---
 
@@ -403,7 +430,11 @@ When all tests are executed and results documented, type 'continue' for QA revie
 3. Reviews test files and coverage
 4. **Reads SAT results** (from Step 5)
 5. Executes Definition of Done checklist
-6. Generates QA gate report with:
+6. **Updates the story file**:
+   - Adds results to the "QA Results" section in the story file
+   - Does NOT create a separate QA markdown document
+   - Only modifies the QA Results section (leaves other sections intact)
+7. **Creates QA gate file**: `docs/qa/gates/{epic}.{story}-{slug}.yml` with:
    - Code quality assessment
    - Test coverage analysis
    - SAT results verification
@@ -411,13 +442,20 @@ When all tests are executed and results documented, type 'continue' for QA revie
    - Security/performance considerations
    - Bug history (if fixes were needed)
    - Overall quality score (0-100)
-7. Creates QA gate file: `docs/qa/gates/{story}.yml`
+   - Gate decision: PASS/CONCERNS/FAIL/WAIVED
 
 #### Output
-- **File**: `docs/qa/gates/{epic}.{story}-{title}.yml`
-- **Gate Status**: PASS ✅ or FAIL ❌
+- **Story file updated**: `docs/stories/{epic}.{story}.story.md` (QA Results section)
+- **Gate file created**: `docs/qa/gates/{epic}.{story}-{slug}.yml`
+- **Gate Status**: PASS ✅ / CONCERNS ⚠️ / FAIL ❌ / WAIVED 🔀
 - **Quality Score**: 0-100
 - **Issues**: List of defects/improvements needed
+
+#### Critical Notes
+- **DO NOT** create a separate `{story}.story-QA.md` file
+- **DO NOT** simulate QA with general-purpose agent
+- **ONLY** update the "QA Results" section of the story file
+- Gate file is the YAML report, story file gets the summary
 
 #### HALT Point (If PASS)
 ```

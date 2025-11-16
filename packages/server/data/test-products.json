@@ -1,0 +1,9 @@
+{
+  "products": [
+    { "id": 1, "name": "Widget A", "price": 19.99 },
+    { "id": 2, "name": "Widget B", "price": 29.99 },
+    { "id": 3, "name": "Widget C", "price": 39.99 },
+    { "id": 4, "name": "AppyDave on Skool", "price": 9.99 }
+  ],
+  "total": 4
+}

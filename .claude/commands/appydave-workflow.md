@@ -27,7 +27,26 @@ You are orchestrating AppyDave's complete BMAD v4 story lifecycle workflow. This
 
 ### Step 0: Initialize
 
-Ask user: "Which story number do you want to work on? (e.g., 2.3)"
+**Discover next story**:
+1. Load `.bmad-core/core-config.yaml` and extract `devStoryLocation`
+2. List all files in `{devStoryLocation}` matching pattern `{epic}.{story}.story.md`
+3. Find the highest story file (e.g., `2.3.story.md`)
+4. Read that file and check its Status field
+5. Determine suggestion:
+   - If Status = "Done": Suggest next story (e.g., if 2.3 is Done, suggest 2.4)
+   - If Status ≠ "Done": Warn about incomplete story, suggest completing it first
+   - If no story files exist: Suggest 1.1 (first story)
+
+**Ask user**: "Which story number do you want to work on? [Suggested: {nextStory}]"
+
+**If suggesting incomplete story**:
+```
+⚠️  Warning: Story {current} has status "{status}" (not Done).
+Would you like to:
+1. Continue with {current} (complete it)
+2. Override and start {next} anyway
+3. Specify a different story number
+```
 
 Store the story number for use throughout the workflow.
 
