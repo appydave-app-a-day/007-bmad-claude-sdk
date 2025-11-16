@@ -138,7 +138,7 @@ Step 1  Step 3     Step 4       Step 4   Step 6
 Please review the story file to ensure acceptance criteria and tasks are clear.
 
 Options:
-- Type 'continue' to proceed to validation
+- Type 'go' to proceed to validation
 - Type 'skip' to skip validation and go to status change
 - Type 'exit' to stop workflow
 ```
@@ -194,7 +194,7 @@ Confidence Level: High
 
 Story is ready for development!
 
-Type 'continue' to proceed to status change gate.
+Type 'go' to proceed to status change gate.
 ```
 
 #### HALT Point (If NO-GO)
@@ -232,7 +232,7 @@ Type 'exit' to stop workflow and address issues.
 2. User opens story file in editor
 3. User changes Status field from "Draft" to "Ready"
 4. User saves file
-5. User returns to workflow and types 'verify' or 'continue'
+5. User returns to workflow and types 'verify' or 'go'
 
 #### Why This Gate Exists
 - **Human Approval**: Ensures you've reviewed and approved story
@@ -251,14 +251,14 @@ This manual step ensures you've reviewed and approved the story.
 
 Options:
 - Type 'verify' to check if status has been changed
-- Type 'continue' to proceed (assumes you've changed it)
+- Type 'go' to proceed (assumes you've changed it)
 ```
 
 #### Verification (If user types 'verify')
 ```
 # Workflow reads file and checks Status field
 
-✅ Status confirmed as Ready. Type 'continue' to proceed.
+✅ Status confirmed as Ready. Type 'go' to proceed.
 
 OR
 
@@ -319,7 +319,7 @@ OR
 
 📄 Story file: docs/stories/2.4.story.md
 
-Type 'continue' to proceed to acceptance testing.
+Type 'go' to proceed to acceptance testing.
 ```
 
 #### Behind the Scenes
@@ -414,7 +414,7 @@ Please execute the tests manually:
 3. Run all Terminal Tests (curl commands, scripts)
 4. Document PASS/FAIL results in the SAT file
 
-When all tests are executed and results documented, type 'continue' for QA review.
+When all tests are executed and results documented, type 'go' for QA review.
 ```
 
 #### Behind the Scenes
@@ -666,20 +666,20 @@ docs/qa/gates/2.4-login-feature.yml    # QA gate report
 
 ### Pattern 1: Full Quality (Recommended for critical stories)
 ```
-Step 1: SM creates → 'continue'
-Step 2: PO validates → 'continue'
-Step 3: Human changes status → 'continue'
-Step 4: Dev implements → 'continue'
-Step 5: SAT creates + Human tests → 'continue'
+Step 1: SM creates → 'go'
+Step 2: PO validates → 'go'
+Step 3: Human changes status → 'go'
+Step 4: Dev implements → 'go'
+Step 5: SAT creates + Human tests → 'go'
 Step 6: QA reviews → 'next' (if PASS)
 ```
 
 ### Pattern 2: Fast Track (For simple/low-risk stories)
 ```
 Step 1: SM creates → 'skip'
-Step 3: Human changes status → 'continue'
-Step 4: Dev implements → 'continue'
-Step 5: SAT creates + Human tests → 'continue'
+Step 3: Human changes status → 'go'
+Step 4: Dev implements → 'go'
+Step 5: SAT creates + Human tests → 'go'
 Step 6: QA reviews → 'next' (if PASS)
 ```
 
@@ -687,7 +687,7 @@ Step 6: QA reviews → 'next' (if PASS)
 ```
 Step 1: SM creates → 'exit'
 [Later: Resume at Step 2]
-Step 2: PO validates → 'continue'
+Step 2: PO validates → 'go'
 [Continue from where you left off]
 ```
 
@@ -764,7 +764,7 @@ Step 2: PO validates → 'continue'
 ```
 1. /appydave-workflow 2.4
    [Workflow handles all agent loading]
-   [Type 'continue' at each HALT point]
+   [Type 'go' at each HALT point]
    [No race conditions - enforced sequential execution]
    [All in one conversation context]
 ```

@@ -35,11 +35,23 @@ app.use((req, res, next) => {
   next();
 });
 
-// Static file serving for /chat route (Story 1.3)
-// Priority 1: /chat always serves from packages/client
-const clientPath = path.join(__dirname, '../../client');
-app.use('/chat', express.static(clientPath));
-logger.info('Static files served from packages/client for /chat route');
+// Static file serving for /chat route (Story 3.1)
+// Priority 1: /chat always serves React app from packages/client/dist
+//
+// Development mode: Vite dev server runs on port 5173 with HMR
+// - Access React app at http://localhost:5173 for fast iteration with Hot Module Replacement
+// - Vite dev server serves source files directly from packages/client/src
+//
+// Production mode: Express serves compiled React bundle from /chat route
+// - Access React app at http://localhost:3000/chat for production testing
+// - Serves pre-built static files from packages/client/dist
+//
+// Path resolution: __dirname is packages/server/dist, so ../../client/dist resolves to packages/client/dist
+const clientDistPath = path.join(__dirname, '../../client/dist');
+app.use('/chat', express.static(clientDistPath));
+// Note: Express static middleware auto-serves index.html from /chat/ (with trailing slash)
+// Accessing /chat redirects to /chat/ then serves index.html automatically
+logger.info('Static files served from packages/client/dist for /chat route');
 
 // Static file serving for /public directory (Story 2.6)
 // Priority 2: Root URL serves generated HTML/CSS/JS files

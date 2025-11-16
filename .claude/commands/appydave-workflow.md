@@ -1,5 +1,5 @@
 ---
-description: Story 2.7 - Conversation Memory - Agent remembers previous messages for multi-turn dialogues
+description: Execute AppyDave's full BMAD v4 story workflow with human-in-loop gates
 ---
 
 # AppyDave Workflow Command
@@ -13,7 +13,7 @@ You are orchestrating AppyDave's complete BMAD v4 story lifecycle workflow. This
 - ALWAYS HALT and wait for user confirmation before proceeding to next step
 - Do NOT load multiple agents simultaneously
 - Do NOT skip ahead to later steps
-- User must explicitly type 'continue', 'skip', or other specified commands to proceed
+- User must explicitly type 'go', 'skip', or other specified commands to proceed
 
 **HUMAN-IN-LOOP GATES**:
 - Story validation (optional)
@@ -98,18 +98,18 @@ Store the story number for use throughout the workflow.
 Please review the story file to ensure acceptance criteria and tasks are clear.
 
 Options:
-- Type 'continue' to proceed to validation
+- Type 'go' to proceed to validation
 - Type 'skip' to skip validation and go to status change
 - Type 'exit' to stop workflow
 ```
 
-**Wait for user input**: `continue`, `skip`, or `exit`
+**Wait for user input**: `go`, `skip`, or `exit`
 
 ---
 
 ### Step 2: Story Validation (Optional)
 
-**Only execute if user typed 'continue' in Step 1**
+**Only execute if user typed 'go' in Step 1**
 
 **Agent**: Load Product Owner (PO) agent
 
@@ -128,7 +128,7 @@ Implementation Readiness Score: {score}/10
 
 Story is ready for development!
 
-Type 'continue' to proceed to status change gate.
+Type 'go' to proceed to status change gate.
 ```
 
 **STOP and display (if NO-GO)**:
@@ -144,7 +144,7 @@ Please fix these issues before proceeding.
 Type 'exit' to stop workflow and address issues.
 ```
 
-**Wait for user input**: `continue` or `exit`
+**Wait for user input**: `go` or `exit`
 
 ---
 
@@ -164,16 +164,16 @@ This manual step ensures you've reviewed and approved the story.
 
 Options:
 - Type 'verify' to check if status has been changed
-- Type 'continue' to proceed (assumes you've changed it)
+- Type 'go' to proceed (assumes you've changed it)
 ```
 
 **If user types 'verify'**:
 - Read the story file
 - Check the Status field
-- If "Ready": Display "✅ Status confirmed as Ready. Type 'continue' to proceed."
+- If "Ready": Display "✅ Status confirmed as Ready. Type 'go' to proceed."
 - If not "Ready": Display "❌ Status is still '{current}'. Please change to 'Ready' first."
 
-**Wait for user input**: `verify` or `continue`
+**Wait for user input**: `verify` or `go`
 
 ---
 
@@ -198,10 +198,10 @@ Options:
 - Status: Review
 - Story file: docs/stories/{number}.story.md
 
-Type 'continue' to proceed to acceptance testing.
+Type 'go' to proceed to acceptance testing.
 ```
 
-**Wait for user input**: `continue`
+**Wait for user input**: `go`
 
 ---
 
@@ -229,10 +229,10 @@ Please execute the tests manually:
 3. Run all Terminal Tests (curl commands, scripts)
 4. Document PASS/FAIL results in the SAT file
 
-When all tests are executed and results documented, type 'continue' for QA review.
+When all tests are executed and results documented, type 'go' for QA review.
 ```
 
-**Wait for user input**: `continue`
+**Wait for user input**: `go`
 
 ---
 
@@ -346,7 +346,7 @@ claude
 > 2.3
 
 # Workflow begins at Step 1
-# Follow prompts, type 'continue' at each gate
+# Follow prompts, type 'go' at each gate
 ```
 
 ---
