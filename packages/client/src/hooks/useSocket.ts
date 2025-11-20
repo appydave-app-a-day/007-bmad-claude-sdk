@@ -62,6 +62,11 @@ export const useSocket = (options: UseSocketOptions): UseSocketReturn => {
     // Error handler
     socketInstance.on('error', (data: { message: string; code?: string }) => {
       setIsStreaming(false);
+      console.error('❌ Socket error:', {
+        message: data.message,
+        code: data.code,
+        fullError: data,
+      });
       options.onError(data);
     });
 
@@ -70,7 +75,8 @@ export const useSocket = (options: UseSocketOptions): UseSocketReturn => {
       socketInstance.disconnect();
       console.log('🔌 Socket disconnected (component unmount)');
     };
-  }, [options]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty deps - socket should only initialize once
 
   /**
    * Send user message to server

@@ -31,9 +31,22 @@ import { z } from 'zod';
 import { validatePath } from '../utils/path-validator.js';
 import { ToolError } from '../utils/errors.js';
 import { logger } from '../utils/logger.js';
+import type { Server as SocketIOServer } from 'socket.io';
 
 // Public directory - all HTML/CSS/JS files served here
 const PUBLIC_DIR = path.join(process.cwd(), 'public');
+
+// Socket.io server instance (set by initializeWriteFileTool)
+let ioInstance: SocketIOServer | null = null;
+
+/**
+ * Initialize write_file tool with Socket.io server instance
+ * This allows the tool to emit real-time events when files are created
+ */
+export function initializeWriteFileTool(io: SocketIOServer) {
+  ioInstance = io;
+  logger.info('write_file tool initialized with Socket.io', { component: 'Tool:write_file' });
+}
 
 /**
  * Write File Tool Definition for Agent SDK
@@ -66,6 +79,15 @@ export const writeFileTool = tool(
         component: 'Tool:write_file',
         size: content.length,
       });
+
+      // Emit Socket.io event for HTML files (real-time pages menu update)
+      if (filepath.endsWith('.html') && ioInstance) {
+        ioInstance.emit('file-created', {
+          filepath,
+          timestamp: Date.now(),
+        });
+        logger.debug(`Emitted file-created event for ${filepath}`, { component: 'Tool:write_file' });
+      }
 
       // Return MCP CallToolResult format
       return {

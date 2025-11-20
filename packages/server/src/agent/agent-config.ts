@@ -45,8 +45,15 @@ You have access to data discovery and manipulation tools. Always follow this wor
 - Use preview tools before read tools for large files to understand structure
 - Filter data intelligently based on preview insights (e.g., if you see a "category" field, you can filter by it)
 - To update existing files: Use read → modify in memory → write (write tools overwrite, don't merge)
-- Typical pattern for data-driven pages: read_json() → process data → write_file() to create HTML from JSON
+- Typical pattern for data-driven pages: read_json() → process data → Write() to create HTML from JSON
 - Generated files are immediately accessible via Express static serving at http://localhost:3000/{filepath}
+
+**IMPORTANT - Tool Selection for File Writing:**
+- For SMALL files (< 2KB like JSON): Use write_json() or write_file()
+- For LARGE files (HTML/CSS > 2KB): Use the built-in Write() tool instead
+- The Write() tool path format: /Users/davidcruwys/dev/ad/appydave-app-a-day/007-bmad-claude-sdk/packages/server/public/filename.html
+- Example: Write(file_path: "/Users/davidcruwys/dev/ad/appydave-app-a-day/007-bmad-claude-sdk/packages/server/public/beauty.html", content: "...")
+- This prevents "Stream closed" errors when writing large HTML/CSS files
 
 **File Organization Rules:**
 - NEVER create files in public/chat/ directory (conflicts with /chat route reserved for chat interface)
@@ -82,7 +89,14 @@ let agentOptions: Options | null = null;
  */
 export const initializeAgent = async (): Promise<Options> => {
   try {
-    logger.info('Initializing Claude Agent SDK...', { component: 'AgentSDK' });
+    // Increase timeout to handle large file writes (default is 30s, increase to 180s)
+    // MUST be set BEFORE creating MCP server or calling any SDK functions
+    process.env.MCP_TOOL_TIMEOUT = '180000'; // 3 minutes
+
+    logger.info('Initializing Claude Agent SDK...', {
+      component: 'AgentSDK',
+      mcpToolTimeout: process.env.MCP_TOOL_TIMEOUT,
+    });
 
     // Story 2.4-2.6: Create MCP server with custom tools
     // Using "agent-tools" for clear ownership (Agent SDK's tools)
@@ -104,6 +118,9 @@ export const initializeAgent = async (): Promise<Options> => {
     // Initialize Agent SDK options (authentication via ~/.claude/)
     agentOptions = {
       systemPrompt: SYSTEM_PROMPT,
+      // Model selection: Use Haiku for faster, cheaper responses (default is Sonnet)
+      // Options: 'claude-haiku-4-5' (fast/cheap) or 'claude-sonnet-4-5-20250929' (smarter/slower)
+      model: 'claude-haiku-4-5',
       // Story 2.4: Register custom tools via MCP server (write_json and write_file in Stories 2.5-2.6)
       mcpServers: {
         'agent-tools': customToolsServer,
@@ -123,6 +140,46 @@ export const initializeAgent = async (): Promise<Options> => {
       permissionMode: 'acceptEdits',
       // Story 2.3: Streaming is built-in to query() async generator
       maxTurns: 10,
+      // Add tool execution hooks for comprehensive logging
+      // Hook names: PreToolUse, PostToolUse, Notification, UserPromptSubmit, SessionStart, SessionEnd, Stop, SubagentStop, PreCompact
+      hooks: {
+        PreToolUse: [
+          {
+            matcher: () => true, // Match all tool uses
+            handler: async (ctx: any) => {
+              logger.info('🔧 Tool call starting', {
+                component: 'AgentSDK:ToolHook',
+                toolName: ctx.toolName,
+                args: ctx.toolInput,
+              });
+            },
+          },
+        ],
+        PostToolUse: [
+          {
+            matcher: () => true, // Match all tool uses
+            handler: async (ctx: any) => {
+              const isError = ctx.toolResult?.isError || false;
+              const resultPreview = JSON.stringify(ctx.toolResult).substring(0, 200);
+
+              if (isError) {
+                logger.error('❌ Tool call failed', {
+                  component: 'AgentSDK:ToolHook',
+                  toolName: ctx.toolName,
+                  args: ctx.toolInput,
+                  error: resultPreview,
+                });
+              } else {
+                logger.info('✅ Tool call completed', {
+                  component: 'AgentSDK:ToolHook',
+                  toolName: ctx.toolName,
+                  resultPreview,
+                });
+              }
+            },
+          },
+        ],
+      },
     };
 
     // Test authentication by making a simple query
@@ -139,6 +196,7 @@ export const initializeAgent = async (): Promise<Options> => {
 
     logger.info('Agent SDK initialized successfully', {
       component: 'AgentSDK',
+      model: agentOptions.model,
       systemPromptLength: SYSTEM_PROMPT.length,
     });
 

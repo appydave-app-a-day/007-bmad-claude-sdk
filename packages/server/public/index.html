@@ -3,519 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AppyDave - AI Technology Advisor | Master AI and Prompt Engineering</title>
-    <meta name="description" content="Learn how to master AI and prompt engineering with AppyDave. Unleash your business's full potential with AI automation, GPT integration, and innovative solutions.">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-color: #2563eb;
-            --secondary-color: #1e40af;
-            --accent-color: #3b82f6;
-            --text-dark: #1f2937;
-            --text-light: #6b7280;
-            --bg-light: #f9fafb;
-            --bg-white: #ffffff;
-            --border-color: #e5e7eb;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
-            background-color: var(--bg-white);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header/Navigation */
-        header {
-            background: var(--bg-white);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--text-dark);
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--primary-color);
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 4rem 0;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .hero .subtitle {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            opacity: 0.95;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            max-width: 800px;
-            margin: 1.5rem auto;
-            line-height: 1.8;
-            opacity: 0.9;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: white;
-            color: var(--primary-color);
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 1rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        /* Courses Section */
-        .courses {
-            padding: 4rem 0;
-            background: var(--bg-light);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 3rem;
-            color: var(--text-dark);
-        }
-
-        .course-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .course-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .course-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-        }
-
-        .course-card h3 {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .course-card h4 {
-            color: var(--text-light);
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            font-weight: normal;
-        }
-
-        .course-card p {
-            color: var(--text-light);
-            line-height: 1.6;
-        }
-
-        /* Newsletter Section */
-        .newsletter {
-            background: var(--primary-color);
-            color: white;
-            padding: 3rem 0;
-            text-align: center;
-        }
-
-        .newsletter h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .newsletter p {
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .newsletter-form {
-            display: flex;
-            gap: 1rem;
-            max-width: 500px;
-            margin: 0 auto;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .newsletter-form input {
-            flex: 1;
-            min-width: 200px;
-            padding: 0.75rem 1rem;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-        }
-
-        .newsletter-form button {
-            background: var(--text-dark);
-            color: white;
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .newsletter-form button:hover {
-            background: #374151;
-        }
-
-        /* About Section */
-        .about {
-            padding: 4rem 0;
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
-            margin-top: 2rem;
-        }
-
-        .about-card {
-            text-align: center;
-        }
-
-        .about-card img {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .about-card h3 {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .about-card p {
-            color: var(--text-light);
-            line-height: 1.8;
-        }
-
-        /* AI Productivity Section */
-        .ai-productivity {
-            background: var(--bg-light);
-            padding: 3rem 0;
-            text-align: center;
-        }
-
-        .ai-productivity h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .ai-productivity p {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            margin-bottom: 1rem;
-        }
-
-        .ai-productivity .highlight {
-            font-size: 1.3rem;
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        /* YouTube Channels Section */
-        .youtube-channels {
-            padding: 4rem 0;
-        }
-
-        .channels-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .channel-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-
-        .channel-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .channel-card h3 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .channel-card .channel-handle {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .channel-card p {
-            color: var(--text-light);
-            line-height: 1.6;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--text-dark);
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-        }
-
-        footer a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            nav ul {
-                gap: 1rem;
-            }
-
-            .course-grid,
-            .channels-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .newsletter-form {
-                flex-direction: column;
-            }
-
-            .newsletter-form input {
-                width: 100%;
-            }
-        }
-    </style>
+    <title>Beauty and Joy - Nail Art Studio</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navigation -->
     <header>
-        <nav class="container">
-            <div class="logo">AppyDave</div>
-            <ul>
-                <li><a href="#courses">Courses</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#youtube">YouTube</a></li>
-                <li><a href="/chat">Chat</a></li>
-            </ul>
-        </nav>
+        <h1>Beauty and Joy</h1>
+        <p>Nail Art Studio & Beauty Boutique</p>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>Unleash Your Business' Full Potential with AI and Prompt Engineering</h1>
-            <p class="subtitle">David - AppyDave AI Technology Advisor</p>
-            <h2>Master AI and Prompt Engineering</h2>
-            <p>I'm Appy Dave, and here, you will learn how to master AI and prompt engineering, no matter where you are on your entrepreneurial journey. I'm here to equip you with the knowledge and tools you need to leverage these cutting-edge technologies, streamline operations, boost productivity, and drive innovation within your team.</p>
-            <a href="#about" class="cta-button">Learn More About AppyDave</a>
-        </div>
-    </section>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#products">Our Products</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="/chat">Chat Interface</a></li>
+        </ul>
+    </nav>
 
-    <!-- Courses Section -->
-    <section id="courses" class="courses">
-        <div class="container">
-            <h2 class="section-title">Featured Courses</h2>
-            <div class="course-grid">
-                <div class="course-card">
-                    <h3>CHATGPT 101</h3>
-                    <h4>Mastering AI Conversations</h4>
-                    <p>Dive into chatbot basics, prompt engineering, custom GPT creation, and effective communication strategies for AI-powered interactions.</p>
+    <main>
+        <section id="home">
+            <h2>Welcome to Beauty and Joy</h2>
+            <div class="about-content">
+                <p>Experience the art of beautiful nails in our soft, feminine, and modern studio. We specialize in trending nail aesthetics, pampering treatments, and creating stunning nail designs that express your unique style.</p>
+                <p style="margin-top: 1rem;">Whether you're looking for a classic manicure or bold nail art, our talented artists are here to bring beauty and joy to your fingertips.</p>
+            </div>
+        </section>
+
+        <section id="products">
+            <h2>Our Nail Polish Collection</h2>
+            <div class="product-grid" id="productGrid">
+                <!-- Products will be loaded here -->
+            </div>
+        </section>
+
+        <section id="services">
+            <h2>Our Services</h2>
+            <div class="services-list">
+                <div class="service-item">
+                    <h4>Classic Manicure</h4>
+                    <p>Traditional nail care with polish application, cuticle treatment, and hand massage.</p>
                 </div>
-                <div class="course-card">
-                    <h3>OpenAI - Automate GPT</h3>
-                    <h4>Mastering API Integration</h4>
-                    <p>A hands-on course focusing on navigating OpenAI API endpoints, testing diverse use cases, and deploying AI-driven automation solutions.</p>
+                <div class="service-item">
+                    <h4>Gel Manicure</h4>
+                    <p>Long-lasting gel polish application with UV curing for up to 3 weeks of wear.</p>
                 </div>
-                <div class="course-card">
-                    <h3>YouTube Automation</h3>
-                    <h4>Elevate your content creation!</h4>
-                    <p>Save time writing text and creating social media posts with GPTs, and create stunning B-roll using AI image generators.</p>
+                <div class="service-item">
+                    <h4>Nail Art Design</h4>
+                    <p>Custom nail art creations from simple accents to intricate designs.</p>
+                </div>
+                <div class="service-item">
+                    <h4>Spa Pedicure</h4>
+                    <p>Luxurious foot treatment with exfoliation, massage, and polish.</p>
+                </div>
+                <div class="service-item">
+                    <h4>Acrylic Extensions</h4>
+                    <p>Beautiful nail extensions for length and strength with custom shaping.</p>
+                </div>
+                <div class="service-item">
+                    <h4>Nail Repair</h4>
+                    <p>Professional repair services for damaged or broken nails.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Newsletter Section -->
-    <section class="newsletter">
-        <div class="container">
-            <h2>Free Access to AppyDave Automation Tools</h2>
-            <p>Get access to my code and share what you'd like to learn more about in AI, programming, and prompt engineering.</p>
-            <form class="newsletter-form" action="#" method="post">
-                <input type="text" name="first_name" placeholder="First Name" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <button type="submit">I WANT THIS!</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">Meet David - AppyDave</h2>
-            <div class="about-grid">
-                <div class="about-card">
-                    <img src="https://via.placeholder.com/400x300/2563eb/ffffff?text=AI+Technology+Advisor" alt="AI Technology Advisor for Entrepreneurs - AppyDave">
-                    <h3>AI Technology Advisor for Entrepreneurs</h3>
-                    <p>AppyDave specializes in integrating AI into business workflows to drive productivity and innovation. With over 30 years of experience in software development and content marketing, David empowers entrepreneurs to harness AI tools like GPT and autonomous agents, transforming complex challenges into growth opportunities.</p>
-                </div>
-                <div class="about-card">
-                    <img src="https://via.placeholder.com/400x300/1e40af/ffffff?text=Software+Architect" alt="Software Architect - AppyDave">
-                    <h3>Software Architect</h3>
-                    <p>AppyDave's expertise in code generation, system architecture, and AI integration enables him to create scalable and efficient software systems that meet complex business needs. David's innovative approach and deep technical knowledge make him a key player in transforming traditional software development with modern AI-driven methodologies.</p>
-                </div>
-                <div class="about-card">
-                    <img src="https://via.placeholder.com/400x300/3b82f6/ffffff?text=YouTube+Content+Creator" alt="YouTube Content Creator - AppyDave">
-                    <h3>YouTube Content Creator</h3>
-                    <p>Appy Dave utilizes his expertise in AI and automation to produce high-quality, engaging content. He specializes in using AI tools like ChatGPT to streamline video production and optimize content creation to enhance viewer engagement. Through his YouTube channels, @AppyDave and @appydavecoding, David demonstrates practical applications of AI, making complex concepts accessible and entertaining for his audience.</p>
-                </div>
+        <section id="about">
+            <h2>About Beauty and Joy</h2>
+            <div class="about-content">
+                <p>Founded with a passion for beauty and artistry, Beauty and Joy is more than just a nail salon – it's a haven where creativity meets care. Our modern studio combines trending aesthetics with a warm, welcoming atmosphere.</p>
+                <p style="margin-top: 1rem;">We believe that beautiful nails are an expression of your personality, and our expert team is dedicated to helping you discover your perfect style.</p>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- AI Productivity Section -->
-    <section class="ai-productivity">
-        <div class="container">
-            <h2>AI = job losses? Not at all.</h2>
-            <p class="highlight">AI enhances productivity!</p>
-            <p>Picture every team member of your team supported by their own AI Agents.</p>
-        </div>
-    </section>
-
-    <!-- YouTube Channels Section -->
-    <section id="youtube" class="youtube-channels">
-        <div class="container">
-            <h2 class="section-title">Watch My YouTube Channels</h2>
-            <div class="channels-grid">
-                <div class="channel-card">
-                    <h3>AppyDave</h3>
-                    <p class="channel-handle">@appydave</p>
-                    <p>Go-to hub for mastering ChatGPT, Prompt Engineering, and building MicroApps with AI Coders</p>
-                </div>
-                <div class="channel-card">
-                    <h3>AI TLDR</h3>
-                    <p class="channel-handle">@aitldr</p>
-                    <p>Quick tutorials, insights, and updates on AI tools. Simplified guides and reviews.</p>
-                </div>
-                <div class="channel-card">
-                    <h3>Winning Prompts</h3>
-                    <p class="channel-handle">@winningprompts</p>
-                    <p>Master prompt engineering and one-shot prompts for business workflows and micro apps.</p>
-                </div>
-                <div class="channel-card">
-                    <h3>AppyDave Research</h3>
-                    <p class="channel-handle">@appydaveresearch</p>
-                    <p>Behind the scenes AI coding & workflows, watch me in realtime.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer>
-        <div class="container">
-            <p>&copy; 2024 AppyDave. All rights reserved. | <a href="/chat">Chat Interface</a></p>
-            <p>Empowering entrepreneurs through AI and innovation</p>
-        </div>
+        <p>&copy; 2024 Beauty and Joy Nail Art Studio. All rights reserved.</p>
+        <p style="margin-top: 0.5rem;">Soft, Feminine & Modern - Where Beauty Meets Joy</p>
     </footer>
 
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+        // Embed product data directly in the page
+        const products = [
+            {
+                "id": 6,
+                "name": "Ruby Red Nail Polish",
+                "price": 8.99,
+                "category": "beauty",
+                "brand": "Glamour Nails",
+                "color": "Ruby Red",
+                "finish": "glossy"
+            },
+            {
+                "id": 7,
+                "name": "Midnight Blue Nail Polish",
+                "price": 7.49,
+                "category": "beauty",
+                "brand": "Salon Pro",
+                "color": "Midnight Blue",
+                "finish": "shimmer"
+            },
+            {
+                "id": 8,
+                "name": "Soft Pink Nail Polish",
+                "price": 6.99,
+                "category": "beauty",
+                "brand": "Natural Beauty",
+                "color": "Soft Pink",
+                "finish": "matte"
+            }
+        ];
 
-        // Newsletter form handling
-        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for subscribing! You will receive access to AppyDave automation tools soon.');
-            this.reset();
+        // Render products on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const productGrid = document.getElementById('productGrid');
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                productCard.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <p class="product-details"><strong>Brand:</strong> ${product.brand}</p>
+                    <p class="product-details"><strong>Finish:</strong> ${product.finish}</p>
+                    <div class="color-badge">${product.color}</div>
+                    <p class="price">$${product.price.toFixed(2)}</p>
+                `;
+                
+                productGrid.appendChild(productCard);
+            });
         });
     </script>
 </body>

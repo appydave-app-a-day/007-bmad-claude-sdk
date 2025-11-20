@@ -3,7 +3,6 @@
  * Displays individual message bubble with role-based styling
  */
 
-import { Card, CardContent } from '@/components/ui/card';
 import type { ChatMessage } from '@bmad-app/shared';
 
 interface MessageItemProps {
@@ -28,23 +27,31 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, isStreaming =
 
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
-      <Card
-        className={`max-w-[80%] ${
+      <div
+        className={`max-w-[85%] rounded-2xl shadow-sm ${
           isUser
-            ? 'bg-primary text-primary-foreground'
-            : 'bg-muted'
+            ? 'rounded-br-sm'
+            : 'rounded-bl-sm'
         }`}
+        style={{
+          padding: '14px 18px',
+          backgroundColor: isUser ? '#2563eb' : '#f1f5f9',
+          color: isUser ? '#ffffff' : '#1e293b'
+        }}
       >
-        <CardContent className="p-3">
-          <div className="whitespace-pre-wrap break-words">
-            {message.content}
-          </div>
-          <div className={`text-xs mt-2 ${isUser ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>
-            {formatTime(message.timestamp)}
-            {isStreaming && message.role === 'assistant' && ' • Typing...'}
-          </div>
-        </CardContent>
-      </Card>
+        <div className="whitespace-pre-wrap break-words text-base leading-relaxed">
+          {message.content}
+        </div>
+        <div
+          className="text-xs mt-2 font-medium"
+          style={{
+            color: isUser ? 'rgba(255, 255, 255, 0.8)' : 'rgba(15, 23, 42, 0.6)'
+          }}
+        >
+          {formatTime(message.timestamp)}
+          {isStreaming && message.role === 'assistant' && ' • Typing...'}
+        </div>
+      </div>
     </div>
   );
 };

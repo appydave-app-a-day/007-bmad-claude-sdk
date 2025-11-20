@@ -6,6 +6,7 @@
 import { MessageList } from './MessageList';
 import { MessageInput } from './MessageInput';
 import { TypingIndicator } from './TypingIndicator';
+import { PagesMenu } from './PagesMenu';
 import { useSocket } from '../../hooks/useSocket';
 import { useChat } from '../../hooks/useChat';
 
@@ -54,21 +55,32 @@ export const ChatInterface: React.FC = () => {
   return (
     <div className="flex flex-col h-screen bg-background">
       {/* Header */}
-      <header className="flex items-center justify-between p-4 border-b">
-        <div>
-          <h1 className="text-2xl font-bold">BMAD + Claude SDK</h1>
-          <p className="text-sm text-muted-foreground">
-            Self-editing web application demo
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
-          <span className="text-sm text-muted-foreground">
-            {isConnected ? 'Connected' : 'Disconnected'}
-          </span>
-          {/* ThemeToggle placeholder - Story 3.4 */}
-        </div>
-      </header>
+      <div style={{ borderBottom: '1px solid hsl(var(--border))' }}>
+        <header style={{ padding: '16px 48px' }}>
+          <div style={{ maxWidth: '900px', margin: '0 auto' }} className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold">BMAD + Claude SDK</h1>
+              <p className="text-sm text-muted-foreground">
+                Self-editing web application demo
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+              {/* Pages Menu */}
+              <PagesMenu />
+
+              {/* Connection Status */}
+              <div className="flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
+                <span className="text-sm text-muted-foreground">
+                  {isConnected ? 'Connected' : 'Disconnected'}
+                </span>
+              </div>
+
+              {/* ThemeToggle placeholder - Story 3.4 */}
+            </div>
+          </div>
+        </header>
+      </div>
 
       {/* Message List */}
       <MessageList messages={messages} isStreaming={isStreaming} />

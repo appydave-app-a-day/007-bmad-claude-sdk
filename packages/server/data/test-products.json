@@ -38,7 +38,77 @@
       "brand": "Natural Beauty",
       "color": "Soft Pink",
       "finish": "matte"
+    },
+    {
+      "id": 9,
+      "name": "Chocolate Layer Cake Mix",
+      "price": 3.99,
+      "category": "baking",
+      "description": "Rich and decadent chocolate cake mix - just add water and eggs"
+    },
+    {
+      "id": 10,
+      "name": "Vanilla Dream Cake Mix",
+      "price": 2.99,
+      "category": "baking",
+      "description": "Classic vanilla cake mix perfect for any occasion"
+    },
+    {
+      "id": 11,
+      "name": "Strawberry Cheesecake Mix",
+      "price": 5.99,
+      "category": "baking",
+      "description": "Gourmet strawberry cheesecake mix with real fruit pieces"
+    },
+    {
+      "id": 12,
+      "name": "Buttercream Frosting",
+      "price": 4.49,
+      "category": "baking",
+      "description": "Smooth and creamy buttercream frosting - ready to spread"
+    },
+    {
+      "id": 13,
+      "name": "Red Velvet Cake Mix",
+      "price": 4.99,
+      "category": "baking",
+      "description": "Elegant red velvet cake mix with cream cheese frosting flavor"
+    },
+    {
+      "id": 14,
+      "name": "Carrot Cake Mix",
+      "price": 3.49,
+      "category": "baking",
+      "description": "Moist carrot cake mix with crushed pineapple and spices"
+    },
+    {
+      "id": 15,
+      "name": "Fondant Icing (White)",
+      "price": 6.99,
+      "category": "baking",
+      "description": "Professional-grade white fondant for cake decoration"
+    },
+    {
+      "id": 16,
+      "name": "Cake Decorating Tool Set",
+      "price": 12.99,
+      "category": "baking",
+      "description": "Complete set with piping bags, tips, and spatulas"
+    },
+    {
+      "id": 17,
+      "name": "Lemon Zest Cake Mix",
+      "price": 3.29,
+      "category": "baking",
+      "description": "Bright and zesty lemon cake mix with natural citrus flavor"
+    },
+    {
+      "id": 18,
+      "name": "Tiramisu Cake Mix",
+      "price": 5.49,
+      "category": "baking",
+      "description": "Italian-inspired tiramisu cake mix with coffee and mascarpone flavors"
     }
   ],
-  "total": 5
+  "total": 15
 }

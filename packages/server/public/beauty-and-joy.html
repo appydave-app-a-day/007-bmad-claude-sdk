@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty and Joy - Nail Art Store</title>
+    <link rel="stylesheet" href="beauty-and-joy.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">💅 Beauty and Joy</div>
+                <ul class="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Shop</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="/chat">Back to Chat</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>Beauty and Joy</h1>
+                <p>Express Yourself with Premium Nail Art</p>
+                <button class="cta-button">Shop Now</button>
+            </div>
+        </section>
+    </header>
+
+    <main>
+        <section class="products-section" id="products">
+            <div class="container">
+                <h2>Our Premium Nail Polish Collection</h2>
+                <p class="section-subtitle">Discover beautiful colors and finishes for your perfect manicure</p>
+                
+                <div class="products-grid" id="productsGrid">
+                    <!-- Products will be inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="about">
+            <div class="container">
+                <h2>Why Choose Beauty and Joy?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">✨</span>
+                        <h3>Premium Quality</h3>
+                        <p>High-quality formulas that last and shine beautifully</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🎨</span>
+                        <h3>Wide Selection</h3>
+                        <p>From classic to trendy, find the perfect color for you</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">💝</span>
+                        <h3>Best Prices</h3>
+                        <p>Affordable luxury for your nail care routine</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🚚</span>
+                        <h3>Fast Shipping</h3>
+                        <p>Quick delivery to get you looking fabulous</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Beauty and Joy. All rights reserved. Made with 💅 and ✨</p>
+        </div>
+    </footer>
+
+    <script>
+        // Product data
+        const products = [
+            {
+                "id": 6,
+                "name": "Ruby Red Nail Polish",
+                "price": 8.99,
+                "category": "beauty",
+                "brand": "Glamour Nails",
+                "color": "Ruby Red",
+                "finish": "glossy"
+            },
+            {
+                "id": 7,
+                "name": "Midnight Blue Nail Polish",
+                "price": 7.49,
+                "category": "beauty",
+                "brand": "Salon Pro",
+                "color": "Midnight Blue",
+                "finish": "shimmer"
+            },
+            {
+                "id": 8,
+                "name": "Soft Pink Nail Polish",
+                "price": 6.99,
+                "category": "beauty",
+                "brand": "Natural Beauty",
+                "color": "Soft Pink",
+                "finish": "matte"
+            }
+        ];
+
+        // Render products
+        function renderProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <div class="product-color" style="background-color: ${getColorHex(product.color)}"></div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p class="brand">${product.brand}</p>
+                        <p class="finish">Finish: <span>${product.finish.charAt(0).toUpperCase() + product.finish.slice(1)}</span></p>
+                        <div class="product-footer">
+                            <span class="price">$${product.price}</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Helper function to get color hex codes
+        function getColorHex(color) {
+            const colors = {
+                'Ruby Red': '#8B0000',
+                'Midnight Blue': '#191970',
+                'Soft Pink': '#FFB6C1'
+            };
+            return colors[color] || '#CCCCCC';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', renderProducts);
+
+        // CTA button scroll to products
+        document.querySelector('.cta-button').addEventListener('click', () => {
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Add to cart button functionality
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('add-to-cart')) {
+                alert('Added to cart! 🎉');
+            }
+        });
+    </script>
+</body>
+</html>

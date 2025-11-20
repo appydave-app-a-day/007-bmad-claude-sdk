@@ -20,6 +20,7 @@ import { logger } from './utils/logger';
 import { initializeAgent } from './agent/agent-config.js';
 import { handleUserMessage } from './agent/event-loop.js';
 import { ConversationHistory, ConversationMessage } from '@bmad-app/shared';
+import { initializeWriteFileTool } from './tools/write-file.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -114,7 +115,14 @@ const io = new Server(httpServer, {
     origin: 'http://localhost:5173', // Allow Vite dev server (Epic 3)
     methods: ['GET', 'POST'],
   },
+  // Increase timeouts to handle long Agent SDK operations (default: pingTimeout=20s, pingInterval=25s)
+  // Agent SDK can take 30-60s for complex operations, so we need longer timeouts
+  pingTimeout: 120000, // 2 minutes - time to wait for pong before considering connection dead
+  pingInterval: 25000, // 25 seconds - how often to send ping packets
 });
+
+// Initialize write_file tool with Socket.io for real-time events (Story 3.3)
+initializeWriteFileTool(io);
 
 // Story 2.7: Store conversation history per socket connection (session-based memory)
 // Map structure: socket.id → array of conversation messages
@@ -212,5 +220,31 @@ const startServer = async () => {
     process.exit(1);
   }
 };
+
+// Graceful shutdown handler
+const shutdown = () => {
+  logger.info('Shutting down gracefully...');
+
+  // Close all socket connections
+  io.close(() => {
+    logger.info('Socket.io closed');
+  });
+
+  // Close HTTP server
+  httpServer.close(() => {
+    logger.info('HTTP server closed');
+    process.exit(0);
+  });
+
+  // Force exit after 5 seconds if graceful shutdown fails
+  setTimeout(() => {
+    logger.error('Forceful shutdown after timeout');
+    process.exit(1);
+  }, 5000);
+};
+
+// Handle shutdown signals
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
 
 startServer();

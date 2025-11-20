@@ -43,8 +43,9 @@ export const useChat = (): ChatState => {
       // Check if last message is assistant message
       if (!lastMsg || lastMsg.role !== 'assistant') {
         // Create new assistant message with chunk as initial content
+        // Use unique ID for assistant message (not user's messageId)
         return [...prev, {
-          id: messageId,
+          id: `assistant-${messageId}`,
           role: 'assistant',
           content: chunk,
           timestamp: Date.now(),

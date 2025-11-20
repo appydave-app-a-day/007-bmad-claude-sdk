@@ -101,6 +101,64 @@ export const handleUserMessage = async (
     // Iterate over streaming chunks (async generator)
     // Story 2.3: Emit each chunk immediately instead of collecting
     for await (const chunk of queryIterator) {
+      // Log ALL chunk types to catch tool errors (using info temporarily for debugging)
+      logger.info('Raw chunk received', {
+        component: 'AgentEventLoop',
+        messageId,
+        chunkType: chunk?.type || 'unknown',
+        chunkStructure: JSON.stringify(chunk).substring(0, 300),
+      });
+
+      // Check for error chunks
+      if (chunk && typeof chunk === 'object') {
+        if ('error' in chunk) {
+          logger.error('❌ SDK RETURNED ERROR CHUNK', {
+            component: 'AgentEventLoop',
+            messageId,
+            error: chunk.error,
+            fullChunk: JSON.stringify(chunk),
+          });
+        }
+
+        // Check for tool use errors in the chunk
+        if ('type' in chunk && chunk.type === 'tool_result' && 'isError' in chunk) {
+          logger.error('❌ TOOL EXECUTION ERROR DETECTED', {
+            component: 'AgentEventLoop',
+            messageId,
+            toolError: chunk,
+          });
+        }
+
+        // Check specifically for "Stream closed" errors
+        if ('type' in chunk && chunk.type === 'user') {
+          const message = chunk as any;
+          if (message.message?.content) {
+            for (const content of message.message.content) {
+              if (content.type === 'tool_result' && content.is_error) {
+                logger.error('❌ ❌ ❌ TOOL ERROR: ' + content.content, {
+                  component: 'AgentEventLoop',
+                  messageId,
+                  toolUseId: content.tool_use_id,
+                  errorContent: content.content,
+                });
+              }
+            }
+          }
+        }
+
+        // Check for max turns error
+        if ('type' in chunk && chunk.type === 'result') {
+          const result = chunk as any;
+          if (result.subtype === 'error_max_turns') {
+            logger.error('❌ ❌ ❌ MAX TURNS REACHED - Agent gave up!', {
+              component: 'AgentEventLoop',
+              messageId,
+              numTurns: result.num_turns,
+            });
+          }
+        }
+      }
+
       // Extract text from chunk structure (learned from Story 2.2 bug fix)
       // SDK returns: { type: "assistant", message: { content: [{ text: "..." }] } }
       let textContent = '';
@@ -157,6 +215,7 @@ export const handleUserMessage = async (
       component: 'AgentEventLoop',
       messageId,
       totalChunks: chunkIndex,
+      responseLength: completeResponse.length,
     });
 
     // Story 2.7: Return assistant message for caller to append to history
